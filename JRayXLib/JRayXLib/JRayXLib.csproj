@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{460B825D-171A-4862-801A-0165DE721898}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JRayXLib</RootNamespace>
+    <AssemblyName>JRayXLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net">
+      <HintPath>..\packages\Common.Logging.Log4Net.2.0.1\lib\net20\Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Cone.cs" />
+    <Compile Include="Common\Matrix3.cs" />
+    <Compile Include="Common\Matrix4.cs" />
+    <Compile Include="Common\Object3D.cs" />
+    <Compile Include="Common\Object3DStructure.cs" />
+    <Compile Include="Common\Plane.cs" />
+    <Compile Include="Common\Ray.cs" />
+    <Compile Include="Common\Sky.cs" />
+    <Compile Include="Common\Sphere.cs" />
+    <Compile Include="Common\Texture.cs" />
+    <Compile Include="Common\TexturedSphere.cs" />
+    <Compile Include="Common\TexturedTriangle.cs" />
+    <Compile Include="Common\Triangle.cs" />
+    <Compile Include="Common\Vect2.cs" />
+    <Compile Include="Common\Vect3.cs" />
+    <Compile Include="Math\intersections\AreaCone.cs" />
+    <Compile Include="Math\intersections\CubeCone.cs" />
+    <Compile Include="Math\intersections\CubeSphere.cs" />
+    <Compile Include="Math\intersections\IntColors.cs" />
+    <Compile Include="Math\intersections\LongColors.cs" />
+    <Compile Include="Math\intersections\PlaneCone.cs" />
+    <Compile Include="Math\intersections\PointCube.cs" />
+    <Compile Include="Math\intersections\RayCone.cs" />
+    <Compile Include="Math\intersections\RayCube.cs" />
+    <Compile Include="Math\intersections\RayPlane.cs" />
+    <Compile Include="Math\intersections\RaySphere.cs" />
+    <Compile Include="Math\intersections\RayTriangle.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\MathHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Math\Constants.cs" />
+    <Compile Include="Math\Matrix.cs" />
+    <Compile Include="Math\Triangle.cs" />
+    <Compile Include="Math\Vect.cs" />
+    <Compile Include="Math\VectMatrix.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Struct\CollisionDetails.cs" />
+    <Compile Include="Struct\Node.cs" />
+    <Compile Include="Struct\Octree.cs" />
+    <Compile Include="Struct\RayPath.cs" />
+    <Compile Include="Struct\TreeInsertStrategy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
