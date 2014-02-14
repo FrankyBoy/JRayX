@@ -1,6 +1,7 @@
+using JRayXLib.Colors;
 using JRayXLib.Math;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Sky : Object3D {
         readonly Texture _texture;
@@ -9,7 +10,9 @@ namespace JRayXLib.Common
             _texture = Texture.Load(texture);
         }
 
-        public Sky(uint color) : base(null, null, 0){
+        public Sky(Color color)
+            : base(null, null, 0)
+        {
             Color = color;
         }
 
@@ -17,7 +20,8 @@ namespace JRayXLib.Common
             return double.PositiveInfinity;
         }
 
-        public new int GetColorAt(Vect3 hitPoint) {
+        public new Color GetColorAt(Vect3 hitPoint)
+        {
             double[] hpdat = hitPoint.GetData();
 
             double x = System.Math.Acos(hpdat[1] / hitPoint.Length()) / System.Math.PI;

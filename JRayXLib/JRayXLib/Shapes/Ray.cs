@@ -1,4 +1,4 @@
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Ray {
 

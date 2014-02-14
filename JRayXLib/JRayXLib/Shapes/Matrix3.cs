@@ -1,6 +1,6 @@
 
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Matrix3 {
         public double[] Data;

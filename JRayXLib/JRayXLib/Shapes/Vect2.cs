@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using JRayXLib.Math;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Vect2 {
         

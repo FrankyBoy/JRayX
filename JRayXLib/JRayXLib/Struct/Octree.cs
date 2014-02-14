@@ -9,10 +9,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using JRayXLib.Common;
 using JRayXLib.Math;
 using Common.Logging;
 using System.Diagnostics;
+using JRayXLib.Shapes;
 
 namespace JRayXLib.Struct
 {

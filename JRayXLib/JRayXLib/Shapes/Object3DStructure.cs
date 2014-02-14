@@ -1,8 +1,9 @@
 using System;
 using System.Linq;
+using JRayXLib.Colors;
 using JRayXLib.Math;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Object3DStructure : Object3D
     {
@@ -24,10 +25,10 @@ namespace JRayXLib.Common
 
         protected Object3D GetObjectAt(Vect3 hitPoint)
         {
-            return _objects.FirstOrDefault(o3d => o3d.Contains(hitPoint));
+            return _objects.FirstOrDefault(o3D => o3D.Contains(hitPoint));
         }
 
-        public new uint GetColorAt(Vect3 hitPoint)
+        public new Color GetColorAt(Vect3 hitPoint)
         {
             Object3D ret = GetObjectAt(hitPoint);
             if (ret != null)
@@ -60,11 +61,11 @@ namespace JRayXLib.Common
             foreach (Object3D o3D in _objects)
             {
                 Vect3 objPos = o3D.Position;
-                Vect.subtract(objPos, base.Position, objPos);
+                Vect.subtract(objPos, Position, objPos);
                 Vect.Add(objPos, position, objPos);
             }
 
-            base.Position = position;
+            Position = position;
         }
 
         public override void Rotate(Matrix4 rotationMatrix)

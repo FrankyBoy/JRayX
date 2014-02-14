@@ -1,7 +1,8 @@
+using JRayXLib.Colors;
 using JRayXLib.Math;
 using JRayXLib.Math.intersections;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Triangle : Object3D {
         /**
@@ -21,7 +22,9 @@ namespace JRayXLib.Common
      */
         protected Vect3 v3;
 
-        public Triangle(Vect3 v1, Vect3 v2, Vect3 v3, uint color) : base(v1, new Vect3()){
+        public Triangle(Vect3 v1, Vect3 v2, Vect3 v3, Color color)
+            : base(v1, new Vect3())
+        {
             Color = color;
             this.v2 = v2;
             this.v3 = v3;

@@ -10,9 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JRayXLib.Common;
 using JRayXLib.Math;
 using JRayXLib.Math.intersections;
+using JRayXLib.Shapes;
 
 namespace JRayXLib.Struct
 {

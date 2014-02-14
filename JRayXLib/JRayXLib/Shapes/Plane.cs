@@ -1,17 +1,22 @@
 using System;
+using JRayXLib.Colors;
 using JRayXLib.Math;
 using JRayXLib.Math.intersections;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Plane : Object3D {
 
-        public Plane(Vect3 position, Vect3 normal, uint color, double reflectivity) : this(position, normal) {
+        public Plane(Vect3 position, Vect3 normal, Color color, double reflectivity)
+            : this(position, normal)
+        {
             Color = color;
             Reflectivity = reflectivity;
         }
 
-        public Plane(Vect3 position, Vect3 normal, uint color) : this(position, normal) {
+        public Plane(Vect3 position, Vect3 normal, Color color)
+            : this(position, normal)
+        {
             Color = color;
         }
 

@@ -1,16 +1,18 @@
 using System;
+using JRayXLib.Colors;
 using JRayXLib.Math;
 using JRayXLib.Math.intersections;
 using JRayXLib.Util;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Cone : Object3D {
 
         public double CosPhi;
         public double AxisLength;
-	
-        public Cone(Vect3 position, Vect3 axis, double phiDegree, uint color) : base(position, axis)
+
+        public Cone(Vect3 position, Vect3 axis, double phiDegree, Color color)
+            : base(position, axis)
         {
             CosPhi = System.Math.Cos(MathHelper.ToRadians(phiDegree));
             AxisLength = axis.Length();
@@ -66,7 +68,7 @@ namespace JRayXLib.Common
 		
             Vect.subtract(center, Position, tmp);
 		
-            return new Sphere(center,tmp.Length(),0xFF000000);
+            return new Sphere(center,tmp.Length(),Color.Black);
         }
 
         public new bool IsEnclosedByCube(Vect3 bcenter, double w2) {

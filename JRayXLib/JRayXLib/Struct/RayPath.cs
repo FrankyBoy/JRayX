@@ -1,7 +1,7 @@
 using System;
-using JRayXLib.Common;
 using JRayXLib.Math;
 using JRayXLib.Math.intersections;
+using JRayXLib.Shapes;
 
 /**
  * Contains the logic to determine the first intersection of a ray traveling

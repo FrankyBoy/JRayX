@@ -1,13 +1,13 @@
-
 using System;
+using JRayXLib.Colors;
 using JRayXLib.Math;
 using JRayXLib.Math.intersections;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     abstract public class Object3D {
 
-        protected uint Color; //ARGB
+        protected Color Color; //ARGB
         public Vect3 Position { get; set; }
         protected Vect3 LookAt { get; set; }
         protected double Reflectivity; // 0 means no reflection, 1 means everything is reflected
@@ -27,7 +27,7 @@ namespace JRayXLib.Common
         protected Object3D(Vect3 position, Vect3 lookAt) {
             Position = position;
             LookAt = lookAt;
-            Color = 0xFFFF0000;
+            Color = Color.Red;
         }
 
         public void Rotate(Vect3 axis, double rad) {
@@ -58,7 +58,7 @@ namespace JRayXLib.Common
      * @param hitPoint a point on the surface of this object
      * @return the color at the given point
      */
-        public uint GetColorAt(Vect3 hitPoint) {
+        public Color GetColorAt(Vect3 hitPoint) {
             return Color;
         }
 
@@ -72,12 +72,13 @@ namespace JRayXLib.Common
      */
         public abstract void GetNormalAt(Vect3 hitPoint, Vect3 normal);
 
-        public void SetColor(uint color) {
+        public void SetColor(Color color)
+        {
             Color = color;
         }
 
         public void SetColor(byte[] color) {
-            SetColor((uint) (color[0] << 24 | color[1] << 16 | color[2] << 8 | color[3]));
+            SetColor(new Color { A = color[0], R = color[1], G = color[2], B = color[3] });
         }
 
         public double GetReflectivityAt(Vect3 hitPoint) {
@@ -108,7 +109,7 @@ namespace JRayXLib.Common
         }
     
         public Sphere GetBoundingSphere(){
-            return new Sphere(GetBoundingSphereCenter(),GetBoundingSphereRadius(),0xFF000000);
+            return new Sphere(GetBoundingSphereCenter(),GetBoundingSphereRadius(),Color.Black);
         }
     
         public Vect3 GetBoundingSphereCenter(){

@@ -1,4 +1,4 @@
-using JRayXLib.Common;
+using JRayXLib.Shapes;
 
 namespace JRayXLib.Math
 {

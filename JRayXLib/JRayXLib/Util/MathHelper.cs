@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace JRayXLib.Util
+﻿namespace JRayXLib.Util
 {
     static class MathHelper
     {
@@ -11,7 +9,7 @@ namespace JRayXLib.Util
 
         public static int Clamp(int value, int min, int max)
         {
-            return (value < min) ? min : (value > max) ? max : value;
+            return (value > max) ? max : (value < min) ? min : value;
         }
     }
 }

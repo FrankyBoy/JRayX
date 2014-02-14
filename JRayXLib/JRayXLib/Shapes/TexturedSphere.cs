@@ -1,38 +1,38 @@
 using System;
+using JRayXLib.Colors;
 using JRayXLib.Math;
-using JRayXLib.Math.intersections;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class TexturedSphere : Sphere {
 
         private readonly Texture _texture;
 
         public TexturedSphere(Vect3 position, double radius, double rotation, String imagePath) 
-            : this(position, radius, rotation, 0, 0, imagePath){}
+            : this(position, radius, rotation, new Color(), 0, imagePath){}
 
-        public TexturedSphere(Vect3 position, double radius, double rotation, uint color, double reflectivity, String imagePath) 
+        public TexturedSphere(Vect3 position, double radius, double rotation, Color color, double reflectivity, String imagePath) 
             : this(position, new Vect3(0, radius, 0), rotation, color, reflectivity, imagePath){}
 
         public TexturedSphere(Vect3 position, Vect3 lookAt, double rotation, String imagePath)
-            : this(position, lookAt, rotation, 0, 0, imagePath) {}
+            : this(position, lookAt, rotation, new Color(), 0, imagePath) { }
 
-        public TexturedSphere(Vect3 position, Vect3 lookAt, double rotation, uint color, double reflectivity, String imagePath)
+        public TexturedSphere(Vect3 position, Vect3 lookAt, double rotation, Color color, double reflectivity, String imagePath)
             : base(position, lookAt, rotation, color, reflectivity)
         {
             _texture = Texture.Load(imagePath);
         }
 
-        public new uint GetColorAt(Vect3 hitPoint) {
-            return IntColors.mixSurfaceSurface(GetTextureColorAt(hitPoint), Color);
+        public new Color GetColorAt(Vect3 hitPoint) {
+            return GetTextureColorAt(hitPoint).MixSurfaceSurface(Color);
         }
 
         public new double GetReflectivityAt(Vect3 hitPoint) {
-            double alpha = ((double) ((GetTextureColorAt(hitPoint) >> 24) & 0xFF)) / 256;
+            double alpha = GetTextureColorAt(hitPoint).A / 256.0;
             return (1 - alpha) * Reflectivity;
         }
 
-        private uint GetTextureColorAt(Vect3 hitPoint) {
+        private Color GetTextureColorAt(Vect3 hitPoint) {
             // calculate x (longitude)
             var tmp = new Vect3();
             Vect.subtract(hitPoint, Position, tmp);

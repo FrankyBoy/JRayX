@@ -5,7 +5,7 @@
  * @see http://www.gamespp.com/algorithms/collisionDetectionTutorial02.html
  */
 
-using JRayXLib.Common;
+using JRayXLib.Shapes;
 
 namespace JRayXLib.Math.intersections
 {

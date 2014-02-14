@@ -5,10 +5,11 @@
  * lookAt is the direction of the north pole
  */
 
+using JRayXLib.Colors;
 using JRayXLib.Math;
 using JRayXLib.Math.intersections;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Sphere : Object3D
     {
@@ -16,22 +17,22 @@ namespace JRayXLib.Common
         protected double Radius;
         protected Vect3 RotVect;
 
-        public Sphere(Vect3 position, double radius, uint color)
+        public Sphere(Vect3 position, double radius, Color color)
             : this(position, radius, color, 0) {}
 
-        public Sphere(Vect3 position, double radius, uint color, double reflectivity)
+        public Sphere(Vect3 position, double radius, Color color, double reflectivity)
             : this(position, new Vect3(0, radius, 0), 0, color)
         {
             Reflectivity = reflectivity;
         }
 
-        public Sphere(Vect3 position, Vect3 lookAt, double rotationRad, uint color, double reflectivity)
+        public Sphere(Vect3 position, Vect3 lookAt, double rotationRad, Color color, double reflectivity)
             : this(position, lookAt, rotationRad, color)
         {
             Reflectivity = reflectivity;
         }
 
-        public Sphere(Vect3 position, Vect3 lookAt, double rotationRad, uint color) : base(position, lookAt)
+        public Sphere(Vect3 position, Vect3 lookAt, double rotationRad, Color color) : base(position, lookAt)
         {
             Color = color;
             Radius = lookAt.Length();

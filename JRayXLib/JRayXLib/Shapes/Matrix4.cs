@@ -1,7 +1,7 @@
 using System.Text;
 using JRayXLib.Math;
 
-namespace JRayXLib.Common
+namespace JRayXLib.Shapes
 {
     public class Matrix4
     {

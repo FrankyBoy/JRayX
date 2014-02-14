@@ -10,8 +10,8 @@
  */
 
 using System.Collections.Generic;
-using JRayXLib.Common;
 using JRayXLib.Math;
+using JRayXLib.Shapes;
 
 namespace JRayXLib.Struct
 {
