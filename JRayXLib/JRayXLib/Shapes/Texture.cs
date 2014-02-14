@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
 using JRayXLib.Util;
+using Color = JRayXLib.Colors.Color;
 
 namespace JRayXLib.Shapes
 {
@@ -29,9 +30,9 @@ namespace JRayXLib.Shapes
             return ret;
         }
 
-        private static Colors.Color[,] Convert(Bitmap bmp)
+        private static Color[,] Convert(Bitmap bmp)
         {
-            var result = new Colors.Color[bmp.Width,bmp.Height];
+            var result = new Color[bmp.Width,bmp.Height];
 
             for (int i = 0; i < bmp.Height; i++)
             {
@@ -49,39 +50,45 @@ namespace JRayXLib.Shapes
 
         #endregion
 
-        private readonly Colors.Color[,] _data;
-        private readonly int _width;
-        private readonly int _height;
+        private readonly Color[,] _data;
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
-        private Texture(Colors.Color[,] data)
+        private Texture(Color[,] data)
         {
             _data = data;
-            _width = _data.GetLength(0);
-            _height = data.GetLength(1);
+            Width = _data.GetLength(0);
+            Height = data.GetLength(1);
         }
 
-        public Colors.Color GetColorAt(Vect2 texcoord)
+        public Color GetColorAt(Vect2 texcoord)
         {
             double[] data = texcoord.GetData();
             return GetColorAt(data[0], data[1]);
         }
 
-        public Colors.Color GetColorAt(double tx, double ty)
+        public Color GetColorAt(double tx, double ty)
         {
             if (tx < -1 || tx > 2 || ty < -1 || ty > 2) {
                 throw new Exception("This texcoord is far beyond every numerical tolerance: " + new Vect2(tx, ty));
             }
 
-            var x = (int) (tx * _width);
-            var y = (int) (ty * _height);
+            var x = (int) (tx * Width);
+            var y = (int) (ty * Height);
 
-            MathHelper.Clamp(x, 0, _width - 1);
-            MathHelper.Clamp(y, 0, _height - 1);
+            MathHelper.Clamp(x, 0, Width - 1);
+            MathHelper.Clamp(y, 0, Height - 1);
             return _data[x, y];
         }
 
         public new string ToString() {
-            return "Texture [" + _width + "x" + _height + "]";
+            return "Texture [" + Width + "x" + Height + "]";
+        }
+
+        public Color this[int x, int y]
+        {
+            get { return _data[x, y]; }
+            set { _data[x, y] = value; }
         }
     }
 }

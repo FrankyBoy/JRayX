@@ -12,16 +12,16 @@ using JRayXLib.Shapes;
 namespace JRayXLib.Struct
 {
     public class RayPath {
-        public static CollisionDetails getFirstCollision(Octree tree, Ray r){
+        public static CollisionDetails getFirstCollision(Octree tree, Shapes.Ray r)
+        {
             var c = new CollisionDetails(r);
 		
-            double d=0, 
-                   distanceTravelled=0; //distance traveled since the ray's origin
+            double d, distanceTravelled=0; //distance traveled since the ray's origin
 		
             //Algorithm starts at the ray's origin and in the root node.
-            Vect3 pos = new Vect3(r.GetOrigin());
-            Node n = tree.getRoot();
-            c.checkCollisionSet(n.Content);
+            var pos = new Vect3(r.GetOrigin());
+            Node n = tree.GetRoot();
+            c.CheckCollisionSet(n.Content);
 		
             if(!n.encloses(pos))
                 throw new Exception("Ray's origin is not located in the octree!");
@@ -52,7 +52,7 @@ namespace JRayXLib.Struct
 			 * Therefore, if an intersection located between the ray's origin and the box-border has been found, this
 			 * must be the nearest intersection and the search may stop.
 			 */
-            }while(c.d>distanceTravelled);
+            }while(c.Distance>distanceTravelled);
 		
             return c;
         }

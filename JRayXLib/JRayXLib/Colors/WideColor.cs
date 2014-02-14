@@ -101,7 +101,7 @@ namespace JRayXLib.Colors
         }
 
         [Obsolete("use * operator")]
-        public static WideColor Scale(WideColor c1, double d)
+        public static WideColor Scale(this WideColor c1, double d)
         {
             return c1*d;
         }

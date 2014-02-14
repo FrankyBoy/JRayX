@@ -9,6 +9,7 @@ namespace JRayXLib.Colors
         public static Color Red = new Color { A = byte.MaxValue, R = byte.MaxValue };
         public static Color Blue = new Color { A = byte.MaxValue, B = byte.MaxValue };
         public static Color Black = new Color { A = byte.MaxValue };
+        public static Color White = new Color { A = byte.MaxValue, R = byte.MaxValue, G = byte.MaxValue, B = byte.MaxValue};
 
         public static Color operator +(Color c, Color other)
         {
@@ -36,7 +37,7 @@ namespace JRayXLib.Colors
 
     public static class ColorExtensions
     {
-        public static WideColor To16Bit(this Color c) {
+        public static WideColor ToWide(this Color c) {
             return new WideColor
                 {
                     A = c.A,
@@ -84,7 +85,7 @@ namespace JRayXLib.Colors
          * @param lightColor 
          * @return
          */
-        public static Color MixSurfaceLight(Color surfaceColor, Color lightColor)
+        public static Color MixSurfaceLight(this Color surfaceColor, Color lightColor)
         {
             return new Color
             {
@@ -95,7 +96,7 @@ namespace JRayXLib.Colors
             };
         }
 
-        public static Color Scale(Color c1, double d)
+        public static Color Scale(this Color c1, double d)
         {
             return c1*d;
         }

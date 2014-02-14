@@ -18,28 +18,28 @@ namespace JRayXLib.Struct
 {
     public class Octree{
         protected Node Root;
-        private static ILog _log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
         private static readonly Stopwatch Sw = new Stopwatch();
 
         public Octree(Vect3 center, double width){
             Root = new Node(center, null, width);
         }
 	
-        public void add(Object3D o){
+        public void Add(Object3D o){
             if(!Root.insert(o, o.GetBoundingSphere())){
                 throw new Exception("Could not insert: "+o);
             }
         }
 	
-        public Node getRoot(){
+        public Node GetRoot(){
             return Root;
         }
 	
-        public static Octree buildTree(Vect3 center, List<Object3D> objects){
+        public static Octree BuildTree(Vect3 center, IList<Object3D> objects){
             double maxQuadDist=0;
             var dist=new Vect3();
 		
-            _log.Debug("Building octree... ");
+            Log.Debug("Building octree... ");
 		
             foreach(Object3D o in objects){
                 Sphere s = o.GetBoundingSphere();
@@ -69,7 +69,7 @@ namespace JRayXLib.Struct
                 foreach(Object3D o in objects){
                     if(!t.Root.insert(o, o.GetBoundingSphere())){
                         sizeHint *= 2;
-                        _log.Warn("Warning - resize needed!");
+                        Log.Warn("Warning - resize needed!");
                         goto cont;
                     }
                 }
@@ -78,15 +78,15 @@ namespace JRayXLib.Struct
                 cont:{}
             }
 
-            t.getRoot().compress();
+            t.GetRoot().compress();
             Sw.Stop();
 		
-            _log.Debug(string.Format("{0} ms\n",Sw.ElapsedMilliseconds));
-            _log.Debug(string.Format(" - contains {0} of {1} elements ({2:0.##}%)",
-                t.getRoot().getSize(), objects.Count, t.getRoot().getSize()/(float)objects.Count*100));
-            _log.Debug(" - avg depth: "+t.getAverageObjectDepth());
-            _log.Debug(" - node count: "+t.getRoot().getNodeCount());
-            _log.Debug(" - objects per node: "+t.getRoot().getSize()/(float)t.getRoot().getNodeCount());
+            Log.Debug(string.Format("{0} ms\n",Sw.ElapsedMilliseconds));
+            Log.Debug(string.Format(" - contains {0} of {1} elements ({2:0.##}%)",
+                t.GetRoot().getSize(), objects.Count, t.GetRoot().getSize()/(float)objects.Count*100));
+            Log.Debug(" - avg depth: "+t.GetAverageObjectDepth());
+            Log.Debug(" - node count: "+t.GetRoot().getNodeCount());
+            Log.Debug(" - objects per node: "+t.GetRoot().getSize()/(float)t.GetRoot().getNodeCount());
 		
             return t;
         }
@@ -97,7 +97,7 @@ namespace JRayXLib.Struct
             return sb.ToString();
         }
 	
-        public double getAverageObjectDepth(){
+        public double GetAverageObjectDepth(){
             return Root.getContentDepthSum(0)/(double)Root.getSize();
         }
     }

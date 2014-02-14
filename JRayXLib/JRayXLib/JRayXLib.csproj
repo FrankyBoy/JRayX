@@ -96,6 +96,23 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\BinarySTLParser.cs" />
+    <Compile Include="Model\MinimalTriangle.cs" />
+    <Compile Include="Model\ModelInstance.cs" />
+    <Compile Include="Model\TriangleMeshModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ray\Camera.cs" />
+    <Compile Include="Ray\Object3DFactory.cs" />
+    <Compile Include="Ray\Renderer.cs" />
+    <Compile Include="Ray\Scene.cs" />
+    <Compile Include="Ray\Scenes\KugelTest.cs" />
+    <Compile Include="Ray\Scenes\MeshTest.cs" />
+    <Compile Include="Ray\Scenes\RandomForest.cs" />
+    <Compile Include="Ray\Tracer\BackwardRayTracer.cs" />
+    <Compile Include="Ray\Tracer\BackwardRayTracerHQ.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

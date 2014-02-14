@@ -299,7 +299,7 @@ namespace JRayXLib.Struct
 			
                 foreach(Node n in _child){
                     if(n.encloses(v)){
-                        c.checkCollisionSet(n.Content);
+                        c.CheckCollisionSet(n.Content);
                         return n.marchToCheckingCollisions(v, c);
                     }
                 }
