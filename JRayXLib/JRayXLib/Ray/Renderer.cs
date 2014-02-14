@@ -159,7 +159,7 @@ namespace JRayXLib.Ray
 
                     rayDirection.normalize();
 
-                    WideColor color = logic.shoot(ray);
+                    WideColor color = logic.Shoot(ray);
 
                     var localBrightness = color.GetMax();
                     if (localBrightness > localMaxBrightness)

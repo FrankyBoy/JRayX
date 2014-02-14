@@ -8,33 +8,33 @@ namespace JRayXLib.Ray.Tracer
 {
     public class BackwardRayTracer {
 
-        protected static bool USE_OCTREE = true;
-        protected static int MAX_RECURSION_DEPTH = 100;
-        protected Object3D[] objects;
+        protected static bool UseOctree = true;
+        protected static int MaxRecursionDepth = 100;
+        protected Object3D[] Objects;
     
-        protected Octree tree;
+        protected Octree Tree;
     
         public BackwardRayTracer(Scene scene) {
-            List<Object3D> allObjects = new List<Object3D>();
+            var allObjects = new List<Object3D>();
             allObjects.AddRange(scene.GetObjects());
         
-            objects = allObjects.ToArray();
+            Objects = allObjects.ToArray();
         
-            tree = scene.GetSceneTree();
+            Tree = scene.GetSceneTree();
         }
 
-        public WideColor shoot(Shapes.Ray ray) {
-            return shootRay(ray, 0);
+        public WideColor Shoot(Shapes.Ray ray) {
+            return ShootRay(ray, 0);
         }
 
-        protected WideColor shootRay(Shapes.Ray ray, int level)
+        protected WideColor ShootRay(Shapes.Ray ray, int level)
         {
-            if (level == MAX_RECURSION_DEPTH) {
+            if (level == MaxRecursionDepth) {
                 return Color.Red.ToWide();
             }
 
             //Find nearest Hit
-            CollisionDetails c = findNearestHit(ray);
+            CollisionDetails c = FindNearestHit(ray);
 
             //No hit
             if (c.Obj == null) {
@@ -49,13 +49,13 @@ namespace JRayXLib.Ray.Tracer
             return c.Obj.GetColorAt(hitPoint).ToWide();
         }
 
-        protected CollisionDetails findNearestHit(Shapes.Ray ray)
+        protected CollisionDetails FindNearestHit(Shapes.Ray ray)
         {
-            if(!USE_OCTREE || tree==null){
+            if(!UseOctree || Tree==null){
                 var c = new CollisionDetails(ray);
     		
                 //Find nearest Hit
-                foreach (Object3D objectCandidate in objects) {
+                foreach (Object3D objectCandidate in Objects) {
                     double distanceCandidate = objectCandidate.GetHitPointDistance(ray);
                     if (distanceCandidate > 0 && distanceCandidate < c.Distance) {
                         c.Obj = objectCandidate;
@@ -66,7 +66,7 @@ namespace JRayXLib.Ray.Tracer
 	        
                 return c;
             }
-            return RayPath.getFirstCollision(tree, ray);
+            return RayPath.getFirstCollision(Tree, ray);
         }
     }
 }

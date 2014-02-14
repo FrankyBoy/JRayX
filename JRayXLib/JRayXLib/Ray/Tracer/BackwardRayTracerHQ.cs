@@ -11,22 +11,22 @@ namespace JRayXLib.Ray.Tracer
 {
     public class BackwardRayTracerHQ : BackwardRayTracer{
 
-        private static  Vect3 LIGHT_DIRECTION = new Vect3(2, -1, -2); //direction of the sun's light-rays
-        private static  double DIFFUSE_LIGHT_INTENSITY = 0.8;
-        private static  double AMBIENT_LIGHT_INTENSITY = 0.2;
-    
+        private static readonly Vect3 LightDirection = new Vect3(2, -1, -2); //direction of the sun's light-rays
+        private const double DiffuseLightIntensity = 0.8;
+        private const double AmbientLightIntensity = 0.2;
+
         public BackwardRayTracerHQ(Scene scene) : base(scene) {
         
-            LIGHT_DIRECTION.normalize();
+            LightDirection.normalize();
         }
 
-        protected WideColor shootRay(Shapes.Ray ray, int level) {
-            if (level == MAX_RECURSION_DEPTH) {
+        protected new WideColor ShootRay(Shapes.Ray ray, int level) {
+            if (level == MaxRecursionDepth) {
                 return Color.Red.ToWide();
             }
 
             //Find nearest Hit
-            CollisionDetails c = findNearestHit(ray);
+            CollisionDetails c = FindNearestHit(ray);
 
             //No hit
             if (c.Obj == null) {
@@ -34,7 +34,7 @@ namespace JRayXLib.Ray.Tracer
             }
         
             //Calculate hit position
-            Vect3 hitPoint = new Vect3();
+            var hitPoint = new Vect3();
             Vect.AddMultiple(ray.GetOrigin(), ray.GetDirection(), c.Distance, hitPoint);
         
             //Get color and normal at hitpoint
@@ -43,16 +43,16 @@ namespace JRayXLib.Ray.Tracer
             c.Obj.GetNormalAt(hitPoint, normal);
         
             //Check if anything is blocking direct sunlight (go where the sunlight comes from)
-            Vect3 lrDir = new Vect3();
-            Vect.Scale(LIGHT_DIRECTION, -1, lrDir);
-            Shapes.Ray lightRay = new Shapes.Ray(hitPoint, lrDir);
-            CollisionDetails lc = findNearestHit(lightRay);
+            var lrDir = new Vect3();
+            Vect.Scale(LightDirection, -1, lrDir);
+            var lightRay = new Shapes.Ray(hitPoint, lrDir);
+            CollisionDetails lc = FindNearestHit(lightRay);
         
             //if nothing blocks the sun's light, add ambient and diffuse light, otherwise ambient only  
             double lightScale = 0;
             if(lc.Obj==null)
-                lightScale = Vect.dotProduct(normal, LIGHT_DIRECTION);
-            lightScale = AMBIENT_LIGHT_INTENSITY + DIFFUSE_LIGHT_INTENSITY*(lightScale<0?-lightScale:0);
+                lightScale = Vect.dotProduct(normal, LightDirection);
+            lightScale = AmbientLightIntensity + DiffuseLightIntensity*(lightScale<0?-lightScale:0);
 
             return color.Scale(lightScale);
         }

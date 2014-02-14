@@ -10,7 +10,7 @@ namespace JRayXLib.Ray
 
         protected string Name;
 
-        public Scene()
+        protected Scene()
         {
             Name = GetType().Name;
         }
