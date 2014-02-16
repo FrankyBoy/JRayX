@@ -5,14 +5,13 @@ namespace JRayXLib.Math.intersections
     public class PlaneCone {
 	
         public static bool IsPlaneIntersectingCone(Vect3 planeNormal, Vect3 planePoint, Vect3 conePosition, Vect3 coneAxis, double coneAxisLength, double coneCosPhi){
-            var qx = new Vect3(0);
             var p = new Vect3(0);
             var q = new Vect3(0);
             double len;
 		
             //try "bending" axis towards plane normal 
             Vect.AddMultiple(conePosition, coneAxis, coneAxisLength, ref q);
-            Vect.Project(planeNormal, coneAxis, ref qx);
+            var qx = Vect.Project(planeNormal, coneAxis);
             Vect.AddMultiple(qx, planeNormal, -1, ref p);
 		
             if(System.Math.Abs(p.QuadLength() - 0) < Constants.EPS){// axis equals plane normal
@@ -23,7 +22,7 @@ namespace JRayXLib.Math.intersections
                 Vect.AddMultiple(q, p, coneAxisLength * System.Math.Sin(System.Math.Acos(coneCosPhi)), ref q);
                 q = Vect.Subtract(q, conePosition);
                 len = q.Length();
-                Vect.Scale(q, 1 / len, ref p);
+                p = Vect.Scale(q, 1 / len);
             }
 
             double d = RayPlane.GetHitPointRayPlaneDistance(conePosition, p, planePoint, planeNormal);

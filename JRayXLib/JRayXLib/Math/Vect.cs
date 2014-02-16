@@ -60,13 +60,14 @@ namespace JRayXLib.Math
             );
         }
 
-        public static void Scale(Vect3 vec, double d, ref Vect3 erg) {
+        public static Vect3 Scale(Vect3 vec, double d) {
             double[] vdat = vec.Data;
-            double[] data = erg.Data;
 
-            data[0] = vdat[0] * d;
-            data[1] = vdat[1] * d;
-            data[2] = vdat[2] * d;
+            return new Vect3(
+                vdat[0] * d,
+                vdat[1] * d,
+                vdat[2] * d
+            );
         }
 
         public static double Distance(Vect3 vec1, ref Vect3 vec2) {
@@ -88,9 +89,9 @@ namespace JRayXLib.Math
          * @param normedProjectionAxis the axis onto which vect will b projected and which MUST BE NORMED 
          * @param projection the result of the projection
          */
-        public static void Project(Vect3 vect, Vect3 normedProjectionAxis, ref Vect3 projection) {
+        public static Vect3 Project(Vect3 vect, Vect3 normedProjectionAxis) {
             double dot = DotProduct(vect, normedProjectionAxis);
-            Scale(normedProjectionAxis, dot, ref projection);
+            return Scale(normedProjectionAxis, dot);
         }
     
         /**
@@ -115,9 +116,8 @@ namespace JRayXLib.Math
          */
         public static Vect3 Reflect(Vect3 incoming, Vect3 normal)
         {
-            var result = new Vect3();
-            Project(incoming, normal, ref result);
-            Scale(result, -2, ref result);
+            var result = Project(incoming, normal);
+            result = Scale(result, -2);
             return Add(incoming, result);
         }
     
@@ -132,7 +132,7 @@ namespace JRayXLib.Math
             var result = new Vect3();
             //test implementation - working but propably slow
             ProjectOnNormal(incoming, normal, ref result);
-            Scale(result, 1 / refractionIndex, ref result);
+            result = Scale(result, 1 / refractionIndex);
             double quadLen = result.QuadLength();
         
             if(quadLen>=1){//total reflection
@@ -162,14 +162,16 @@ namespace JRayXLib.Math
                 );
         }
     
-        public static void InterpolateTriangle(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 t1, Vect3 t2, Vect3 t3, Vect3 point, ref Vect3 result){
+        public static Vect3 InterpolateTriangle(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 t1, Vect3 t2, Vect3 t3, Vect3 point){
             double i1 = InterpolateTriangleEdge(v1,v2,v3,point);
             double i2 = InterpolateTriangleEdge(v2,v3,v1,point);
             double i3 = InterpolateTriangleEdge(v3,v1,v2,point);
-    	
-            Scale(              t1, i1, ref result);
+    	    
+            var result = Scale( t1, i1);
             AddMultiple(result, t2, i2, ref result);
             AddMultiple(result, t3, i3, ref result);
+
+            return result;
         }
     
         public static double InterpolateTriangleEdge(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 point){
@@ -178,17 +180,17 @@ namespace JRayXLib.Math
     	
             var v21 = Subtract(v1, v2);
     	
-            var v1o = new Vect3(0); //punkt gegenüber der ecke v1 (o ... opposite)
-            Project(v21, v23N, ref v1o);
+// ReSharper disable InconsistentNaming
+            var v1o = Project(v21, v23N); //punkt gegenüber der ecke v1 (o ... opposite)
+// ReSharper restore InconsistentNaming
+            
             v1o = Subtract(v1o, v21);
             
             double h1 = v1o.Length(); //höhe auf v1
-            Scale(v1o, 1 / h1, ref v1o); //normieren
+            v1o = Scale(v1o, 1 / h1); //normieren
     	
             Vect3 v1P = Subtract(point, v1);
-    	
-            Vect3 p1 = v23N;//projektion von v1p auf v1hn
-            Project(v1P, v1o, ref p1);
+            Vect3 p1 = Project(v1P, v1o);//projektion von v1p auf v1hn
     	
             return 1-(p1.Length()/h1);
         }
@@ -197,8 +199,7 @@ namespace JRayXLib.Math
             var ret = new Vect3(0);
 
             ret = vects.Aggregate(ret, Add);
-
-            Scale(ret, 1/(float)vects.Length, ref ret);
+            ret = Scale(ret, 1/(float)vects.Length);
     	
             return ret;
         }    

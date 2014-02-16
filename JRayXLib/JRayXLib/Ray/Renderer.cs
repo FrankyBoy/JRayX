@@ -119,7 +119,9 @@ namespace JRayXLib.Ray
                         {
                             localMaxBrightness[id] = RenderImagePart(id);
                             if (Interlocked.Decrement(ref toProcess) == 0)
+// ReSharper disable AccessToDisposedClosure
                                 resetEvent.Set();
+// ReSharper restore AccessToDisposedClosure
                         });
                 }
 
@@ -154,9 +156,9 @@ namespace JRayXLib.Ray
             var ray = new Shapes.Ray(new Vect3(camera.Position), rayDirection);
 
             var vertAdd = new Vect3(camera.GetViewPaneHeightVector());
-            Vect.Scale(vertAdd, 1.0/(_heightPx - 1), ref vertAdd);
+            vertAdd = Vect.Scale(vertAdd, 1.0/(_heightPx - 1));
             var horzAdd = new Vect3(camera.GetViewPaneWidthVector());
-            Vect.Scale(horzAdd, 1.0/(_widthPx - 1), ref horzAdd);
+            horzAdd = Vect.Scale(horzAdd, 1.0/(_widthPx - 1));
 
             var localMaxBrightness = 0;
             for (int i = from; i < to; i++)

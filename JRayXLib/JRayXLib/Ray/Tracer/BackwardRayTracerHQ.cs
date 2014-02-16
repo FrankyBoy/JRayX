@@ -39,8 +39,7 @@ namespace JRayXLib.Ray.Tracer
             var normal = c.Obj.GetNormalAt(hitPoint);
         
             //Check if anything is blocking direct sunlight (go where the sunlight comes from)
-            var lrDir = new Vect3(0);
-            Vect.Scale(Scene.LightDirection, -1, ref lrDir);
+            var lrDir = Vect.Scale(Scene.LightDirection, -1);
             var lightRay = new Shapes.Ray(hitPoint, lrDir);
             CollisionDetails lc = FindNearestHit(lightRay);
         

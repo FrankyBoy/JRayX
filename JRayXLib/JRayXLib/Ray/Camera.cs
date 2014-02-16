@@ -32,18 +32,18 @@ namespace JRayXLib.Ray
 
         public static Camera CreateCamera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double viewPaneWidth, double viewPaneHeight) {
             var viewPaneHeightVector = new Vect3(camUp);
-            Vect.Scale(viewPaneHeightVector, -viewPaneHeight, ref viewPaneHeightVector);
+            viewPaneHeightVector = Vect.Scale(viewPaneHeightVector, -viewPaneHeight);
 
             var temp1 = Vect.Subtract(position, viewPaneCenter);
             var viewPaneWidthVector = Vect.CrossProduct(temp1, viewPaneHeightVector);
             viewPaneWidthVector.Normalize();
-            Vect.Scale(viewPaneWidthVector, viewPaneWidth, ref viewPaneWidthVector);
+            viewPaneWidthVector = Vect.Scale(viewPaneWidthVector, viewPaneWidth);
 
             viewPaneWidthVector.CopyDataTo(ref temp1);
-            Vect.Scale(temp1, 0.5, ref temp1);
+            temp1 = Vect.Scale(temp1, 0.5);
             Vect3 viewPaneEdge = Vect.Subtract(viewPaneCenter, temp1);
             viewPaneHeightVector.CopyDataTo(ref temp1);
-            Vect.Scale(temp1, 0.5, ref temp1);
+            temp1 = Vect.Scale(temp1, 0.5);
             viewPaneEdge = Vect.Subtract(viewPaneEdge, temp1);
 
             return new Camera(position, viewPaneEdge, viewPaneWidthVector, viewPaneHeightVector);
@@ -76,12 +76,12 @@ namespace JRayXLib.Ray
         // cheap ;)
         public void SetScreenDimensions(int width, int height) {
             double factor = width / (2.0 * height);
-            Vect.Scale(_viewPaneWidthVector, 0.5, ref _viewPaneWidthVector);
+            _viewPaneWidthVector = Vect.Scale(_viewPaneWidthVector, 0.5);
             _viewPaneEdge = Vect.Add(_viewPaneEdge, _viewPaneWidthVector);
             _viewPaneWidthVector.Normalize();
-            Vect.Scale(_viewPaneWidthVector, factor, ref _viewPaneWidthVector);
+            _viewPaneWidthVector = Vect.Scale(_viewPaneWidthVector, factor);
             _viewPaneEdge = Vect.Subtract(_viewPaneEdge, _viewPaneWidthVector);
-            Vect.Scale(_viewPaneWidthVector, 2, ref _viewPaneWidthVector);
+            _viewPaneWidthVector = Vect.Scale(_viewPaneWidthVector, 2);
         }
 
         public override void Rotate(Matrix4 rotationMatrix) {

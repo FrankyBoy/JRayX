@@ -16,7 +16,7 @@ namespace JRayXLib.Shapes
         {
             CosPhi = System.Math.Cos(MathHelper.ToRadians(phiDegree));
             AxisLength = axis.Length();
-            Vect.Scale(axis, 1 / AxisLength, ref axis);
+            LookAt = Vect.Scale(axis, 1 / AxisLength);
             Color = color;
         }
 	
@@ -48,8 +48,7 @@ namespace JRayXLib.Shapes
                                      Position.Data[2]+LookAt.Data[2]*AxisLength);
 
             var normal = new Vect3(@base.Data[2], @base.Data[0], @base.Data[1]);
-            var tmp = new Vect3(0);
-            Vect.Project(normal, LookAt, ref tmp);
+            var tmp = Vect.Project(normal, LookAt);
             normal = Vect.Subtract(normal, tmp);
             normal.Normalize();
             double l = CosPhi*AxisLength;
