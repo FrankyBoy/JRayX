@@ -13,7 +13,7 @@ namespace JRayXLib.Math.intersections
                 return double.PositiveInfinity;
             }
 
-            Vect.AddMultiple(rayPosition, rayDirection, ret, ref tmp);
+            tmp = rayPosition + rayDirection*ret;
             tmp -= trianglePos;
 
             double uu = Vect.DotProduct(triangleVect1, triangleVect1);

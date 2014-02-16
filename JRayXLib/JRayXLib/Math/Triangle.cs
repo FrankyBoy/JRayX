@@ -12,47 +12,59 @@ namespace JRayXLib.Math
             Vect3 normal = Vect.CrossProduct(mab, mac);
             Vect3 dab = Vect.CrossProduct(mab, normal);
             Vect3 dac = Vect.CrossProduct(mac, normal);
-            Vect.AddMultiple(a, mab, 0.5, ref mab);
-            Vect.AddMultiple(a, mac, 0.5, ref mac);
+            mab = a + mab/2;
+            mac = a + mac/2;
             dab.Normalize();
             dac.Normalize();
 
-            if (System.Math.Abs(dac.Data[0]) > 1e-9 && System.Math.Abs(dac.Data[1]) > 1e-9 && System.Math.Abs(dab.Data[0] / dac.Data[0] - dab.Data[1] / dac.Data[1]) > 1e-9)
+            if (System.Math.Abs(dac.Data[0]) > Constants.EPS &&
+                System.Math.Abs(dac.Data[1]) > Constants.EPS &&
+                System.Math.Abs(dab.Data[0] / dac.Data[0] - dab.Data[1] / dac.Data[1]) > Constants.EPS)
             {
                 double x = ((mab.Data[1] - mac.Data[1]) / dac.Data[1] - (mab.Data[0] - mac.Data[0]) / dac.Data[0]) / (dab.Data[0] / dac.Data[0] - dab.Data[1] / dac.Data[1]);
-                Vect.AddMultiple(mab, dab, x, ref mab);
-                return mab;
+                return mab + dab*x;
             }
-            if (System.Math.Abs(dac.Data[0]) > 1e-9 && System.Math.Abs(dac.Data[2]) > 1e-9 && System.Math.Abs(dab.Data[2] / dac.Data[2] - dab.Data[0] / dac.Data[0]) > 1e-9)
+
+            if (System.Math.Abs(dac.Data[0]) > Constants.EPS &&
+                System.Math.Abs(dac.Data[2]) > Constants.EPS &&
+                System.Math.Abs(dab.Data[2] / dac.Data[2] - dab.Data[0] / dac.Data[0]) > Constants.EPS)
             {
                 double x = ((mab.Data[0] - mac.Data[0]) / dac.Data[0] - (mab.Data[2] - mac.Data[2]) / dac.Data[2]) / (dab.Data[2] / dac.Data[2] - dab.Data[0] / dac.Data[0]);
-                Vect.AddMultiple(mab, dab, x, ref mab);
-                return mab;
+                return mab + dab * x;
             }
-            if (System.Math.Abs(dac.Data[1]) > 1e-9 && System.Math.Abs(dac.Data[2]) > 1e-9 && System.Math.Abs(dab.Data[1] / dac.Data[1] - dab.Data[2] / dac.Data[2]) > 1e-9)
+
+            if (System.Math.Abs(dac.Data[1]) > Constants.EPS &&
+                System.Math.Abs(dac.Data[2]) > Constants.EPS &&
+                System.Math.Abs(dab.Data[1] / dac.Data[1] - dab.Data[2] / dac.Data[2]) > Constants.EPS)
             {
                 double x = ((mab.Data[2] - mac.Data[2]) / dac.Data[2] - (mab.Data[1] - mac.Data[1]) / dac.Data[1]) / (dab.Data[1] / dac.Data[1] - dab.Data[2] / dac.Data[2]);
-                Vect.AddMultiple(mab, dab, x, ref mab);
-                return mab;
+                return mab + dab*x;
             }
-            if (System.Math.Abs(dab.Data[1]) > 1e-9 && System.Math.Abs(dab.Data[0]) > 1e-9 && System.Math.Abs(dac.Data[0] / dab.Data[0] - dac.Data[1] / dab.Data[1]) > 1e-9)
+
+            if (System.Math.Abs(dab.Data[1]) > Constants.EPS &&
+                System.Math.Abs(dab.Data[0]) > Constants.EPS &&
+                System.Math.Abs(dac.Data[0] / dab.Data[0] - dac.Data[1] / dab.Data[1]) > Constants.EPS)
             {
                 double y = ((mac.Data[1] - mab.Data[1]) / dab.Data[1] - (mac.Data[0] - mab.Data[0]) / dab.Data[0]) / (dac.Data[0] / dab.Data[0] - dac.Data[1] / dab.Data[1]);
-                Vect.AddMultiple(mac, dac, y, ref mab);
-                return mac;
+                return mac + dac * y;
             }
-            if (System.Math.Abs(dab.Data[2]) > 1e-9 && System.Math.Abs(dab.Data[0]) > 1e-9 && System.Math.Abs(dac.Data[2] / dab.Data[2] - dac.Data[0] / dab.Data[0]) > 1e-9)
+
+            if (System.Math.Abs(dab.Data[2]) > Constants.EPS &&
+                System.Math.Abs(dab.Data[0]) > Constants.EPS &&
+                System.Math.Abs(dac.Data[2] / dab.Data[2] - dac.Data[0] / dab.Data[0]) > Constants.EPS)
             {
                 double y = ((mac.Data[0] - mab.Data[0]) / dab.Data[0] - (mac.Data[2] - mab.Data[2]) / dab.Data[2]) / (dac.Data[2] / dab.Data[2] - dac.Data[0] / dab.Data[0]);
-                Vect.AddMultiple(mac, dac, y, ref mab);
-                return mac;
+                return mac + dac * y;
             }
-            if (System.Math.Abs(dab.Data[2]) > 1e-9 && System.Math.Abs(dab.Data[1]) > 1e-9 && System.Math.Abs(dac.Data[1] / dab.Data[1] - dac.Data[2] / dab.Data[2]) > 1e-9)
+
+            if (System.Math.Abs(dab.Data[2]) > Constants.EPS &&
+                System.Math.Abs(dab.Data[1]) > Constants.EPS &&
+                System.Math.Abs(dac.Data[1] / dab.Data[1] - dac.Data[2] / dab.Data[2]) > Constants.EPS)
             {
                 double y = ((mac.Data[2] - mab.Data[2]) / dab.Data[2] - (mac.Data[1] - mab.Data[1]) / dab.Data[1]) / (dac.Data[1] / dab.Data[1] - dac.Data[2] / dab.Data[2]);
-                Vect.AddMultiple(mac, dac, y, ref mab);
-                return mac;
+                return mac + dac*y;
             }
+
             throw new Exception("implement more cases...");
         }
     }

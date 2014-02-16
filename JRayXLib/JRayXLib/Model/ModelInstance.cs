@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using JRayXLib.Math;
 using JRayXLib.Math.intersections;
 using JRayXLib.Shapes;
 using JRayXLib.Struct;
@@ -37,7 +36,7 @@ namespace JRayXLib.Model
                 if(double.IsInfinity(dist))
                     return dist;
 
-                Vect.AddMultiple(r.GetOrigin(), r.Direction, dist, ref tmp);
+                tmp = r.GetOrigin() + r.Direction*dist;
                 tmp -= Position;
                 subRay = new Shapes.Ray(tmp, r.Direction);
             }
@@ -47,9 +46,9 @@ namespace JRayXLib.Model
                     Details = RayPath.GetFirstCollision(_model.GetTree(), subRay)
                 };
 
-            if(!double.IsInfinity(d.Details.Distance)){
-                var hitPointLocal = new Vect3(0);
-                Vect.AddMultiple(subRay.GetOrigin(), subRay.Direction, d.Details.Distance, ref hitPointLocal);
+            if(!double.IsInfinity(d.Details.Distance))
+            {
+                var hitPointLocal = subRay.GetOrigin() + subRay.Direction*d.Details.Distance;
                 d.HitPointLocal = hitPointLocal;
                 var hitPointGlobal = hitPointLocal + Position;
                 d.HitPointGlobal = hitPointGlobal;

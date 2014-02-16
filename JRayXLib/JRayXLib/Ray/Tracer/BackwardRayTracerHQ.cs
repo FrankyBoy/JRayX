@@ -4,7 +4,6 @@
 
 using JRayXLib.Colors;
 using JRayXLib.Math;
-using JRayXLib.Shapes;
 using JRayXLib.Struct;
 
 namespace JRayXLib.Ray.Tracer
@@ -31,8 +30,7 @@ namespace JRayXLib.Ray.Tracer
             }
         
             //Calculate hit position
-            var hitPoint = new Vect3(0);
-            Vect.AddMultiple(ray.GetOrigin(), ray.Direction, c.Distance, ref hitPoint);
+            var hitPoint = ray.GetOrigin() + ray.Direction*c.Distance;
         
             //Get color and normal at hitpoint
             var color = c.Obj.GetColorAt(hitPoint).ToWide(); 

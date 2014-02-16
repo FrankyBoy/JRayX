@@ -18,7 +18,7 @@ namespace JRayXLib.Struct
 {
     public class Node{
         public static TreeInsertStrategy Strategy = TreeInsertStrategy.DynamicTest;
-        public static double MinNodeWidth = 1e-9;
+        public static double MinNodeWidth = Constants.EPS;
 
         private readonly Node _parent; //parent node
         private Node[] _child; //child nodes

@@ -53,8 +53,8 @@ namespace JRayXLib.Shapes
             normal.Normalize();
             double l = CosPhi*AxisLength;
 
-            Vect.AddMultiple(@base, normal, l, ref tmp);
-            Vect.AddMultiple(@base, normal, -l, ref  @base);
+            tmp = @base + normal*l;
+            @base = @base - normal;
 		
             var center = new Vect3((Position.Data[0]+tmp.Data[0]+@base.Data[0])/3,
                                      (Position.Data[1]+tmp.Data[1]+@base.Data[1])/3,

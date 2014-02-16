@@ -70,9 +70,9 @@ namespace JRayXLib.Math
          * @param normal of the surface onto which is projected (MUST BE NORMED) 
          * @param projection the result of the projection
          */
-        public static void ProjectOnNormal(Vect3 vect, Vect3 normal, ref Vect3 projection) {
+        public static Vect3 ProjectOnNormal(Vect3 vect, Vect3 normal) {
             double dot = DotProduct(vect, normal);
-            AddMultiple(vect, normal, -dot, ref projection);
+            return vect + (normal*-dot);
         }
 
         /**
@@ -97,29 +97,19 @@ namespace JRayXLib.Math
          * @param outgoing result of the computation
          */
         public static Vect3 Refract(Vect3 incoming, Vect3 normal, double refractionIndex) {
-            var result = new Vect3();
+            
             //test implementation - working but propably slow
-            ProjectOnNormal(incoming, normal, ref result);
+            var result = ProjectOnNormal(incoming, normal);
             result = result / refractionIndex;
             double quadLen = result.QuadLength();
         
             if(quadLen>=1){//total reflection
                 result = Reflect(incoming, normal);
             }else{
-                AddMultiple(result, normal, -System.Math.Sqrt(1 - quadLen), ref result);
+                result = result + (normal * -System.Math.Sqrt(1 - quadLen));
                 result.Normalize();
             }
             return result;
-        }
-    
-        public static void AddMultiple(Vect3 ori, Vect3 addition, double scale, ref Vect3 erg) {
-            double[] add = addition.Data;
-            double[] ergdat = erg.Data;
-            double[] odat = ori.Data;
-        
-            ergdat[0] = odat[0] + add[0] * scale;
-            ergdat[1] = odat[1] + add[1] * scale;
-            ergdat[2] = odat[2] + add[2] * scale;
         }
     
         public static Vect3 Invert(Vect3 vect) {
@@ -136,8 +126,8 @@ namespace JRayXLib.Math
             double i3 = InterpolateTriangleEdge(v3,v1,v2,point);
     	    
             var result = t1 * i1;
-            AddMultiple(result, t2, i2, ref result);
-            AddMultiple(result, t3, i3, ref result);
+            result = result + t2*i2;
+            result = result + t3*i3;
 
             return result;
         }

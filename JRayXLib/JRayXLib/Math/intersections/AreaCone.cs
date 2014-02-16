@@ -5,21 +5,19 @@ namespace JRayXLib.Math.intersections
     public class AreaCone {
 	
         public static bool IsAreaIntersectingCone(Vect3 planeNormal, Vect3 planePoint, double planeWidth2, Vect3 conePosition, Vect3 coneAxis, double coneAxisLength, double coneCosPhi){
-            var p = new Vect3(0);
-            var q = new Vect3(0);
             double len;
 		
             //try "bending" axis towards plane normal 
-            Vect.AddMultiple(conePosition, coneAxis, coneAxisLength, ref  q);
+            Vect3 q = conePosition + coneAxis*coneAxisLength;
             Vect3 qx = Vect.Project(planeNormal, coneAxis);
-            Vect.AddMultiple(qx, planeNormal, -1, ref p);
+            Vect3 p = qx - planeNormal;
 		
             if(System.Math.Abs(p.QuadLength() - 0) < Constants.EPS){// axis equals plane normal
                 p = new Vect3(coneAxis);
                 len = coneAxisLength;
             }else{//bend axis towards plane normal as far as sinPhi allows
                 p.Normalize();
-                Vect.AddMultiple(q, p, coneAxisLength * System.Math.Sin(System.Math.Acos(coneCosPhi)), ref q);
+                q = q + (p * coneAxisLength * System.Math.Sin(System.Math.Acos(coneCosPhi)));
                 q -= conePosition;
                 len = q.Length();
                 p = q / len;
@@ -29,7 +27,7 @@ namespace JRayXLib.Math.intersections
 		
             if(d<len){
                 //check if Hitpoint is in the +/-width/2 - area of the plane
-                Vect.AddMultiple(conePosition, p, d, ref p);
+                p = conePosition + p*d;
                 if (System.Math.Abs(p.Data[0] - planePoint.Data[0]) < planeWidth2 * 2 &&
                     System.Math.Abs(p.Data[1] - planePoint.Data[1]) < planeWidth2 * 2 &&
                     System.Math.Abs(p.Data[2] - planePoint.Data[2]) < planeWidth2 * 2)

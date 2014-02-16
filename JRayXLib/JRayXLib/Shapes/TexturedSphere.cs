@@ -12,7 +12,7 @@ namespace JRayXLib.Shapes
             : this(position, radius, rotation, new Color(), 0, imagePath){}
 
         public TexturedSphere(Vect3 position, double radius, double rotation, Color color, double reflectivity, String imagePath) 
-            : this(position, new Vect3(0, radius, 0), rotation, color, reflectivity, imagePath){}
+            : this(position, new Vect3(0, radius), rotation, color, reflectivity, imagePath){}
 
         public TexturedSphere(Vect3 position, Vect3 lookAt, double rotation, String imagePath)
             : this(position, lookAt, rotation, new Color(), 0, imagePath) { }
@@ -40,7 +40,7 @@ namespace JRayXLib.Shapes
 
             // project to equator plane
             double dist = - Vect.DotProduct(tmp, LookAt);
-            Vect.AddMultiple(tmp, LookAt, dist, ref tmp);
+            tmp = tmp + LookAt*dist;
             tmp.Normalize();
 
             double x = System.Math.Acos(Vect.DotProduct(tmp, RotVect)) / (2 * System.Math.PI);

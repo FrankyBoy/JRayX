@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using Common.Logging;
 using JRayXLib.Colors;
-using JRayXLib.Math;
 using JRayXLib.Ray.Tracer;
 using JRayXLib.Shapes;
 
@@ -166,9 +165,7 @@ namespace JRayXLib.Ray
                 for (int j = 0; j < _widthPx; j++)
                 {
 
-                    rayDirection = camera.GetViewPaneEdge() - ray.GetOrigin();
-                    Vect.AddMultiple(rayDirection, vertAdd, i, ref rayDirection);
-                    Vect.AddMultiple(rayDirection, horzAdd, j, ref rayDirection);
+                    rayDirection = camera.GetViewPaneEdge() - ray.GetOrigin() + vertAdd*i+ horzAdd*j;
 
                     rayDirection.Normalize();
                     ray.Direction = rayDirection;
