@@ -8,7 +8,7 @@ namespace JRayXLib.Ray
     {
 
         protected string Name;
-        public Object3D[] Objects { get; set; }
+        public I3DObject[] Objects { get; set; }
         public Camera Camera { get; set; }
         public Vect3 LightDirection {get;set;}
 

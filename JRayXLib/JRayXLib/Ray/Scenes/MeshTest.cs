@@ -17,7 +17,7 @@ namespace JRayXLib.Ray.Scenes
             //c = new Camera(new Vect3(0, camheight, -10), new Vect3(0, camheight-1, -10), new Vect3(0, 0, 1), 1, 1, 1);
 
             TriangleMeshModel model = BinarySTLParser.Parse("models/elka.stl");
-            var objects = new List<Object3D>();
+            var objects = new List<I3DObject>();
             
             const int nx = 2;
             const int ny = 4;

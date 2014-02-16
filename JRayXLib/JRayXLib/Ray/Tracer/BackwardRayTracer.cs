@@ -51,7 +51,7 @@ namespace JRayXLib.Ray.Tracer
                 var c = new CollisionDetails(ray);
     		
                 //Find nearest Hit
-                foreach (Object3D objectCandidate in Scene.Objects) {
+                foreach (Basic3DObject objectCandidate in Scene.Objects) {
                     double distanceCandidate = objectCandidate.GetHitPointDistance(ray);
                     if (distanceCandidate > 0 && distanceCandidate < c.Distance) {
                         c.Obj = objectCandidate;
@@ -62,7 +62,7 @@ namespace JRayXLib.Ray.Tracer
 	        
                 return c;
             }
-            return RayPath.getFirstCollision(Tree, ray);
+            return RayPath.GetFirstCollision(Tree, ray);
         }
     }
 }

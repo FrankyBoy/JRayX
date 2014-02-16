@@ -5,7 +5,7 @@ using JRayXLib.Shapes;
 
 namespace JRayXLib.Ray
 {
-    public class Camera : Object3D{
+    public class Camera : Basic3DObject{
 
         private readonly Vect3 _position;
         private readonly Vect3 _viewPaneEdge; //Linke obere Ecke der ViewPane

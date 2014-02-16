@@ -1,11 +1,10 @@
-using System;
 using JRayXLib.Colors;
 using JRayXLib.Math;
 using JRayXLib.Math.intersections;
 
 namespace JRayXLib.Shapes
 {
-    public abstract class Object3D : I3DObject
+    public abstract class Basic3DObject : I3DObject
     {
 
         protected Color Color;
@@ -13,12 +12,11 @@ namespace JRayXLib.Shapes
         public Vect3 LookAt { get; set; }
         protected double Reflectivity;
 
-
-        protected Object3D(Vect3 position, Vect3 lookAt, double rotationRad) : this(position, lookAt) {
+        protected Basic3DObject(Vect3 position, Vect3 lookAt, double rotationRad) : this(position, lookAt) {
             Rotate(lookAt, rotationRad);
         }
 
-        protected Object3D(Vect3 position, Vect3 lookAt) {
+        protected Basic3DObject(Vect3 position, Vect3 lookAt) {
             Position = position;
             LookAt = lookAt;
             Color = Color.Red;

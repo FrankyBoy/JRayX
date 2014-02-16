@@ -15,8 +15,8 @@ namespace JRayXLib.Ray.Scenes
             const double dist = 0.2;
             const double h = 0.3;
             const double camheight = 10;
-    	
-            var objects = new List<Object3D>();
+
+            var objects = new List<I3DObject>();
 
             for(double x = 1;x<camheight*3;x+=h)
                 for(double z = -camheight;z<camheight;z+=h)
@@ -29,7 +29,8 @@ namespace JRayXLib.Ray.Scenes
             _tree = Octree.BuildTree(new Vect3(camheight*1.5,-3.1,0), Objects);
         }
 
-        private void AddTree(double x, double y, double z, IList<Object3D> objects){
+        private void AddTree(double x, double y, double z, IList<I3DObject> objects)
+        {
             const double dist = 0.1;
             double t0 = Rd.NextDouble()*dist-dist/2;
             double t1 = Rd.NextDouble()*dist-dist/2;

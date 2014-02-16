@@ -17,7 +17,7 @@ namespace JRayXLib.Struct
 {
     public class CollisionDetails{
         public Shapes.Ray Ray;
-        public Object3D Obj;
+        public I3DObject Obj;
         public double Distance;
         public int Checks = 0;
 	
@@ -26,9 +26,11 @@ namespace JRayXLib.Struct
             Distance = double.PositiveInfinity;
             Ray = ray;
         }
-	
-        public void CheckCollisionSet(List<Object3D> objects){
-            foreach (Object3D candidate in objects) {
+
+        public void CheckCollisionSet(List<I3DObject> objects)
+        {
+            foreach (I3DObject candidate in objects)
+            {
                 Checks++;
                 double distanceCandidate = candidate.GetHitPointDistance(Ray);
                 if (distanceCandidate > Constants.MinDistance && distanceCandidate < Distance) {

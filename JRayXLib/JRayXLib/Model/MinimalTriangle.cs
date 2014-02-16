@@ -6,7 +6,7 @@ using JRayXLib.Shapes;
 
 namespace JRayXLib.Model
 {
-    public class MinimalTriangle : Object3D{
+    public class MinimalTriangle : Basic3DObject{
 
         protected Vect3 V2;
         protected Vect3 V3;

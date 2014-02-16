@@ -5,7 +5,7 @@ using JRayXLib.Math.intersections;
 
 namespace JRayXLib.Shapes
 {
-    public class Plane : Object3D {
+    public class Plane : Basic3DObject {
 
         public Plane(Vect3 position, Vect3 normal, Color color, double reflectivity)
             : this(position, normal)

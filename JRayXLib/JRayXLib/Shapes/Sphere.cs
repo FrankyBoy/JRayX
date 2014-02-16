@@ -11,7 +11,7 @@ using JRayXLib.Math.intersections;
 
 namespace JRayXLib.Shapes
 {
-    public class Sphere : Object3D
+    public class Sphere : Basic3DObject
     {
 
         protected double Radius;

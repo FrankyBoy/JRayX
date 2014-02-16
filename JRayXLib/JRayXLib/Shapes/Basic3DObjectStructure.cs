@@ -5,12 +5,12 @@ using JRayXLib.Math;
 
 namespace JRayXLib.Shapes
 {
-    public class Object3DStructure : Object3D
+    public class Basic3DObjectStructure : Basic3DObject
     {
 
-        private readonly Object3D[] _objects;
+        private readonly I3DObject[] _objects;
 
-        public Object3DStructure(Vect3 position, Vect3 lookAt, double rotationRad, Object3D[] objects)
+        public Basic3DObjectStructure(Vect3 position, Vect3 lookAt, I3DObject[] objects)
             : base(new Vect3(), lookAt)
         {
             _objects = objects;
@@ -23,14 +23,14 @@ namespace JRayXLib.Shapes
             return _objects.Min(o3D => o3D.GetHitPointDistance(r));
         }
 
-        protected Object3D GetObjectAt(Vect3 hitPoint)
+        protected I3DObject GetObjectAt(Vect3 hitPoint)
         {
             return _objects.FirstOrDefault(o3D => o3D.Contains(hitPoint));
         }
 
         public new Color GetColorAt(Vect3 hitPoint)
         {
-            Object3D ret = GetObjectAt(hitPoint);
+            var ret = GetObjectAt(hitPoint);
             if (ret != null)
             {
                 return ret.GetColorAt(hitPoint);
@@ -40,7 +40,7 @@ namespace JRayXLib.Shapes
 
         public override void GetNormalAt(Vect3 hitPoint, Vect3 normal)
         {
-            Object3D ret = GetObjectAt(hitPoint);
+            var ret = GetObjectAt(hitPoint);
             if (ret != null)
             {
                 ret.GetNormalAt(hitPoint, normal);
@@ -63,7 +63,7 @@ namespace JRayXLib.Shapes
 
         public void SetPosition(Vect3 position)
         {
-            foreach (Object3D o3D in _objects)
+            foreach (Basic3DObject o3D in _objects)
             {
                 Vect3 objPos = o3D.Position;
                 Vect.subtract(objPos, Position, objPos);
@@ -75,7 +75,7 @@ namespace JRayXLib.Shapes
 
         public override void Rotate(Matrix4 rotationMatrix)
         {
-            foreach (Object3D o3D in _objects)
+            foreach (Basic3DObject o3D in _objects)
             {
                 Vect3 objPos = o3D.Position;
 
@@ -90,7 +90,7 @@ namespace JRayXLib.Shapes
 
         public new double GetReflectivityAt(Vect3 hitPoint)
         {
-            Object3D ret = GetObjectAt(hitPoint);
+            var ret = GetObjectAt(hitPoint);
             if (ret != null)
             {
                 return ret.GetReflectivityAt(hitPoint);

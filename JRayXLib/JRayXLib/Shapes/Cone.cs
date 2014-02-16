@@ -6,7 +6,7 @@ using JRayXLib.Util;
 
 namespace JRayXLib.Shapes
 {
-    public class Cone : Object3D {
+    public class Cone : Basic3DObject {
 
         public double CosPhi;
         public double AxisLength;

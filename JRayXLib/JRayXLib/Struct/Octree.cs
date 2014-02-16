@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using JRayXLib.Math;
 using Common.Logging;
@@ -24,9 +23,10 @@ namespace JRayXLib.Struct
         public Octree(Vect3 center, double width){
             Root = new Node(center, null, width);
         }
-	
-        public void Add(Object3D o){
-            if(!Root.insert(o, o.GetBoundingSphere())){
+
+        public void Add(I3DObject o)
+        {
+            if(!Root.Insert(o, o.GetBoundingSphere())){
                 throw new Exception("Could not insert: "+o);
             }
         }
@@ -34,14 +34,16 @@ namespace JRayXLib.Struct
         public Node GetRoot(){
             return Root;
         }
-	
-        public static Octree BuildTree(Vect3 center, Object3D[] objects){
+
+        public static Octree BuildTree(Vect3 center, I3DObject[] objects)
+        {
             double maxQuadDist=0;
             var dist=new Vect3();
 		
             Log.Debug("Building octree... ");
-		
-            foreach(Object3D o in objects){
+
+            foreach (I3DObject o in objects)
+            {
                 Sphere s = o.GetBoundingSphere();
                 if(s!=null){
                     Vect.subtract(center, s.Position, dist);
@@ -66,8 +68,9 @@ namespace JRayXLib.Struct
             Octree t;
             while(true){
                 t = new Octree(center,sizeHint);
-                foreach(Object3D o in objects){
-                    if(!t.Root.insert(o, o.GetBoundingSphere())){
+                foreach (I3DObject o in objects)
+                {
+                    if(!t.Root.Insert(o, o.GetBoundingSphere())){
                         sizeHint *= 2;
                         Log.Warn("Warning - resize needed!");
                         goto cont;
@@ -78,27 +81,27 @@ namespace JRayXLib.Struct
                 cont:{}
             }
 
-            t.GetRoot().compress();
+            t.GetRoot().Compress();
             Sw.Stop();
 		
             Log.Debug(string.Format("{0} ms\n",Sw.ElapsedMilliseconds));
             Log.Debug(string.Format(" - contains {0} of {1} elements ({2:0.##}%)",
-                t.GetRoot().getSize(), objects.Length, t.GetRoot().getSize()/(float)objects.Length*100));
+                t.GetRoot().GetSize(), objects.Length, t.GetRoot().GetSize()/(float)objects.Length*100));
             Log.Debug(" - avg depth: "+t.GetAverageObjectDepth());
-            Log.Debug(" - node count: "+t.GetRoot().getNodeCount());
-            Log.Debug(" - objects per node: "+t.GetRoot().getSize()/(float)t.GetRoot().getNodeCount());
+            Log.Debug(" - node count: "+t.GetRoot().GetNodeCount());
+            Log.Debug(" - objects per node: "+t.GetRoot().GetSize()/(float)t.GetRoot().GetNodeCount());
 		
             return t;
         }
 	
         public new string ToString(){
             var sb = new StringBuilder();
-            Root.addStringRep(sb, 0);
+            Root.AddStringRep(sb, 0);
             return sb.ToString();
         }
 	
         public double GetAverageObjectDepth(){
-            return Root.getContentDepthSum(0)/(double)Root.getSize();
+            return Root.GetContentDepthSum(0)/(double)Root.GetSize();
         }
     }
 }

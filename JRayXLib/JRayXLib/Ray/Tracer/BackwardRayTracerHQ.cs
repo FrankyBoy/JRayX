@@ -51,7 +51,7 @@ namespace JRayXLib.Ray.Tracer
                 lightScale = Vect.dotProduct(normal, Scene.LightDirection);
             lightScale = AmbientLightIntensity + DiffuseLightIntensity*(lightScale<0?-lightScale:0);
 
-            return color.Scale(lightScale);
+            return color * lightScale;
         }
     }
 }

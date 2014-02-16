@@ -3,7 +3,7 @@ using JRayXLib.Math;
 
 namespace JRayXLib.Shapes
 {
-    public class Sky : Object3D {
+    public class Sky : Basic3DObject {
         readonly Texture _texture;
 
         public Sky(string texture) : base(null, null){

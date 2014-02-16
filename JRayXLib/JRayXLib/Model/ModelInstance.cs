@@ -8,7 +8,7 @@ using JRayXLib.Struct;
 
 namespace JRayXLib.Model
 {
-    public class ModelInstance : Object3D{
+    public class ModelInstance : Basic3DObject{
 
         private readonly TriangleMeshModel _model;
         private readonly Dictionary<Thread, CollisionData> _lastCollision = new Dictionary<Thread, CollisionData>();
@@ -45,7 +45,7 @@ namespace JRayXLib.Model
 		
             var d = new CollisionData
                 {
-                    Details = RayPath.getFirstCollision(_model.GetTree(), subRay)
+                    Details = RayPath.GetFirstCollision(_model.GetTree(), subRay)
                 };
 
             if(!double.IsInfinity(d.Details.Distance)){

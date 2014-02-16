@@ -14,7 +14,7 @@ namespace JRayXLib.Ray
             SearchPackages.Add("JRayXLib.Ray");
         }
 
-        public static Object3D GetConstructorFor(string className, object[] parameterTypes)
+        public static I3DObject GetConstructorFor(string className, object[] parameterTypes)
         {
 
             //Search for the class in listed packages

@@ -4,7 +4,7 @@ using JRayXLib.Math.intersections;
 
 namespace JRayXLib.Shapes
 {
-    public class Triangle : Object3D {
+    public class Triangle : Basic3DObject {
         /**
 	 * edge from v1 to v2
 	 */
