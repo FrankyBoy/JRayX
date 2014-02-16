@@ -112,14 +112,6 @@ namespace JRayXLib.Math
             return result;
         }
     
-        public static Vect3 Invert(Vect3 vect) {
-            return new Vect3(
-                 - vect.Data[0],
-                 - vect.Data[1],
-                 - vect.Data[2]
-                );
-        }
-    
         public static Vect3 InterpolateTriangle(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 t1, Vect3 t2, Vect3 t3, Vect3 point){
             double i1 = InterpolateTriangleEdge(v1,v2,v3,point);
             double i2 = InterpolateTriangleEdge(v2,v3,v1,point);

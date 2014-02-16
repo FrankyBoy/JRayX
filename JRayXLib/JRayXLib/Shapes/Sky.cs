@@ -1,5 +1,4 @@
 using JRayXLib.Colors;
-using JRayXLib.Math;
 
 namespace JRayXLib.Shapes
 {
@@ -31,7 +30,7 @@ namespace JRayXLib.Shapes
 
         public override Vect3 GetNormalAt(Vect3 hitPoint) {
 
-            return Vect.Invert(hitPoint); // the normal is everywhere the vect pt -> 0
+            return hitPoint * -1; // the normal is everywhere the vect pt -> 0
         }
 
         public override bool Contains(Vect3 hitPoint) {
