@@ -1,7 +1,7 @@
-﻿using JRayXLib.Ray;
+﻿using System;
+using JRayXLib.Ray;
 using JRayXLib.Ray.Scenes;
 using JRayXLib.Shapes;
-using System.Drawing;
 
 namespace ConsoleApplication1
 {
@@ -9,14 +9,21 @@ namespace ConsoleApplication1
     {
         private static void Main(string[] args)
         {
-            //var scene = new RandomForest();
+            var scene = new RandomForest();
             //var scene = new MeshTest();
-            var scene = new KugelTest();
-            var renderer = new Renderer(scene, 1);
-            renderer.SplitMultiplier = 1;
+            //var scene = new KugelTest();
+
+            var renderer = new Renderer
+                {
+                    Scene = scene,
+                    ThreadCount = Environment.ProcessorCount,
+                    SplitMultiplier = 2
+                };
+
             var target = new Texture(500, 500);
+
             renderer.RenderImage(target);
-            Bitmap bmp = target.ToBitmap();
+            var bmp = target.ToBitmap();
             bmp.Save("test.png");
         }
     }

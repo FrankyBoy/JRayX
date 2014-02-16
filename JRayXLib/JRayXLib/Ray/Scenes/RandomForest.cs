@@ -39,9 +39,9 @@ namespace JRayXLib.Ray.Scenes
             var leafColor = new Color
                 {
                     A = byte.MaxValue,
-                    R = byte.MaxValue / 2,
-                    G = (byte) (byte.MaxValue * (1+Rd.NextDouble() / 2)),
-                    B = byte.MaxValue / 2
+                    R = byte.MaxValue / 3,
+                    G = (byte) (byte.MaxValue * ((1+Rd.NextDouble()) / 2)),
+                    B = byte.MaxValue / 3
                 };
             var @base = new Color
                 {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -14,39 +13,56 @@ namespace JRayXLib.Ray
 {
     public class Renderer
     {
-        private readonly int _threadCount;
-        private Scene _scene;
         private ConcurrentDictionary<Thread, BackwardRayTracer> _logics;
         private int _widthPx;
         private int _heightPx;
         private WideColor[,] _lbuf;
-        private const double BrigthnessScale = 1.0;
 
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private Scene _scene;
+        private int _splitMultiplier;
+        private int _threadCount;
 
-
-        public Renderer(Scene scene, int threadCount)
+        #region Public Vars
+        public int SplitMultiplier
         {
+            get { return _splitMultiplier; }
+            set {
+                _splitMultiplier = value;
+                UpdateMaxThreads();
+            }
+        }
+
+        public int ThreadCount
+        {
+            get { return _threadCount; }
+            set
+            {
+                _threadCount = value;
+                UpdateMaxThreads();
+            }
+        }
+
+        public Scene Scene {
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            set
+            {
+                Log.Info("Initializing Scene: " + value.GetName());
+                _scene = value;
+                _logics = new ConcurrentDictionary<Thread, BackwardRayTracer>();
+            }
+        }
+
+        public double BrigthnessScale { get; set; }
+        #endregion
+
+
+        public Renderer()
+        {
+            ThreadCount = Environment.ProcessorCount;
             SplitMultiplier = 4;
-            _threadCount = threadCount;
-
-            ThreadPool.SetMaxThreads(Environment.ProcessorCount, _threadCount);
-
-            SetScene(scene);
-
-            Log.Info("Renderer initialised successfully - READY FOR RUN");
+            BrigthnessScale = 1.0;
         }
-
-        public int SplitMultiplier { get; set; }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void SetScene(Scene scene)
-        {
-            Log.Info("Initializing Scene: " + scene.GetName());
-            _scene = scene;
-            _logics = new ConcurrentDictionary<Thread, BackwardRayTracer>();
-        }
-
 
         private BackwardRayTracer GetLogic()
         {
@@ -77,7 +93,7 @@ namespace JRayXLib.Ray
                     {
                         WideColor color = _lbuf[i,j];
 
-                        image[i, j] = color.Scale(scale).To8Bit();
+                        image[i, j] = (color * scale).To8Bit();
                     }
                 }
             }
@@ -165,6 +181,12 @@ namespace JRayXLib.Ray
                 }
             }
             return localMaxBrightness;
+        }
+
+
+        private void UpdateMaxThreads()
+        {
+            ThreadPool.SetMaxThreads(_threadCount, SplitMultiplier * _threadCount);
         }
     }
 }

@@ -66,8 +66,8 @@
     <Compile Include="Shapes\I3DObject.cs" />
     <Compile Include="Shapes\Matrix3.cs" />
     <Compile Include="Shapes\Matrix4.cs" />
-    <Compile Include="Shapes\Object3D.cs" />
-    <Compile Include="Shapes\Object3DStructure.cs" />
+    <Compile Include="Shapes\Basic3DObject.cs" />
+    <Compile Include="Shapes\Basic3DObjectStructure.cs" />
     <Compile Include="Shapes\Plane.cs" />
     <Compile Include="Shapes\Ray.cs" />
     <Compile Include="Shapes\Sky.cs" />
