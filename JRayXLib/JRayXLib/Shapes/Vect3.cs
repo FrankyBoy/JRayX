@@ -27,8 +27,10 @@ namespace JRayXLib.Shapes
             return Data[0] * Data[0] + Data[1] * Data[1] + Data[2] * Data[2];
         }
 
+        // TODO: make this return a new vector and not scale itself.
         public Vect3 Normalize() {
             double len = Length();
+            
             Data[0] /= len;
             Data[1] /= len;
             Data[2] /= len;
@@ -41,5 +43,54 @@ namespace JRayXLib.Shapes
             other.Data[1] = Data[1];
             other.Data[2] = Data[2];
         }
+
+        #region operator overloads
+        public static Vect3 operator -(Vect3 vec1, Vect3 vec2)
+        {
+            double[] v1 = vec1.Data;
+            double[] v2 = vec2.Data;
+
+            return new Vect3(
+                v1[0] - v2[0],
+                v1[1] - v2[1],
+                v1[2] - v2[2]
+            );
+        }
+
+        public static Vect3 operator +(Vect3 vec1, Vect3 vec2)
+        {
+            double[] v1 = vec1.Data;
+            double[] v2 = vec2.Data;
+
+            return new Vect3(
+                v1[0] + v2[0],
+                v1[1] + v2[1],
+                v1[2] + v2[2]
+            );
+        }
+
+        public static Vect3 operator *(Vect3 vec, double d)
+        {
+            double[] vdat = vec.Data;
+
+            return new Vect3(
+                vdat[0] * d,
+                vdat[1] * d,
+                vdat[2] * d
+            );
+        }
+
+        public static Vect3 operator /(Vect3 vec, double d)
+        {
+            double[] vdat = vec.Data;
+
+            return new Vect3(
+                vdat[0] / d,
+                vdat[1] / d,
+                vdat[2] / d
+            );
+        }
+
+        #endregion
     }
 }

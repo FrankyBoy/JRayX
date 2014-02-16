@@ -64,7 +64,7 @@ namespace JRayXLib.Shapes
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            var tmp = Vect.Subtract(hitPoint, Position);
+            var tmp = hitPoint - Position;
             return tmp.Normalize();
         }
 

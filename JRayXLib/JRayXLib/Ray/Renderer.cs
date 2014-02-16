@@ -166,7 +166,7 @@ namespace JRayXLib.Ray
                 for (int j = 0; j < _widthPx; j++)
                 {
 
-                    rayDirection = Vect.Subtract(camera.GetViewPaneEdge(), ray.GetOrigin());
+                    rayDirection = camera.GetViewPaneEdge() - ray.GetOrigin();
                     Vect.AddMultiple(rayDirection, vertAdd, i, ref rayDirection);
                     Vect.AddMultiple(rayDirection, horzAdd, j, ref rayDirection);
 

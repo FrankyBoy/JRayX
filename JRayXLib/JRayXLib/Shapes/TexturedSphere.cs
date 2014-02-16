@@ -34,7 +34,7 @@ namespace JRayXLib.Shapes
 
         private Color GetTextureColorAt(Vect3 hitPoint) {
             // calculate x (longitude)
-            var tmp = Vect.Subtract(hitPoint, Position);
+            var tmp = hitPoint - Position;
             tmp.Normalize();
             double y = System.Math.Acos(Vect.DotProduct(tmp, LookAt)) / System.Math.PI;
 

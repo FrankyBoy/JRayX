@@ -29,8 +29,8 @@ namespace JRayXLib.Shapes
             this.v2 = v2;
             this.v3 = v3;
 
-            edgev1v2 = Vect.Subtract(v2, v1);
-            edgev1v3 = Vect.Subtract(v3, v1);
+            edgev1v2 = v2 - v1;
+            edgev1v3 = v3 - v1;
             LookAt = Vect.CrossProduct(edgev1v2, edgev1v3);
             LookAt.Normalize();
         }
@@ -45,7 +45,7 @@ namespace JRayXLib.Shapes
         }
 
         public override bool Contains(Vect3 hitPoint) {
-            var tmp = Vect.Subtract(hitPoint, Position);
+            var tmp = hitPoint - Position;
 
             var temp3 = Vect.CrossProduct(edgev1v2, edgev1v3);
             if (System.Math.Abs(Vect.DotProduct(temp3, tmp)) > 1e-10) {
@@ -90,7 +90,7 @@ namespace JRayXLib.Shapes
         public override double GetBoundingSphereRadius()
         {
             Vect3 avg = Vect.Avg(new[] { Position, v2, v3 });
-            avg = Vect.Subtract(avg, v3);
+            avg -= v3;
 		
             return avg.Length();
         }

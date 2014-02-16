@@ -20,7 +20,7 @@ namespace JRayXLib.Math.intersections
             }else{//bend axis towards plane normal as far as sinPhi allows
                 p.Normalize();
                 Vect.AddMultiple(q, p, coneAxisLength * System.Math.Sin(System.Math.Acos(coneCosPhi)), ref q);
-                q = Vect.Subtract(q, conePosition);
+                q -= conePosition;
                 len = q.Length();
                 p = Vect.Scale(q, 1 / len);
             }

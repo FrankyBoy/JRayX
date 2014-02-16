@@ -27,7 +27,7 @@ namespace JRayXLib.Model
             var tmp = Vect.Add(Position, _model.GetBoundingSphere().Position);
 		
             if(RaySphere.IsRayOriginatingInSphere(r.GetOrigin(), r.Direction, tmp, _model.GetBoundingSphere().GetRadius())){
-                tmp = Vect.Subtract(r.GetOrigin(), Position);
+                tmp = r.GetOrigin() - Position;
                 subRay = new Shapes.Ray(tmp, r.Direction);
 			
                 dist = 0;
@@ -38,7 +38,7 @@ namespace JRayXLib.Model
                     return dist;
 
                 Vect.AddMultiple(r.GetOrigin(), r.Direction, dist, ref tmp);
-                tmp = Vect.Subtract(tmp, Position);
+                tmp -= Position;
                 subRay = new Shapes.Ray(tmp, r.Direction);
             }
 		

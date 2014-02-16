@@ -7,8 +7,8 @@ namespace JRayXLib.Math
     {
         public static Vect3 GetCircumScribedCircleCenter(Vect3 a, Vect3 b, Vect3 c)
         {
-            Vect3 mab = Vect.Subtract(b, a);
-            Vect3 mac = Vect.Subtract(c, a);
+            Vect3 mab = b - a;
+            Vect3 mac = c - a;
             Vect3 normal = Vect.CrossProduct(mab, mac);
             Vect3 dab = Vect.CrossProduct(mab, normal);
             Vect3 dac = Vect.CrossProduct(mac, normal);

@@ -8,7 +8,6 @@
 
 using System;
 using System.Text;
-using JRayXLib.Math;
 using Common.Logging;
 using System.Diagnostics;
 using JRayXLib.Shapes;
@@ -45,7 +44,7 @@ namespace JRayXLib.Struct
             {
                 Sphere s = o.GetBoundingSphere();
                 if(s!=null){
-                    Vect3 dist = Vect.Subtract(center, s.Position);
+                    Vect3 dist = center - s.Position;
                     double qdist = s.GetRadius();
                     if(double.IsInfinity(qdist)||Double.IsNaN(qdist))
                         throw new Exception("Invalid BoundingSphere: "+s+" from "+o);

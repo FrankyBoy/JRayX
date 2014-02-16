@@ -38,17 +38,6 @@ namespace JRayXLib.Math
             );
         }
 
-        public static Vect3 Subtract(Vect3 vec1, Vect3 vec2) {
-            double[] v1 = vec1.Data;
-            double[] v2 = vec2.Data;
-
-            return new Vect3(
-                v1[0] - v2[0],
-                v1[1] - v2[1],
-                v1[2] - v2[2]
-            );
-        }
-
         public static Vect3 Add(Vect3 vec1, Vect3 vec2) {
             double[] v1 = vec1.Data;
             double[] v2 = vec2.Data;
@@ -175,21 +164,21 @@ namespace JRayXLib.Math
         }
     
         public static double InterpolateTriangleEdge(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 point){
-            var v23N = Subtract(v3, v2);
+            var v23N = v3 - v2;
             v23N.Normalize();
     	
-            var v21 = Subtract(v1, v2);
+            var v21 = v1 - v2;
     	
 // ReSharper disable InconsistentNaming
             var v1o = Project(v21, v23N); //punkt gegenüber der ecke v1 (o ... opposite)
 // ReSharper restore InconsistentNaming
             
-            v1o = Subtract(v1o, v21);
+            v1o -= v21;
             
             double h1 = v1o.Length(); //höhe auf v1
             v1o = Scale(v1o, 1 / h1); //normieren
     	
-            Vect3 v1P = Subtract(point, v1);
+            Vect3 v1P = point - v1;
             Vect3 p1 = Project(v1P, v1o);//projektion von v1p auf v1hn
     	
             return 1-(p1.Length()/h1);
