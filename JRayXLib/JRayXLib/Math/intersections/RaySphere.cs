@@ -27,10 +27,10 @@ namespace JRayXLib.Math.intersections
          * r .... sphere radius
          * */
 
-            Vect.subtract(sphereCenter, rayOrigin, tmp);
+            Vect.Subtract(sphereCenter, rayOrigin, tmp);
 
-            double b = Vect.dotProduct(rayDirection, tmp);
-            double c = Vect.dotProduct(tmp, tmp) - sphereRadius * sphereRadius;
+            double b = Vect.DotProduct(rayDirection, tmp);
+            double c = Vect.DotProduct(tmp, tmp) - sphereRadius * sphereRadius;
 
             double sqrtExpr = b * b - c;
 
@@ -68,7 +68,7 @@ namespace JRayXLib.Math.intersections
     
         public static bool IsRayOriginatingInSphere(Vect3 rayOrigin, Vect3 rayDirection, Vect3 sphereCenter, double sphereRadius){
             var tmp = new Vect3();
-            Vect.subtract(sphereCenter, rayOrigin, tmp);
+            Vect.Subtract(sphereCenter, rayOrigin, tmp);
     	
             return tmp.QuadLength()<sphereRadius*sphereRadius;
         }

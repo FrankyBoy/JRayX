@@ -12,22 +12,22 @@ namespace JRayXLib.Math
      */
         public static void CreateRotationMatrix(Vect3 axis, double angleRad, Matrix4 erg) {
             double[,] data = erg.GetData();
-            double[] axisdata = axis.GetData();
+            double[] axisdata = axis.Data;
             double cosa = System.Math.Cos(angleRad);
             double sina = System.Math.Sin(angleRad);
 
             double icosa = 1 - cosa; // performance ... every bit matters
-            double v1xicosa = axisdata[0] * icosa;
+            double v1xICosA = axisdata[0] * icosa;
 
-            data[0,0] = cosa + axisdata[0] * v1xicosa;
-            data[0,1] = axisdata[1] * v1xicosa - axisdata[2] * sina;
-            data[0,2] = axisdata[2] * v1xicosa + axisdata[1] * sina;
+            data[0,0] = cosa + axisdata[0] * v1xICosA;
+            data[0,1] = axisdata[1] * v1xICosA - axisdata[2] * sina;
+            data[0,2] = axisdata[2] * v1xICosA + axisdata[1] * sina;
             data[0,3] = 0;
-            data[1,0] = axisdata[1] * v1xicosa + axisdata[2] * sina;
+            data[1,0] = axisdata[1] * v1xICosA + axisdata[2] * sina;
             data[1,1] = cosa + axisdata[1] * axisdata[1] * icosa;
             data[1,2] = axisdata[1] * axisdata[2] * icosa - axisdata[0] * sina;
             data[1,3] = 0;
-            data[2,0] = axisdata[2] * v1xicosa - axisdata[1] * sina;
+            data[2,0] = axisdata[2] * v1xICosA - axisdata[1] * sina;
             data[2,1] = axisdata[2] * axisdata[1] * icosa + axisdata[0] * sina;
             data[2,2] = cosa + axisdata[2] * axisdata[2] * icosa;
             data[2,3] = 0;
@@ -40,7 +40,7 @@ namespace JRayXLib.Math
         public static void CreateTranslationMatrix(Vect3 axis, Matrix4 erg) {
             double[,] data = erg.GetData();
 
-            double[] axisdata = axis.GetData();
+            double[] axisdata = axis.Data;
 
             data[1,0] = 0;
             data[2,0] = 0;
@@ -63,7 +63,7 @@ namespace JRayXLib.Math
 
         public static void CreateScaleMatrix(Vect3 axis, Matrix4 erg) {
             double[,] ergData = erg.GetData();
-            double[] axisData = axis.GetData();
+            double[] axisData = axis.Data;
 
             ergData[0,0] = axisData[0];
             ergData[0,1] = 0;

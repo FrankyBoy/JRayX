@@ -38,23 +38,23 @@ namespace JRayXLib.Ray
 
         public static Camera CreateCamera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double viewPaneWidth, double viewPaneHeight) {
             var temp1 = new Vect3(camUp);
-            temp1.normalize();
+            temp1.Normalize();
             var viewPaneHeightVector = new Vect3(camUp);
             Vect.Scale(viewPaneHeightVector, -viewPaneHeight, viewPaneHeightVector);
 
             var viewPaneWidthVector = new Vect3();
-            Vect.subtract(position, viewPaneCenter, temp1);
-            Vect.crossProduct(temp1, viewPaneHeightVector, viewPaneWidthVector);
-            viewPaneWidthVector.normalize();
+            Vect.Subtract(position, viewPaneCenter, temp1);
+            Vect.CrossProduct(temp1, viewPaneHeightVector, viewPaneWidthVector);
+            viewPaneWidthVector.Normalize();
             Vect.Scale(viewPaneWidthVector, viewPaneWidth, viewPaneWidthVector);
 
             var viewPaneEdge = new Vect3();
             viewPaneWidthVector.CopyDataTo(temp1);
             Vect.Scale(temp1, 0.5, temp1);
-            Vect.subtract(viewPaneCenter, temp1, viewPaneEdge);
+            Vect.Subtract(viewPaneCenter, temp1, viewPaneEdge);
             viewPaneHeightVector.CopyDataTo(temp1);
             Vect.Scale(temp1, 0.5, temp1);
-            Vect.subtract(viewPaneEdge, temp1, viewPaneEdge);
+            Vect.Subtract(viewPaneEdge, temp1, viewPaneEdge);
 
             return new Camera(position, viewPaneEdge, viewPaneWidthVector, viewPaneHeightVector);
         }
@@ -88,9 +88,9 @@ namespace JRayXLib.Ray
             double factor = width / (2.0 * height);
             Vect.Scale(_viewPaneWidthVector, 0.5, _viewPaneWidthVector);
             Vect.Add(_viewPaneEdge, _viewPaneWidthVector, _viewPaneEdge);
-            _viewPaneWidthVector.normalize();
+            _viewPaneWidthVector.Normalize();
             Vect.Scale(_viewPaneWidthVector, factor, _viewPaneWidthVector);
-            Vect.subtract(_viewPaneEdge, _viewPaneWidthVector, _viewPaneEdge);
+            Vect.Subtract(_viewPaneEdge, _viewPaneWidthVector, _viewPaneEdge);
             Vect.Scale(_viewPaneWidthVector, 2, _viewPaneWidthVector);
         }
 
@@ -103,8 +103,8 @@ namespace JRayXLib.Ray
         }
 
         public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
-            Vect.subtract(hitPoint, _position, normal);
-            normal.normalize();
+            Vect.Subtract(hitPoint, _position, normal);
+            normal.Normalize();
         }
 
         public override bool Contains(Vect3 hitPoint) {

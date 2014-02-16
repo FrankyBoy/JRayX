@@ -21,9 +21,9 @@ namespace JRayXLib.Shapes
         }
 	
         public override void Rotate(Matrix4 rotationMatrix) {
-            VectMatrix.multiply(LookAt, rotationMatrix, LookAt);
+            VectMatrix.Multiply(LookAt, rotationMatrix, LookAt);
 
-            LookAt.normalize();
+            LookAt.Normalize();
         }
 	
         public override double GetHitPointDistance(Ray r) {
@@ -33,11 +33,11 @@ namespace JRayXLib.Shapes
         public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
             var tmp = new Vect3();
             var tmp2 = new Vect3();
-            Vect.subtract(hitPoint, Position, tmp);
+            Vect.Subtract(hitPoint, Position, tmp);
 		
-            Vect.crossProduct(tmp, LookAt, tmp2);
-            Vect.crossProduct(tmp, tmp2, normal);
-            normal.normalize();
+            Vect.CrossProduct(tmp, LookAt, tmp2);
+            Vect.CrossProduct(tmp, tmp2, normal);
+            normal.Normalize();
         }
 	
         public override bool Contains(Vect3 hitPoint) {
@@ -45,7 +45,7 @@ namespace JRayXLib.Shapes
         }
 
         public new Sphere GetBoundingSphere(){
-            var @base =  new Vect3(Position.Data[0]+LookAt.Data[0]*AxisLength,
+            var @base =  new Vect3( Position.Data[0]+LookAt.Data[0]*AxisLength,
                                      Position.Data[1]+LookAt.Data[1]*AxisLength,
                                      Position.Data[2]+LookAt.Data[2]*AxisLength);
 
@@ -55,8 +55,8 @@ namespace JRayXLib.Shapes
             normal.Data[2] = @base.Data[1];
             var tmp = new Vect3();
             Vect.Project(normal, LookAt, tmp);
-            Vect.subtract(normal, tmp, normal);
-            normal.normalize();
+            Vect.Subtract(normal, tmp, normal);
+            normal.Normalize();
             double l = CosPhi*AxisLength;
 		
             Vect.AddMultiple(@base, normal, l, tmp);
@@ -66,7 +66,7 @@ namespace JRayXLib.Shapes
                                      (Position.Data[1]+tmp.Data[1]+@base.Data[1])/3,
                                      (Position.Data[2]+tmp.Data[2]+@base.Data[2])/3);
 		
-            Vect.subtract(center, Position, tmp);
+            Vect.Subtract(center, Position, tmp);
 		
             return new Sphere(center,tmp.Length(),Color.Black);
         }

@@ -76,7 +76,6 @@
     <Compile Include="Shapes\TexturedSphere.cs" />
     <Compile Include="Shapes\TexturedTriangle.cs" />
     <Compile Include="Shapes\Triangle.cs" />
-    <Compile Include="Shapes\Vect2.cs" />
     <Compile Include="Shapes\Vect3.cs" />
     <Compile Include="Util\MathHelper.cs" />
   </ItemGroup>

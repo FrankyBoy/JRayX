@@ -22,7 +22,7 @@ namespace JRayXLib.Shapes
 
         public new Color GetColorAt(Vect3 hitPoint)
         {
-            double[] hpdat = hitPoint.GetData();
+            double[] hpdat = hitPoint.Data;
 
             double x = System.Math.Acos(hpdat[1] / hitPoint.Length()) / System.Math.PI;
             double y = System.Math.Acos(hpdat[2] / hitPoint.Length()) / System.Math.PI;

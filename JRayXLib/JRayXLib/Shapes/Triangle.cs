@@ -29,10 +29,10 @@ namespace JRayXLib.Shapes
             this.v2 = v2;
             this.v3 = v3;
 
-            Vect.subtract(v2, v1, edgev1v2);
-            Vect.subtract(v3, v1, edgev1v3);
-            Vect.crossProduct(edgev1v2, edgev1v3, this.LookAt);
-            LookAt.normalize();
+            Vect.Subtract(v2, v1, edgev1v2);
+            Vect.Subtract(v3, v1, edgev1v3);
+            Vect.CrossProduct(edgev1v2, edgev1v3, this.LookAt);
+            LookAt.Normalize();
         }
 
         public override double GetHitPointDistance(Ray r) {
@@ -47,18 +47,18 @@ namespace JRayXLib.Shapes
             var tmp = new Vect3();
             var temp3 = new Vect3();
 
-            Vect.subtract(hitPoint, Position, tmp);
+            Vect.Subtract(hitPoint, Position, tmp);
 
-            Vect.crossProduct(edgev1v2, edgev1v3, temp3);
-            if (System.Math.Abs(Vect.dotProduct(temp3, tmp)) > 1e-10) {
+            Vect.CrossProduct(edgev1v2, edgev1v3, temp3);
+            if (System.Math.Abs(Vect.DotProduct(temp3, tmp)) > 1e-10) {
                 return false;
             }
 
-            double uu = Vect.dotProduct(edgev1v2, edgev1v2);
-            double uv = Vect.dotProduct(edgev1v2, edgev1v3);
-            double vv = Vect.dotProduct(edgev1v3, edgev1v3);
-            double wu = Vect.dotProduct(edgev1v2, tmp);
-            double wv = Vect.dotProduct(edgev1v3, tmp);
+            double uu = Vect.DotProduct(edgev1v2, edgev1v2);
+            double uv = Vect.DotProduct(edgev1v2, edgev1v3);
+            double vv = Vect.DotProduct(edgev1v3, edgev1v3);
+            double wu = Vect.DotProduct(edgev1v2, tmp);
+            double wv = Vect.DotProduct(edgev1v3, tmp);
             double d = uv * uv - uu * vv;
 
             double s = (uv * wv - vv * wu) / d;
@@ -75,10 +75,10 @@ namespace JRayXLib.Shapes
         }
 
         public override void Rotate(Matrix4 rotationMatrix) {
-            VectMatrix.multiply(edgev1v2, rotationMatrix, edgev1v2);
-            VectMatrix.multiply(edgev1v3, rotationMatrix, edgev1v3);
+            VectMatrix.Multiply(edgev1v2, rotationMatrix, edgev1v2);
+            VectMatrix.Multiply(edgev1v3, rotationMatrix, edgev1v3);
 
-            Vect.crossProduct(edgev1v2, edgev1v3, this.LookAt);
+            Vect.CrossProduct(edgev1v2, edgev1v3, this.LookAt);
         }
 
         public new string ToString() {
@@ -86,13 +86,13 @@ namespace JRayXLib.Shapes
         }
     
         public new Vect3 GetBoundingSphereCenter(){
-            return Vect.avg(new []{Position, v2, v3});
+            return Vect.Avg(new []{Position, v2, v3});
         }
 
         public override double GetBoundingSphereRadius()
         {
-            Vect3 avg = Vect.avg(new[] { Position, v2, v3 });
-            Vect.subtract(avg, v3, avg);
+            Vect3 avg = Vect.Avg(new[] { Position, v2, v3 });
+            Vect.Subtract(avg, v3, avg);
 		
             return avg.Length();
         }

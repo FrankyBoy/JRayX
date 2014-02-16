@@ -40,7 +40,7 @@ namespace JRayXLib.Shapes
             // calculate the rotation of the 0-meridian
             RotVect = new Vect3(lookAt);
 
-            double[] rVData = RotVect.GetData();
+            double[] rVData = RotVect.Data;
 
             // check so we don't end up with two linear dependent vectors
             if (System.Math.Abs(rVData[1] - 0) > Constants.EPS
@@ -53,9 +53,9 @@ namespace JRayXLib.Shapes
             {
                 rVData[1] += 1;
             }
-            Vect.crossProduct(RotVect, lookAt, RotVect);
-            RotVect.normalize();
-            LookAt.normalize();
+            Vect.CrossProduct(RotVect, lookAt, RotVect);
+            RotVect.Normalize();
+            LookAt.Normalize();
             Rotate(lookAt, rotationRad);
         }
 
@@ -66,8 +66,8 @@ namespace JRayXLib.Shapes
         
         public override void GetNormalAt(Vect3 hitPoint, Vect3 normal)
         {
-            Vect.subtract(hitPoint, Position, normal);
-            normal.normalize();
+            Vect.Subtract(hitPoint, Position, normal);
+            normal.Normalize();
         }
 
         public override bool Contains(Vect3 hitPoint)
@@ -77,11 +77,11 @@ namespace JRayXLib.Shapes
         
         public override void Rotate(Matrix4 rotationMatrix)
         {
-            VectMatrix.multiply(LookAt, rotationMatrix, LookAt);
-            VectMatrix.multiply(RotVect, rotationMatrix, RotVect);
+            VectMatrix.Multiply(LookAt, rotationMatrix, LookAt);
+            VectMatrix.Multiply(RotVect, rotationMatrix, RotVect);
 
-            LookAt.normalize();
-            RotVect.normalize();
+            LookAt.Normalize();
+            RotVect.Normalize();
         }
 
         public new Sphere GetBoundingSphere()

@@ -6,15 +6,11 @@ using JRayXLib.Math;
 namespace JRayXLib.Shapes
 {
     public class Vect3 {
+        
 
-        public override int GetHashCode()
-        {
-            return (Data != null ? Data.GetHashCode() : 0);
-        }
+        public double[] Data { get; private set; }
 
-        public readonly double[] Data;
-
-        public Vect3(double a, double b, double c) : this(new[]{a, b, c}) {}
+        public Vect3(double a = 0, double b = 0, double c = 0) : this(new[] { a, b, c }) { }
 
         public Vect3(double[] data) {
             if (data.Length == 3) {
@@ -25,16 +21,10 @@ namespace JRayXLib.Shapes
         }
 
         public Vect3(Vect3 old) {
-            double[] dat = old.GetData();
+            double[] dat = old.Data;
             Data = new[]{dat[0], dat[1], dat[2]};
         }
-
-        public Vect3() : this(new double[3]) {}
-
-        public double[] GetData() {
-            return Data;
-        }
-
+        
         public override string ToString() {
             
             var sb = new StringBuilder("(");
@@ -46,42 +36,21 @@ namespace JRayXLib.Shapes
             return sb.ToString();
         }
 
-        public bool Equals(Vect3 v, double eps){
+        public bool Equals(Vect3 v, double eps = Constants.EPS){
             return System.Math.Abs(Data[0]-v.Data[0])<eps
                 && System.Math.Abs(Data[1] - v.Data[1]) < eps
                 && System.Math.Abs(Data[2] - v.Data[2]) < eps;
         }
-    
-        public override bool Equals(Object o) {
-            if (!(o is Vect3)) {
-                return false;
-            }
-
-            for (int i = 0; i < 3; i++) {
-                if (System.Math.Abs(Data[i] - ((Vect3)o).GetData()[i]) > Constants.EPS)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        protected bool Equals(Vect3 other)
-        {
-            return Equals(Data, other.Data);
-        }
-
 
         public double Length() {
-            return System.Math.Sqrt(Data[0] * Data[0] + Data[1] * Data[1] + Data[2] * Data[2]);
+            return System.Math.Sqrt(QuadLength());
         }
 
         public double QuadLength() {
             return Data[0] * Data[0] + Data[1] * Data[1] + Data[2] * Data[2];
         }
 
-        public void normalize() {
+        public void Normalize() {
             double len = Length();
             Data[0] /= len;
             Data[1] /= len;
@@ -100,7 +69,7 @@ namespace JRayXLib.Shapes
         }
 
         public void CopyDataTo(Vect3 v) {
-            double[] vd = v.GetData();
+            double[] vd = v.Data;
             vd[0] = Data[0];
             vd[1] = Data[1];
             vd[2] = Data[2];
@@ -108,6 +77,7 @@ namespace JRayXLib.Shapes
 
         static readonly Regex BasePatern = new Regex("\\[\\s*[+-]?[0-9]+(\\.[0-9]+)?\\s+[+-]?[0-9]+(\\.[0-9]+)?\\s+[+-]?[0-9]+(\\.[0-9]+)?\\s*\\]");
         static readonly Regex NumPatern = new Regex("\\s+");
+
 
         public static Vect3 ParseVect3(String s) {
             s = s.Trim();

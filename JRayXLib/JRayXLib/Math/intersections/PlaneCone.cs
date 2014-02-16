@@ -19,9 +19,9 @@ namespace JRayXLib.Math.intersections
                 coneAxis.CopyDataTo(p);
                 len = coneAxisLength;
             }else{//bend axis towards plane normal as far as sinPhi allows
-                p.normalize();
+                p.Normalize();
                 Vect.AddMultiple(q, p, coneAxisLength*System.Math.Sin(System.Math.Acos(coneCosPhi)), q);
-                Vect.subtract(q, conePosition, q);
+                Vect.Subtract(q, conePosition, q);
                 len = q.Length();
                 Vect.Scale(q, 1/len, p);
             }

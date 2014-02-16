@@ -18,7 +18,7 @@ namespace JRayXLib.Model
 		
             Vect3 avg = GetBoundingSphereCenter();
             Vect3 tmp = new Vect3();
-            Vect.subtract(avg, v3, tmp);
+            Vect.Subtract(avg, v3, tmp);
     	
             Bounds = new Sphere(avg,tmp.Length(), Color.Black);
         }
@@ -32,8 +32,8 @@ namespace JRayXLib.Model
             Vect3 v1v2 = new Vect3();
             Vect3 v1v3 = new Vect3();
 		
-            Vect.subtract(V2, Position, v1v2);
-            Vect.subtract(V3, Position, v1v3);
+            Vect.Subtract(V2, Position, v1v2);
+            Vect.Subtract(V3, Position, v1v3);
 		
             double ret = RayTriangle.GetHitPointRayTriangleDistance(r.GetOrigin(), r.GetDirection(), Position, v1v2, v1v3);
             if (ret <= 0) {
@@ -55,7 +55,7 @@ namespace JRayXLib.Model
         }
 	
         public new Vect3 GetBoundingSphereCenter(){
-            return Vect.avg(new []{Position, V2, V3});
+            return Vect.Avg(new []{Position, V2, V3});
         }
     
         public override double GetBoundingSphereRadius(){

@@ -12,11 +12,11 @@ namespace JRayXLib.Shapes
         /**
      * stores the texture coordinates
      */
-        private readonly Vect2 _t1;
-        private readonly Vect2 _t2;
-        private readonly Vect2 _t3;
+        private readonly Vect3 _t1;
+        private readonly Vect3 _t2;
+        private readonly Vect3 _t3;
 
-        public TexturedTriangle(Vect3 v1, Vect2 t1, Vect3 v2, Vect2 t2, Vect3 v3, Vect2 t3, string imagePath)
+        public TexturedTriangle(Vect3 v1, Vect3 t1, Vect3 v2, Vect3 t2, Vect3 v3, Vect3 t3, string imagePath)
             : base(v1, v2, v3, Color.Blue){
             _t1 = t1;
             _t2 = t2;
@@ -42,7 +42,7 @@ namespace JRayXLib.Shapes
 
         private Color GetTextureColorAt(Vect3 hitPoint)
         {
-            var texcoord = new Vect2();
+            var texcoord = new Vect3();
             Vect.InterpolateTriangle(Position, v2, v3, _t1, _t2, _t3, hitPoint, texcoord);
             return _texture.GetColorAt(texcoord);
         }

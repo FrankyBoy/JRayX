@@ -68,16 +68,16 @@ namespace JRayXLib.Shapes
             Height = height;
         }
 
-        public Color GetColorAt(Vect2 texcoord)
+        public Color GetColorAt(Vect3 texcoord)
         {
-            double[] data = texcoord.GetData();
+            double[] data = texcoord.Data;
             return GetColorAt(data[0], data[1]);
         }
 
         public Color GetColorAt(double tx, double ty)
         {
             if (tx < -1 || tx > 2 || ty < -1 || ty > 2) {
-                throw new Exception("This texcoord is far beyond every numerical tolerance: " + new Vect2(tx, ty));
+                throw new Exception("This texcoord is far beyond every numerical tolerance: " + new Vect3(tx, ty));
             }
 
             var x = (int) (tx * Width);

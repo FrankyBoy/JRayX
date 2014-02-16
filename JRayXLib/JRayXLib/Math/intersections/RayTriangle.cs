@@ -8,20 +8,20 @@ namespace JRayXLib.Math.intersections
 	
         public static double GetHitPointRayTriangleDistance(Vect3 rayPosition, Vect3 rayDirection, Vect3 trianglePos, Vect3 triangleVect1, Vect3 triangleVect2) {
             Vect3 tmp = new Vect3();
-            Vect.crossProduct(triangleVect1, triangleVect2, tmp);
+            Vect.CrossProduct(triangleVect1, triangleVect2, tmp);
             double ret = RayPlane.GetHitPointRayPlaneDistance(rayPosition, rayDirection, trianglePos, tmp);
             if(ret == double.PositiveInfinity || ret < Constants.MinDistance) {
                 return double.PositiveInfinity;
             }
 
             Vect.AddMultiple(rayPosition, rayDirection, ret, tmp);
-            Vect.subtract(tmp, trianglePos, tmp);
+            Vect.Subtract(tmp, trianglePos, tmp);
 
-            double uu = Vect.dotProduct(triangleVect1, triangleVect1);
-            double uv = Vect.dotProduct(triangleVect1, triangleVect2);
-            double vv = Vect.dotProduct(triangleVect2, triangleVect2);
-            double wu = Vect.dotProduct(triangleVect1, tmp);
-            double wv = Vect.dotProduct(triangleVect2, tmp);
+            double uu = Vect.DotProduct(triangleVect1, triangleVect1);
+            double uv = Vect.DotProduct(triangleVect1, triangleVect2);
+            double vv = Vect.DotProduct(triangleVect2, triangleVect2);
+            double wu = Vect.DotProduct(triangleVect1, tmp);
+            double wv = Vect.DotProduct(triangleVect2, tmp);
             double d = uv * uv - uu * vv;
 
             double s = (uv * wv - vv * wu) / d;

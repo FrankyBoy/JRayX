@@ -46,7 +46,7 @@ namespace JRayXLib.Struct
             {
                 Sphere s = o.GetBoundingSphere();
                 if(s!=null){
-                    Vect.subtract(center, s.Position, dist);
+                    Vect.Subtract(center, s.Position, dist);
                     double qdist = s.GetRadius();
                     if(double.IsInfinity(qdist)||Double.IsNaN(qdist))
                         throw new Exception("Invalid BoundingSphere: "+s+" from "+o);

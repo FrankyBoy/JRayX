@@ -165,11 +165,11 @@ namespace JRayXLib.Ray
                 for (int j = 0; j < _widthPx; j++)
                 {
 
-                    Vect.subtract(camera.GetViewPaneEdge(), ray.GetOrigin(), rayDirection);
+                    Vect.Subtract(camera.GetViewPaneEdge(), ray.GetOrigin(), rayDirection);
                     Vect.AddMultiple(rayDirection, vertAdd, i, rayDirection);
                     Vect.AddMultiple(rayDirection, horzAdd, j, rayDirection);
 
-                    rayDirection.normalize();
+                    rayDirection.Normalize();
 
                     WideColor color = logic.Shoot(ray);
 

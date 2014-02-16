@@ -66,7 +66,7 @@ namespace JRayXLib.Shapes
             foreach (Basic3DObject o3D in _objects)
             {
                 Vect3 objPos = o3D.Position;
-                Vect.subtract(objPos, Position, objPos);
+                Vect.Subtract(objPos, Position, objPos);
                 Vect.Add(objPos, position, objPos);
             }
 
@@ -80,8 +80,8 @@ namespace JRayXLib.Shapes
                 Vect3 objPos = o3D.Position;
 
                 // TODO: we have a matrix to combine these three, right?
-                Vect.subtract(objPos, Position, objPos);
-                VectMatrix.multiply(objPos, rotationMatrix, objPos);
+                Vect.Subtract(objPos, Position, objPos);
+                VectMatrix.Multiply(objPos, rotationMatrix, objPos);
                 Vect.Add(objPos, Position, objPos);
 
                 o3D.Rotate(rotationMatrix);

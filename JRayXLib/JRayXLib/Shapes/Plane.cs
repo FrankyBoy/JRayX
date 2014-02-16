@@ -21,7 +21,7 @@ namespace JRayXLib.Shapes
         }
 
         public Plane(Vect3 position, Vect3 normal) : base(position, normal){
-            normal.normalize();
+            normal.Normalize();
         }
 
         public override double GetHitPointDistance(Ray r) {
@@ -41,7 +41,7 @@ namespace JRayXLib.Shapes
         }
 
         public override void Rotate(Matrix4 tmp) {
-            VectMatrix.multiply(LookAt, tmp, LookAt);
+            VectMatrix.Multiply(LookAt, tmp, LookAt);
         }
 
         public new Sphere GetBoundingSphere() {

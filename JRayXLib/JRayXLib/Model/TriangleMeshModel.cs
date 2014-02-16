@@ -46,7 +46,7 @@ namespace JRayXLib.Model
             foreach (MinimalTriangle m in _triangles)
             {
                 Vect3 p = m.GetBoundingSphere().Position;
-                Vect.subtract(p, max, min);
+                Vect.Subtract(p, max, min);
                 double dist = m.GetBoundingSphereRadius() + min.Length();
 
                 if (dist > radius)
