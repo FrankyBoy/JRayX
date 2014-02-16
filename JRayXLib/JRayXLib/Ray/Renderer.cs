@@ -166,9 +166,7 @@ namespace JRayXLib.Ray
                 {
 
                     rayDirection = camera.GetViewPaneEdge() - ray.GetOrigin() + vertAdd*i+ horzAdd*j;
-
-                    rayDirection.Normalize();
-                    ray.Direction = rayDirection;
+                    ray.Direction = rayDirection.Normalize();
 
                     WideColor color = logic.Shoot(ray);
 

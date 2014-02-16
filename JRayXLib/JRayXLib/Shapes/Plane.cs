@@ -21,7 +21,7 @@ namespace JRayXLib.Shapes
         }
 
         public Plane(Vect3 position, Vect3 normal) : base(position, normal){
-            normal.Normalize();
+            LookAt = LookAt.Normalize();
         }
 
         public override double GetHitPointDistance(Ray r) {

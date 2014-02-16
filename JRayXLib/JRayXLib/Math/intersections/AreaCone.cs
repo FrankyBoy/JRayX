@@ -9,14 +9,14 @@ namespace JRayXLib.Math.intersections
 		
             //try "bending" axis towards plane normal 
             Vect3 q = conePosition + coneAxis*coneAxisLength;
-            Vect3 qx = Vect.Project(planeNormal, coneAxis);
+            Vect3 qx = Vect3Extensions.Project(planeNormal, coneAxis);
             Vect3 p = qx - planeNormal;
 		
             if(System.Math.Abs(p.QuadLength() - 0) < Constants.EPS){// axis equals plane normal
                 p = new Vect3(coneAxis);
                 len = coneAxisLength;
             }else{//bend axis towards plane normal as far as sinPhi allows
-                p.Normalize();
+                p = p.Normalize();
                 q = q + (p * coneAxisLength * System.Math.Sin(System.Math.Acos(coneCosPhi)));
                 q -= conePosition;
                 len = q.Length();
@@ -28,9 +28,9 @@ namespace JRayXLib.Math.intersections
             if(d<len){
                 //check if Hitpoint is in the +/-width/2 - area of the plane
                 p = conePosition + p*d;
-                if (System.Math.Abs(p.Data[0] - planePoint.Data[0]) < planeWidth2 * 2 &&
-                    System.Math.Abs(p.Data[1] - planePoint.Data[1]) < planeWidth2 * 2 &&
-                    System.Math.Abs(p.Data[2] - planePoint.Data[2]) < planeWidth2 * 2)
+                if (System.Math.Abs(p[0] - planePoint[0]) < planeWidth2 * 2 &&
+                    System.Math.Abs(p[1] - planePoint[1]) < planeWidth2 * 2 &&
+                    System.Math.Abs(p[2] - planePoint[2]) < planeWidth2 * 2)
                     return true;
             }
             /*

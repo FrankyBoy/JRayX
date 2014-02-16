@@ -9,14 +9,14 @@ namespace JRayXLib.Math.intersections
 		
             //try "bending" axis towards plane normal 
             var q  = conePosition + coneAxis*coneAxisLength;
-            var qx = Vect.Project(planeNormal, coneAxis);
+            var qx = Vect3Extensions.Project(planeNormal, coneAxis);
             var p  = qx - planeNormal;
 		
             if(System.Math.Abs(p.QuadLength() - 0) < Constants.EPS){// axis equals plane normal
                 p = new Vect3(coneAxis);
                 len = coneAxisLength;
             }else{//bend axis towards plane normal as far as sinPhi allows
-                p.Normalize();
+                p = p.Normalize();
                 q = q - (p * coneAxisLength * System.Math.Sin(System.Math.Acos(coneCosPhi)));
                 q -= conePosition;
                 len = q.Length();

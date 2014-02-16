@@ -51,7 +51,7 @@ namespace JRayXLib.Model
         }
 	
         public new Vect3 GetBoundingSphereCenter(){
-            return Vect.Avg(new []{Position, V2, V3});
+            return Vect3Extensions.Avg(new []{Position, V2, V3});
         }
     
         public override double GetBoundingSphereRadius(){

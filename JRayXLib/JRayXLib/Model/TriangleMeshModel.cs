@@ -1,5 +1,4 @@
 using JRayXLib.Colors;
-using JRayXLib.Math;
 using JRayXLib.Shapes;
 using JRayXLib.Struct;
 
@@ -30,17 +29,17 @@ namespace JRayXLib.Model
             {
                 Vect3 p = m.GetBoundingSphere().Position;
 
-                if (p.Data[0] > max.Data[0]) max.Data[0] = p.Data[0];
-                if (p.Data[1] > max.Data[1]) max.Data[1] = p.Data[1];
-                if (p.Data[2] > max.Data[2]) max.Data[2] = p.Data[2];
-                if (p.Data[0] < min.Data[0]) min.Data[0] = p.Data[0];
-                if (p.Data[1] < min.Data[1]) min.Data[1] = p.Data[1];
-                if (p.Data[2] < min.Data[2]) min.Data[2] = p.Data[2];
+                if (p[0] > max[0]) max[0] = p[0];
+                if (p[1] > max[1]) max[1] = p[1];
+                if (p[2] > max[2]) max[2] = p[2];
+                if (p[0] < min[0]) min[0] = p[0];
+                if (p[1] < min[1]) min[1] = p[1];
+                if (p[2] < min[2]) min[2] = p[2];
             }
 
-            max.Data[0] = (max.Data[0] + min.Data[0]) / 2;
-            max.Data[1] = (max.Data[1] + min.Data[1]) / 2;
-            max.Data[2] = (max.Data[2] + min.Data[2]) / 2;
+            max[0] = (max[0] + min[0]) / 2;
+            max[1] = (max[1] + min[1]) / 2;
+            max[2] = (max[2] + min[2]) / 2;
 
             double radius = 0;
             foreach (MinimalTriangle m in _triangles)

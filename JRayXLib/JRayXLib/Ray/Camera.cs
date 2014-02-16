@@ -35,8 +35,8 @@ namespace JRayXLib.Ray
             viewPaneHeightVector *= -viewPaneHeight;
 
             var temp1 = position - viewPaneCenter;
-            var viewPaneWidthVector = Vect.CrossProduct(temp1, viewPaneHeightVector);
-            viewPaneWidthVector.Normalize();
+            var viewPaneWidthVector = Vect3Extensions.CrossProduct(temp1, viewPaneHeightVector);
+            viewPaneWidthVector = viewPaneWidthVector.Normalize();
             viewPaneWidthVector *= viewPaneWidth;
 
             viewPaneWidthVector.CopyDataTo(ref temp1);
@@ -78,7 +78,7 @@ namespace JRayXLib.Ray
             double factor = width / (2.0 * height);
             _viewPaneWidthVector /= 2;
             _viewPaneEdge += _viewPaneWidthVector;
-            _viewPaneWidthVector.Normalize();
+            _viewPaneWidthVector = _viewPaneWidthVector.Normalize();
             _viewPaneWidthVector *= factor;
             _viewPaneEdge -= _viewPaneWidthVector;
             _viewPaneWidthVector *= 2;

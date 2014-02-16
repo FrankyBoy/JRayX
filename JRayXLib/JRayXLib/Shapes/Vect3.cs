@@ -4,51 +4,55 @@ namespace JRayXLib.Shapes
 {
     public struct Vect3
     {
-        public readonly double[] Data;
-        
+        private readonly double[] _data;
+
         public Vect3(double a = 0, double b = 0, double c = 0)
         {
-            Data = new []{a, b, c};
+            _data = new[] { a, b, c };
         }
 
-        public Vect3(Vect3 old) : this(old.Data[0], old.Data[1], old.Data[2]) { }
+        public Vect3(Vect3 old) : this(old._data[0], old._data[1], old._data[2]) { }
 
-        public bool Equals(Vect3 v, double eps = Constants.EPS){
-            return System.Math.Abs(Data[0] - v.Data[0]) < eps
-                && System.Math.Abs(Data[1] - v.Data[1]) < eps
-                && System.Math.Abs(Data[2] - v.Data[2]) < eps;
+        public bool Equals(Vect3 v, double eps = Constants.EPS)
+        {
+            return System.Math.Abs(_data[0] - v._data[0]) < eps
+                && System.Math.Abs(_data[1] - v._data[1]) < eps
+                && System.Math.Abs(_data[2] - v._data[2]) < eps;
         }
 
-        public double Length() {
+        public double Length()
+        {
             return System.Math.Sqrt(QuadLength());
         }
 
-        public double QuadLength() {
-            return Data[0] * Data[0] + Data[1] * Data[1] + Data[2] * Data[2];
+        public double QuadLength()
+        {
+            return _data[0] * _data[0] + _data[1] * _data[1] + _data[2] * _data[2];
         }
 
         // TODO: make this return a new vector and not scale itself.
-        public Vect3 Normalize() {
+        public Vect3 Normalize()
+        {
             double len = Length();
-            
-            Data[0] /= len;
-            Data[1] /= len;
-            Data[2] /= len;
-            return this;
+            return new Vect3(
+                _data[0] / len,
+                _data[1] / len,
+                _data[2] / len
+            );
         }
-        
+
         public void CopyDataTo(ref Vect3 other)
         {
-            other.Data[0] = Data[0];
-            other.Data[1] = Data[1];
-            other.Data[2] = Data[2];
+            other._data[0] = _data[0];
+            other._data[1] = _data[1];
+            other._data[2] = _data[2];
         }
 
         #region operator overloads
         public static Vect3 operator -(Vect3 vec1, Vect3 vec2)
         {
-            double[] v1 = vec1.Data;
-            double[] v2 = vec2.Data;
+            double[] v1 = vec1._data;
+            double[] v2 = vec2._data;
 
             return new Vect3(
                 v1[0] - v2[0],
@@ -59,8 +63,8 @@ namespace JRayXLib.Shapes
 
         public static Vect3 operator +(Vect3 vec1, Vect3 vec2)
         {
-            double[] v1 = vec1.Data;
-            double[] v2 = vec2.Data;
+            double[] v1 = vec1._data;
+            double[] v2 = vec2._data;
 
             return new Vect3(
                 v1[0] + v2[0],
@@ -71,7 +75,7 @@ namespace JRayXLib.Shapes
 
         public static Vect3 operator *(Vect3 vec, double d)
         {
-            double[] vdat = vec.Data;
+            double[] vdat = vec._data;
 
             return new Vect3(
                 vdat[0] * d,
@@ -82,7 +86,7 @@ namespace JRayXLib.Shapes
 
         public static Vect3 operator /(Vect3 vec, double d)
         {
-            double[] vdat = vec.Data;
+            double[] vdat = vec._data;
 
             return new Vect3(
                 vdat[0] / d,
@@ -91,6 +95,13 @@ namespace JRayXLib.Shapes
             );
         }
 
+        public double this[int i]
+        {
+            get { return _data[i]; }
+            set { _data[i] = value; }
+        }
+
         #endregion
+
     }
 }

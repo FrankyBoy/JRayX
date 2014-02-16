@@ -41,19 +41,18 @@ namespace JRayXLib.Shapes
             RotVect = new Vect3(lookAt);
 
             // check so we don't end up with two linear dependent vectors
-            if (   System.Math.Abs(RotVect.Data[1] - 0) > Constants.EPS
-                && System.Math.Abs(RotVect.Data[0] - 0) < Constants.EPS
-                && System.Math.Abs(RotVect.Data[2] - 0) < Constants.EPS)
+            if (   System.Math.Abs(RotVect[1] - 0) > Constants.EPS
+                && System.Math.Abs(RotVect[0] - 0) < Constants.EPS
+                && System.Math.Abs(RotVect[2] - 0) < Constants.EPS)
             {
-                RotVect.Data[0] += 1;
+                RotVect[0] += 1;
             }
             else
             {
-                RotVect.Data[1] += 1;
+                RotVect[1] += 1;
             }
-            RotVect = Vect.CrossProduct(RotVect, lookAt);
-            RotVect.Normalize();
-            LookAt.Normalize();
+            RotVect = Vect3Extensions.CrossProduct(RotVect, lookAt).Normalize();
+            LookAt = LookAt.Normalize();
             Rotate(lookAt, rotationRad);
         }
 
@@ -70,7 +69,7 @@ namespace JRayXLib.Shapes
 
         public override bool Contains(Vect3 hitPoint)
         {
-            return System.Math.Abs(Vect.Distance(hitPoint, ref _position) - Radius) < Constants.EPS;
+            return System.Math.Abs(Vect3Extensions.Distance(hitPoint, ref _position) - Radius) < Constants.EPS;
         }
         
         public override void Rotate(Matrix4 rotationMatrix)
@@ -78,8 +77,8 @@ namespace JRayXLib.Shapes
             VectMatrix.Multiply(LookAt, rotationMatrix, ref _lookAt);
             VectMatrix.Multiply(RotVect, rotationMatrix, ref RotVect);
 
-            LookAt.Normalize();
-            RotVect.Normalize();
+            LookAt = LookAt.Normalize();
+            RotVect = RotVect.Normalize();
         }
 
         public new Sphere GetBoundingSphere()

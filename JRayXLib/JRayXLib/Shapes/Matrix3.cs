@@ -14,9 +14,9 @@ namespace JRayXLib.Shapes
         }
 	
         public static void VectorMatrixProduct(Vect3 v, Matrix3 m, ref Vect3 erg){
-            erg.Data[0] = v.Data[0]*m.Data[0] + v.Data[1]*m.Data[3] + v.Data[2]*m.Data[6];
-            erg.Data[1] = v.Data[0]*m.Data[1] + v.Data[1]*m.Data[4] + v.Data[2]*m.Data[7];
-            erg.Data[2] = v.Data[0]*m.Data[2] + v.Data[1]*m.Data[5] + v.Data[2]*m.Data[8];
+            erg[0] = v[0]*m.Data[0] + v[1]*m.Data[3] + v[2]*m.Data[6];
+            erg[1] = v[0]*m.Data[1] + v[1]*m.Data[4] + v[2]*m.Data[7];
+            erg[2] = v[0]*m.Data[2] + v[1]*m.Data[5] + v[2]*m.Data[8];
         }
     }
 }

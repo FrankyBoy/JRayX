@@ -5,12 +5,12 @@ namespace JRayXLib.Math.intersections
     public class RayCone {
 
         public static double GetRayConeIntersectionDistance(Vect3 ro, Vect3 rd, Vect3 v, Vect3 a, double cos, double axisLength) {
-            double add = Vect.DotProduct(a, rd);
+            double add = a.DotProduct(rd);
             cos *= cos;
-            var e = new Vect3(ro.Data[0] - v.Data[0], ro.Data[1] - v.Data[1], ro.Data[2] - v.Data[2]);
-            double ade = Vect.DotProduct(a, e);
-            double dde = Vect.DotProduct(rd, e);
-            double ede = Vect.DotProduct(e, e);
+            var e = new Vect3(ro[0] - v[0], ro[1] - v[1], ro[2] - v[2]);
+            double ade = a.DotProduct(e);
+            double dde = rd.DotProduct(e);
+            double ede = e.DotProduct(e);
 		
             double c2 = add*add - cos;
             double c1 = add*ade - cos*dde;
@@ -27,16 +27,16 @@ namespace JRayXLib.Math.intersections
             double t1 = (-c1 - cos)/(c2);
     	
             //project both solutions onto a - must be between 0 and 1
-            e.Data[0] = ro.Data[0] + t0 * rd.Data[0] - v.Data[0];
-            e.Data[1] = ro.Data[1] + t0 * rd.Data[1] - v.Data[1];
-            e.Data[2] = ro.Data[2] + t0 * rd.Data[2] - v.Data[2];
-            cos = Vect.DotProduct(e, a);
+            e[0] = ro[0] + t0 * rd[0] - v[0];
+            e[1] = ro[1] + t0 * rd[1] - v[1];
+            e[2] = ro[2] + t0 * rd[2] - v[2];
+            cos = e.DotProduct(a);
             if(cos <= 0 || cos > axisLength) t0 = -1;
 
-            e.Data[0] = ro.Data[0] + t1 * rd.Data[0] - v.Data[0];
-            e.Data[1] = ro.Data[1] + t1 * rd.Data[1] - v.Data[1];
-            e.Data[2] = ro.Data[2] + t1 * rd.Data[2] - v.Data[2];
-            cos = Vect.DotProduct(e, a);
+            e[0] = ro[0] + t1 * rd[0] - v[0];
+            e[1] = ro[1] + t1 * rd[1] - v[1];
+            e[2] = ro[2] + t1 * rd[2] - v[2];
+            cos = e.DotProduct(a);
             if(cos <= 0 || cos > axisLength) t1 = -1;
     	
             if(t0>0)

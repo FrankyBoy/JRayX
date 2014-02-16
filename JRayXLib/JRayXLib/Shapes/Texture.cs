@@ -70,8 +70,7 @@ namespace JRayXLib.Shapes
 
         public Color GetColorAt(Vect3 texcoord)
         {
-            double[] data = texcoord.Data;
-            return GetColorAt(data[0], data[1]);
+            return GetColorAt(texcoord[0], texcoord[1]);
         }
 
         public Color GetColorAt(double tx, double ty)

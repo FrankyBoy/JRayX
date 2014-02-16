@@ -15,8 +15,7 @@ namespace JRayXLib.Ray
         protected Scene()
         {
             Name = GetType().Name;
-            LightDirection = new Vect3(0, -1, .5);
-            LightDirection.Normalize();
+            LightDirection = new Vect3(0, -1, .5).Normalize();
         }
 
         public abstract Sky GetSky();

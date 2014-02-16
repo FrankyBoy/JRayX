@@ -34,18 +34,16 @@ namespace JRayXLib.Shapes
 
         private Color GetTextureColorAt(Vect3 hitPoint) {
             // calculate x (longitude)
-            var tmp = hitPoint - Position;
-            tmp.Normalize();
-            double y = System.Math.Acos(Vect.DotProduct(tmp, LookAt)) / System.Math.PI;
+            var tmp = (hitPoint - Position).Normalize();
+            double y = System.Math.Acos(tmp.DotProduct(LookAt)) / System.Math.PI;
 
             // project to equator plane
-            double dist = - Vect.DotProduct(tmp, LookAt);
-            tmp = tmp + LookAt*dist;
-            tmp.Normalize();
+            double dist = - tmp.DotProduct(LookAt);
+            tmp = (tmp + LookAt*dist).Normalize();
 
-            double x = System.Math.Acos(Vect.DotProduct(tmp, RotVect)) / (2 * System.Math.PI);
-            tmp = Vect.CrossProduct(tmp, RotVect);
-            if(Vect.DotProduct(tmp, LookAt) < 0) {
+            double x = System.Math.Acos(tmp.DotProduct(RotVect)) / (2 * System.Math.PI);
+            tmp = Vect3Extensions.CrossProduct(tmp, RotVect);
+            if(tmp.DotProduct(LookAt) < 0) {
                 x = 0.5 + x;
             } else {
                 x = 0.5 - x;

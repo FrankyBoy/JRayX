@@ -26,8 +26,8 @@ namespace JRayXLib.Math.intersections
 
             Vect3 tmp = sphereCenter - rayOrigin;
 
-            double b = Vect.DotProduct(rayDirection, tmp);
-            double c = Vect.DotProduct(tmp, tmp) - sphereRadius * sphereRadius;
+            double b = Vect3Extensions.DotProduct(rayDirection, tmp);
+            double c = Vect3Extensions.DotProduct(tmp, tmp) - sphereRadius * sphereRadius;
 
             double sqrtExpr = b * b - c;
 

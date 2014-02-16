@@ -8,35 +8,34 @@ namespace JRayXLib.Shapes
         /**
 	 * edge from v1 to v2
 	 */
-        protected Vect3 edgev1v2 = new Vect3(0);
+        protected Vect3 EdgeV1V2 = new Vect3(0);
         /**
      * edge from v1 to v3
      */
-        protected Vect3 edgev1v3 = new Vect3(0);
+        protected Vect3 EdgeV1V3 = new Vect3(0);
         /**
      * second corner of this triangle
      */
-        protected Vect3 v2;
+        protected Vect3 V2;
         /**
      * third corner of this triangle
      */
-        protected Vect3 v3;
+        protected Vect3 V3;
 
         public Triangle(Vect3 v1, Vect3 v2, Vect3 v3, Color color)
             : base(v1, new Vect3(0))
         {
             Color = color;
-            this.v2 = v2;
-            this.v3 = v3;
+            V2 = v2;
+            V3 = v3;
 
-            edgev1v2 = v2 - v1;
-            edgev1v3 = v3 - v1;
-            LookAt = Vect.CrossProduct(edgev1v2, edgev1v3);
-            LookAt.Normalize();
+            EdgeV1V2 = v2 - v1;
+            EdgeV1V3 = v3 - v1;
+            LookAt = Vect3Extensions.CrossProduct(EdgeV1V2, EdgeV1V3).Normalize();
         }
 
         public override double GetHitPointDistance(Ray r) {
-            return RayTriangle.GetHitPointRayTriangleDistance(r.GetOrigin(), r.Direction, Position, edgev1v2, edgev1v3);
+            return RayTriangle.GetHitPointRayTriangleDistance(r.GetOrigin(), r.Direction, Position, EdgeV1V2, EdgeV1V3);
         }
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)
@@ -47,16 +46,16 @@ namespace JRayXLib.Shapes
         public override bool Contains(Vect3 hitPoint) {
             var tmp = hitPoint - Position;
 
-            var temp3 = Vect.CrossProduct(edgev1v2, edgev1v3);
-            if (System.Math.Abs(Vect.DotProduct(temp3, tmp)) > 1e-10) {
+            var temp3 = Vect3Extensions.CrossProduct(EdgeV1V2, EdgeV1V3);
+            if (System.Math.Abs(temp3.DotProduct(tmp)) > Constants.EPS) {
                 return false;
             }
 
-            double uu = Vect.DotProduct(edgev1v2, edgev1v2);
-            double uv = Vect.DotProduct(edgev1v2, edgev1v3);
-            double vv = Vect.DotProduct(edgev1v3, edgev1v3);
-            double wu = Vect.DotProduct(edgev1v2, tmp);
-            double wv = Vect.DotProduct(edgev1v3, tmp);
+            double uu = EdgeV1V2.DotProduct(EdgeV1V2);
+            double uv = EdgeV1V2.DotProduct(EdgeV1V3);
+            double vv = EdgeV1V3.DotProduct(EdgeV1V3);
+            double wu = EdgeV1V2.DotProduct(tmp);
+            double wv = EdgeV1V3.DotProduct(tmp);
             double d = uv * uv - uu * vv;
 
             double s = (uv * wv - vv * wu) / d;
@@ -73,24 +72,24 @@ namespace JRayXLib.Shapes
         }
 
         public override void Rotate(Matrix4 rotationMatrix) {
-            VectMatrix.Multiply(edgev1v2, rotationMatrix, ref edgev1v2);
-            VectMatrix.Multiply(edgev1v3, rotationMatrix, ref edgev1v3);
+            VectMatrix.Multiply(EdgeV1V2, rotationMatrix, ref EdgeV1V2);
+            VectMatrix.Multiply(EdgeV1V3, rotationMatrix, ref EdgeV1V3);
 
-            LookAt = Vect.CrossProduct(edgev1v2, edgev1v3);
+            LookAt = Vect3Extensions.CrossProduct(EdgeV1V2, EdgeV1V3);
         }
 
         public new string ToString() {
-            return base.ToString() + " dir=[" + edgev1v2 + "/" + edgev1v3 + "]";
+            return base.ToString() + " dir=[" + EdgeV1V2 + "/" + EdgeV1V3 + "]";
         }
     
         public new Vect3 GetBoundingSphereCenter(){
-            return Vect.Avg(new []{Position, v2, v3});
+            return Vect3Extensions.Avg(new []{Position, V2, V3});
         }
 
         public override double GetBoundingSphereRadius()
         {
-            Vect3 avg = Vect.Avg(new[] { Position, v2, v3 });
-            avg -= v3;
+            Vect3 avg = Vect3Extensions.Avg(new[] { Position, V2, V3 });
+            avg -= V3;
 		
             return avg.Length();
         }

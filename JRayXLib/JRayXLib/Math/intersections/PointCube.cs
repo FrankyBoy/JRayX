@@ -12,9 +12,9 @@ namespace JRayXLib.Math.intersections
 	 * @return
 	 */
         public static bool Encloses(Vect3 cubeCenter, double cubeWidthHalf, Vect3 point){
-            return System.Math.Abs(cubeCenter.Data[0] - point.Data[0]) < cubeWidthHalf &&
-                   System.Math.Abs(cubeCenter.Data[1] - point.Data[1]) < cubeWidthHalf &&
-                   System.Math.Abs(cubeCenter.Data[2] - point.Data[2]) < cubeWidthHalf;
+            return System.Math.Abs(cubeCenter[0] - point[0]) < cubeWidthHalf &&
+                   System.Math.Abs(cubeCenter[1] - point[1]) < cubeWidthHalf &&
+                   System.Math.Abs(cubeCenter[2] - point[2]) < cubeWidthHalf;
         }
     }
 }

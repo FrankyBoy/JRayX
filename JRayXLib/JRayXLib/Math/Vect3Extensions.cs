@@ -4,7 +4,7 @@ using JRayXLib.Shapes;
 
 namespace JRayXLib.Math
 {
-    public static class Vect {
+    public static class Vect3Extensions {
 
         /**
          * calculates the dot product of the given vectors <vec1,vec2>
@@ -13,9 +13,7 @@ namespace JRayXLib.Math
          * @param vec2
          * @return result of the dot product
          */
-        public static double DotProduct(Vect3 vec1, Vect3 vec2) {
-            double[] v1 = vec1.Data;
-            double[] v2 = vec2.Data;
+        public static double DotProduct(this Vect3 v1, Vect3 v2) {
             return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
         }
 
@@ -27,10 +25,7 @@ namespace JRayXLib.Math
          * @param vec2
          * @param erg
          */
-        public static Vect3 CrossProduct(Vect3 vec1, Vect3 vec2) {
-            double[] v1 = vec1.Data;
-            double[] v2 = vec2.Data;
-
+        public static Vect3 CrossProduct(Vect3 v1, Vect3 v2) {
             return new Vect3(
                 v1[1] * v2[2] - v1[2] * v2[1],
                 -(v1[0] * v2[2] - v1[2] * v2[0]),
@@ -38,13 +33,10 @@ namespace JRayXLib.Math
             );
         }
         
-        public static double Distance(Vect3 vec1, ref Vect3 vec2) {
-            double[] v1Data = vec1.Data;
-            double[] v2Data = vec2.Data;
-
-            double x = v1Data[0] - v2Data[0];
-            double y = v1Data[1] - v2Data[1];
-            double z = v1Data[2] - v2Data[2];
+        public static double Distance(Vect3 v1, ref Vect3 v2) {
+            double x = v1[0] - v2[0];
+            double y = v1[1] - v2[1];
+            double z = v1[2] - v2[2];
 
             return System.Math.Sqrt(x * x + y * y + z * z);
         }
@@ -107,7 +99,7 @@ namespace JRayXLib.Math
                 result = Reflect(incoming, normal);
             }else{
                 result = result + (normal * -System.Math.Sqrt(1 - quadLen));
-                result.Normalize();
+                result = result.Normalize();
             }
             return result;
         }
@@ -126,7 +118,7 @@ namespace JRayXLib.Math
     
         public static double InterpolateTriangleEdge(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 point){
             var v23N = v3 - v2;
-            v23N.Normalize();
+            v23N = v23N.Normalize();
     	
             var v21 = v1 - v2;
     	

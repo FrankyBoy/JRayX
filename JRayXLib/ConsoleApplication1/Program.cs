@@ -17,7 +17,7 @@ namespace ConsoleApplication1
                 {
                     Scene = scene,
                     ThreadCount = Environment.ProcessorCount,
-                    SplitMultiplier = 2
+                    SplitMultiplier = 4
                 };
 
             var target = new Texture(500, 500);
