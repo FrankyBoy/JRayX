@@ -89,6 +89,11 @@ namespace JRayXLib.Shapes
             return this;
         }
 
+        public override double GetBoundingSphereRadius()
+        {
+            return GetBoundingSphere().GetRadius();
+        }
+
         public double GetRadius()
         {
             return Radius;

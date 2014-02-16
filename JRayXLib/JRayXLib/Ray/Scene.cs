@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using JRayXLib.Shapes;
 using JRayXLib.Struct;
 
@@ -9,23 +8,22 @@ namespace JRayXLib.Ray
     {
 
         protected string Name;
+        public Object3D[] Objects { get; set; }
+        public Camera Camera { get; set; }
+        public Vect3 LightDirection {get;set;}
 
         protected Scene()
         {
             Name = GetType().Name;
+            LightDirection = new Vect3(0, -1, .5);
+            LightDirection.normalize();
         }
 
-        public abstract Camera GetCamera();
         public abstract Sky GetSky();
-
-        public abstract List<Object3D> GetObjects();
+        public abstract Octree GetSceneTree();
 
         public String GetName() {
             return Name;
-        }
-    
-        public Octree GetSceneTree(){
-            return null;
         }
     }
 }

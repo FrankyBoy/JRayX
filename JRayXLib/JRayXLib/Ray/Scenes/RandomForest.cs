@@ -8,40 +8,41 @@ namespace JRayXLib.Ray.Scenes
 {
     public class RandomForest : Scene {
 
-        private List<Object3D> objects = new List<Object3D>();
-        private Camera c;
-        private Octree tree;
-        private static Random rd = new Random();
+        private readonly Octree _tree;
+        private static readonly Random Rd = new Random();
 
         public RandomForest(){
-            double dist=0.2;
-            double h = 0.3;
-            double camheight = 10;
+            const double dist = 0.2;
+            const double h = 0.3;
+            const double camheight = 10;
     	
+            var objects = new List<Object3D>();
+
             for(double x = 1;x<camheight*3;x+=h)
                 for(double z = -camheight;z<camheight;z+=h)
-                    addTree(x+ rd.NextDouble() *dist-dist/2,-2,z+rd.NextDouble()*dist-dist/2);
+                    AddTree(x+ Rd.NextDouble() *dist-dist/2,-2,z+Rd.NextDouble()*dist-dist/2, objects);
         
-            c = new Camera(new Vect3(-camheight, camheight*2, 0), new Vect3(-camheight+1, camheight*2-1, 0), new Vect3(0.707106781186547, 0.707106781186547, 0), 1, 1, 1);
-            objects.Add(c);
+            Camera = new Camera(new Vect3(-camheight, camheight*2, 0), new Vect3(-camheight+1, camheight*2-1, 0), new Vect3(0.707106781186547, 0.707106781186547, 0), 1, 1, 1);
+            objects.Add(Camera);
+            Objects = objects.ToArray();
         
-            tree = Octree.BuildTree(new Vect3(camheight*1.5,-3.1,0),objects);
+            _tree = Octree.BuildTree(new Vect3(camheight*1.5,-3.1,0), Objects);
         }
 
-        private void addTree(double x, double y, double z){
-            double dist= 0.1;
-            double t0 = rd.NextDouble()*dist-dist/2;
-            double t1 = rd.NextDouble()*dist-dist/2;
-            double ld = 0.2;
+        private void AddTree(double x, double y, double z, IList<Object3D> objects){
+            const double dist = 0.1;
+            double t0 = Rd.NextDouble()*dist-dist/2;
+            double t1 = Rd.NextDouble()*dist-dist/2;
+            const double ld = 0.2;
 
-            Color leafColor = new Color
+            var leafColor = new Color
                 {
                     A = byte.MaxValue,
                     R = byte.MaxValue / 2,
-                    G = (byte) (byte.MaxValue * (1+rd.NextDouble() / 2)),
+                    G = (byte) (byte.MaxValue * (1+Rd.NextDouble() / 2)),
                     B = byte.MaxValue / 2
                 };
-            Color @base = new Color
+            var @base = new Color
                 {
                     A = byte.MaxValue,
                     R = 0x8B,
@@ -49,7 +50,7 @@ namespace JRayXLib.Ray.Scenes
                     B = 0x13
                 };
 
-            if(rd.NextDouble()<0.5){
+            if(Rd.NextDouble()<0.5){
                 objects.Add(new Cone(new Vect3(x,y+2,z),new Vect3(t0,-1.6,t1),10,leafColor));
                 objects.Add(new Cone(new Vect3(x,y+2,z),new Vect3(t0*2,-2,t1*2),1,@base));
             }else{
@@ -58,20 +59,12 @@ namespace JRayXLib.Ray.Scenes
             }
         }
     
-        public override List<Object3D> GetObjects() {
-            return objects;
-        }
-    
-        public override Camera GetCamera() {
-            return c;
-        }
-    
         public override Sky GetSky() {
             return null;
         }
-    
-        public new Octree GetSceneTree(){
-            return tree;
+
+        public override Octree GetSceneTree(){
+            return _tree;
         }
     }
 }

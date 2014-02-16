@@ -27,7 +27,8 @@ namespace JRayXLib.Model
             throw new Exception("not implemented");
         }
 
-        public override double GetHitPointDistance(Ray r) {
+        public override double GetHitPointDistance(Shapes.Ray r)
+        {
             Vect3 v1v2 = new Vect3();
             Vect3 v1v3 = new Vect3();
 		
@@ -57,7 +58,7 @@ namespace JRayXLib.Model
             return Vect.avg(new []{Position, V2, V3});
         }
     
-        public new double GetBoundingSphereRadius(){
+        public override double GetBoundingSphereRadius(){
             return Bounds.GetRadius();
         }
 	

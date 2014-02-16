@@ -11,16 +11,12 @@ namespace JRayXLib.Ray.Tracer
 {
     public class BackwardRayTracerHQ : BackwardRayTracer{
 
-        private static readonly Vect3 LightDirection = new Vect3(2, -1, -2); //direction of the sun's light-rays
         private const double DiffuseLightIntensity = 0.8;
         private const double AmbientLightIntensity = 0.2;
 
-        public BackwardRayTracerHQ(Scene scene) : base(scene) {
-        
-            LightDirection.normalize();
-        }
+        public BackwardRayTracerHQ(Scene scene) : base(scene) {}
 
-        protected new WideColor ShootRay(Shapes.Ray ray, int level) {
+        protected override WideColor ShootRay(Shapes.Ray ray, int level) {
             if (level == MaxRecursionDepth) {
                 return Color.Red.ToWide();
             }
@@ -44,14 +40,14 @@ namespace JRayXLib.Ray.Tracer
         
             //Check if anything is blocking direct sunlight (go where the sunlight comes from)
             var lrDir = new Vect3();
-            Vect.Scale(LightDirection, -1, lrDir);
+            Vect.Scale(Scene.LightDirection, -1, lrDir);
             var lightRay = new Shapes.Ray(hitPoint, lrDir);
             CollisionDetails lc = FindNearestHit(lightRay);
         
             //if nothing blocks the sun's light, add ambient and diffuse light, otherwise ambient only  
             double lightScale = 0;
             if(lc.Obj==null)
-                lightScale = Vect.dotProduct(normal, LightDirection);
+                lightScale = Vect.dotProduct(normal, Scene.LightDirection);
             lightScale = AmbientLightIntensity + DiffuseLightIntensity*(lightScale<0?-lightScale:0);
 
             return color.Scale(lightScale);

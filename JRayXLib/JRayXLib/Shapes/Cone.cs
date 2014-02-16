@@ -71,6 +71,11 @@ namespace JRayXLib.Shapes
             return new Sphere(center,tmp.Length(),Color.Black);
         }
 
+        public override double GetBoundingSphereRadius()
+        {
+            return GetBoundingSphere().GetRadius();
+        }
+
         public new bool IsEnclosedByCube(Vect3 bcenter, double w2) {
             return CubeCone.IsCubeEnclosingCone(bcenter, w2, Position, LookAt, AxisLength, CosPhi);
         }

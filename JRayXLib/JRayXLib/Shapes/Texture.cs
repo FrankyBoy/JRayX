@@ -54,11 +54,18 @@ namespace JRayXLib.Shapes
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        private Texture(Color[,] data)
+        public Texture(Color[,] data)
         {
             _data = data;
             Width = _data.GetLength(0);
             Height = data.GetLength(1);
+        }
+
+        public Texture(int width, int height)
+        {
+            _data = new Color[width,height];
+            Width = width;
+            Height = height;
         }
 
         public Color GetColorAt(Vect2 texcoord)
@@ -89,6 +96,26 @@ namespace JRayXLib.Shapes
         {
             get { return _data[x, y]; }
             set { _data[x, y] = value; }
+        }
+
+        public Bitmap ToBitmap()
+        {
+            var bmp = new Bitmap(Width, Height);
+            for (int i = 0; i < bmp.Height; i++)
+            {
+                for (int j = 0; j < bmp.Width; j++)
+                {
+
+                    var sysColor = System.Drawing.Color.FromArgb(
+                        _data[i, j].A,
+                        _data[i, j].R,
+                        _data[i, j].G,
+                        _data[i, j].B);
+                    bmp.SetPixel(j, i, sysColor);
+                }
+            }
+
+            return bmp;
         }
     }
 }

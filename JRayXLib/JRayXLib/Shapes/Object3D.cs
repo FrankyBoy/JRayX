@@ -5,7 +5,7 @@ using JRayXLib.Math.intersections;
 
 namespace JRayXLib.Shapes
 {
-    abstract public class Object3D {
+    public abstract class Object3D {
 
         protected Color Color; //ARGB
         public Vect3 Position { get; set; }
@@ -115,10 +115,8 @@ namespace JRayXLib.Shapes
         public Vect3 GetBoundingSphereCenter(){
             return Position;
         }
-    
-        public double GetBoundingSphereRadius(){
-            throw new Exception("not implemented");
-        }
+
+        public abstract double GetBoundingSphereRadius();
     
         /**
      * Returns true if this objects is completely enclosed by this cube

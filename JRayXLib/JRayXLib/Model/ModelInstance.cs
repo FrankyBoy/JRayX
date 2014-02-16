@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using JRayXLib.Math;
@@ -11,7 +12,7 @@ namespace JRayXLib.Model
     public class ModelInstance : Object3D{
 
         private readonly TriangleMeshModel _model;
-        private readonly Dictionary<Thread, CollisionData> _lastCollision = new Dictionary<Thread, CollisionData>();
+        private readonly ConcurrentDictionary<Thread, CollisionData> _lastCollision = new ConcurrentDictionary<Thread, CollisionData>();
 	
         public ModelInstance(Vect3 position, TriangleMeshModel model) : base(position, new Vect3()) {
             _model = model;
@@ -21,15 +22,15 @@ namespace JRayXLib.Model
             throw new Exception("not implemented");
         }
 
-        public override double GetHitPointDistance(Ray r) {
+        public override double GetHitPointDistance(Shapes.Ray r) {
             double dist;
-            Ray subRay;
+            Shapes.Ray subRay;
             var tmp = new Vect3();
             Vect.Add(Position, _model.GetBoundingSphere().Position, tmp);
 		
             if(RaySphere.IsRayOriginatingInSphere(r.GetOrigin(), r.GetDirection(), tmp, _model.GetBoundingSphere().GetRadius())){
                 Vect.subtract(r.GetOrigin(), Position, tmp);
-                subRay = new Ray(tmp, r.GetDirection());
+                subRay = new Shapes.Ray(tmp, r.GetDirection());
 			
                 dist = 0;
             }else{
@@ -40,11 +41,10 @@ namespace JRayXLib.Model
 			
                 Vect.AddMultiple(r.GetOrigin(), r.GetDirection(), dist, tmp);
                 Vect.subtract(tmp, Position, tmp);
-                subRay = new Ray(tmp, r.GetDirection());
+                subRay = new Shapes.Ray(tmp, r.GetDirection());
             }
 		
             var d = new CollisionData();
-            _lastCollision.Add(Thread.CurrentThread, d);
             d.Details = RayPath.getFirstCollision(_model.GetTree(), subRay);
             if(!double.IsInfinity(d.Details.Distance)){
                 var hitPointLocal = new Vect3();
@@ -55,13 +55,14 @@ namespace JRayXLib.Model
                 d.HitPointGlobal = hitPointGlobal;
                 return d.Details.Distance + dist;
             }
+            _lastCollision.AddOrUpdate(Thread.CurrentThread, d, (x, y) => y);
             return d.Details.Distance;
         }
 
         public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
-            CollisionData d = _lastCollision[Thread.CurrentThread];
-		
-            if(!d.HitPointGlobal.Equals(hitPoint, 1e-9))
+            CollisionData d;
+
+            if (!_lastCollision.TryGetValue(Thread.CurrentThread, out d) || !d.HitPointGlobal.Equals(hitPoint, 1e-9))
                 throw new Exception("hitpoint not in cache: "+hitPoint);
 		
             d.Details.Obj.GetNormalAt(d.HitPointLocal, normal);
@@ -77,7 +78,7 @@ namespace JRayXLib.Model
             return pos;
         }
     
-        public new double GetBoundingSphereRadius(){
+        public override double GetBoundingSphereRadius(){
             return _model.GetBoundingSphere().GetRadius();
         }
     }

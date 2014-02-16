@@ -14,12 +14,9 @@ namespace JRayXLib.Ray
 {
     public class Renderer
     {
-
-        private readonly int _splitCount;
         private readonly int _threadCount;
         private Scene _scene;
         private ConcurrentDictionary<Thread, BackwardRayTracer> _logics;
-        private readonly WaitCallback[] _tasks;
         private int _widthPx;
         private int _heightPx;
         private WideColor[,] _lbuf;
@@ -30,16 +27,17 @@ namespace JRayXLib.Ray
 
         public Renderer(Scene scene, int threadCount)
         {
+            SplitMultiplier = 4;
             _threadCount = threadCount;
-            _splitCount = threadCount*4;
 
             ThreadPool.SetMaxThreads(Environment.ProcessorCount, _threadCount);
-            _tasks = new WaitCallback[_splitCount];
 
             SetScene(scene);
 
             Log.Info("Renderer initialised successfully - READY FOR RUN");
         }
+
+        public int SplitMultiplier { get; set; }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void SetScene(Scene scene)
@@ -66,6 +64,7 @@ namespace JRayXLib.Ray
                     _lbuf = new WideColor[image.Width, image.Height];
                     _widthPx = image.Width;
                     _heightPx = image.Height;
+                    _scene.Camera.SetScreenDimensions(_widthPx, _heightPx);
                 }
 
                 var max = ExecuteTasks();
@@ -92,24 +91,20 @@ namespace JRayXLib.Ray
 
         private int ExecuteTasks()
         {
-            foreach (var task in _tasks)
-                ThreadPool.QueueUserWorkItem(task);
-
-
-            int toProcess = _tasks.Length;
-            var localMaxBrightness = new int[_tasks.Length];
+            var splitCount = _threadCount*SplitMultiplier;
+            int toProcess = splitCount;
+            var localMaxBrightness = new int[splitCount];
             using (var resetEvent = new ManualResetEvent(false))
             {
-                var data = new List<int>();
-                for (int i = 0; i < toProcess; i++)
+                for (int i = 0; i < splitCount; i++)
                 {
                     int id = i;
                     ThreadPool.QueueUserWorkItem(x =>
                         {
-                            localMaxBrightness[id] = RenderImagePart(x);
+                            localMaxBrightness[id] = RenderImagePart(id);
                             if (Interlocked.Decrement(ref toProcess) == 0)
                                 resetEvent.Set();
-                        }, data[i]);
+                        });
                 }
 
                 resetEvent.WaitOne();
@@ -120,25 +115,26 @@ namespace JRayXLib.Ray
         protected bool Shutdown { get; set; }
 
         /**
-     * Renders the part <code>id</code> of <code>splitCount</code> of the image to ibuf.
-     * 
-     * @param id a number from <code>0</code> to <code>splitCount-1</code>
-     */
+         * Renders the part <code>id</code> of <code>splitCount</code> of the image to ibuf.
+         * 
+         * @param id a number from <code>0</code> to <code>splitCount-1</code>
+         */
 
         private int RenderImagePart(object idObj)
         {
+            var splitCount = _threadCount * SplitMultiplier;
             var id = (int) idObj;
-            int slotHeight = _heightPx/_splitCount;
+            int slotHeight = _heightPx / splitCount;
             int from = slotHeight*id;
             int to = slotHeight*(id + 1);
-            if (id == _splitCount - 1)
+            if (id == splitCount - 1)
             {
                 to = _heightPx;
             }
 
             BackwardRayTracer logic = GetLogic();
             var rayDirection = new Vect3();
-            Camera camera = _scene.GetCamera();
+            Camera camera = _scene.Camera;
 
             var ray = new Shapes.Ray(new Vect3(camera.GetPosition()), rayDirection);
 

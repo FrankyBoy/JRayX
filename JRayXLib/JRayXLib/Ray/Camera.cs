@@ -110,8 +110,9 @@ namespace JRayXLib.Ray
         public override bool Contains(Vect3 hitPoint) {
             return false;
         }
-	
-        public new double GetBoundingSphereRadius() {
+
+        public override double GetBoundingSphereRadius()
+        {
             return 0;
         }
     }

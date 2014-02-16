@@ -38,6 +38,11 @@ namespace JRayXLib.Shapes
             return false;
         }
 
+        public override double GetBoundingSphereRadius()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Rotate(Matrix4 rotationMatrix) {
         }
     }

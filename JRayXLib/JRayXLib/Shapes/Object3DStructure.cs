@@ -56,6 +56,11 @@ namespace JRayXLib.Shapes
             return _objects.Any(o3D => o3D.Contains(hitPoint));
         }
 
+        public override double GetBoundingSphereRadius()
+        {
+            throw new NotImplementedException();
+        }
+
         public void SetPosition(Vect3 position)
         {
             foreach (Object3D o3D in _objects)

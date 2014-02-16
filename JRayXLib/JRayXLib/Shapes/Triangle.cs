@@ -88,8 +88,9 @@ namespace JRayXLib.Shapes
         public new Vect3 GetBoundingSphereCenter(){
             return Vect.avg(new []{Position, v2, v3});
         }
-    
-        public new double GetBoundingSphereRadius(){
+
+        public override double GetBoundingSphereRadius()
+        {
             Vect3 avg = Vect.avg(new[] { Position, v2, v3 });
             Vect.subtract(avg, v3, avg);
 		

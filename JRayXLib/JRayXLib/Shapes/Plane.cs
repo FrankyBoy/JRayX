@@ -49,7 +49,8 @@ namespace JRayXLib.Shapes
         }
 
 
-        public new double GetBoundingSphereRadius() {
+        public override double GetBoundingSphereRadius()
+        {
             return double.PositiveInfinity;
         }
     }

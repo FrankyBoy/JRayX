@@ -9,7 +9,8 @@ namespace JRayXLib.Colors
         public static Color Red = new Color { A = byte.MaxValue, R = byte.MaxValue };
         public static Color Blue = new Color { A = byte.MaxValue, B = byte.MaxValue };
         public static Color Black = new Color { A = byte.MaxValue };
-        public static Color White = new Color { A = byte.MaxValue, R = byte.MaxValue, G = byte.MaxValue, B = byte.MaxValue};
+        public static Color White = new Color { A = byte.MaxValue, R = byte.MaxValue, G = byte.MaxValue, B = byte.MaxValue };
+        public static Color Yellow = new Color { A = byte.MaxValue, R = byte.MaxValue, G = byte.MaxValue, B = 0 };
 
         public static Color operator +(Color c, Color other)
         {
@@ -32,7 +33,6 @@ namespace JRayXLib.Colors
                 B = (byte)(c.B * d)
             };
         }
-
     }
 
     public static class ColorExtensions
