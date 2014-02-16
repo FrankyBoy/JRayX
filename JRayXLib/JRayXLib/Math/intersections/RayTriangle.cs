@@ -14,7 +14,7 @@ namespace JRayXLib.Math.intersections
             }
 
             Vect.AddMultiple(rayPosition, rayDirection, ret, ref tmp);
-            Vect.Subtract(tmp, trianglePos, ref tmp);
+            tmp = Vect.Subtract(tmp, trianglePos);
 
             double uu = Vect.DotProduct(triangleVect1, triangleVect1);
             double uv = Vect.DotProduct(triangleVect1, triangleVect2);

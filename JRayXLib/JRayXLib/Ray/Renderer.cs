@@ -77,7 +77,7 @@ namespace JRayXLib.Ray
             {
                 if (_lbuf == null || _widthPx != image.Width || _heightPx != image.Height)
                 {
-                    _lbuf = new WideColor[image.Width, image.Height];
+                    _lbuf = new WideColor[image.Height, image.Width];
                     _widthPx = image.Width;
                     _heightPx = image.Height;
                     _scene.Camera.SetScreenDimensions(_widthPx, _heightPx);
@@ -136,10 +136,9 @@ namespace JRayXLib.Ray
          * @param id a number from <code>0</code> to <code>splitCount-1</code>
          */
 
-        private int RenderImagePart(object idObj)
+        private int RenderImagePart(int id)
         {
             var splitCount = _threadCount * SplitMultiplier;
-            var id = (int) idObj;
             int slotHeight = _heightPx / splitCount;
             int from = slotHeight*id;
             int to = slotHeight*(id + 1);
@@ -165,11 +164,12 @@ namespace JRayXLib.Ray
                 for (int j = 0; j < _widthPx; j++)
                 {
 
-                    Vect.Subtract(camera.GetViewPaneEdge(), ray.GetOrigin(), ref rayDirection);
+                    rayDirection = Vect.Subtract(camera.GetViewPaneEdge(), ray.GetOrigin());
                     Vect.AddMultiple(rayDirection, vertAdd, i, ref rayDirection);
                     Vect.AddMultiple(rayDirection, horzAdd, j, ref rayDirection);
 
                     rayDirection.Normalize();
+                    ray.Direction = rayDirection;
 
                     WideColor color = logic.Shoot(ray);
 

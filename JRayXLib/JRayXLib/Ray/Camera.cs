@@ -31,23 +31,20 @@ namespace JRayXLib.Ray
         }
 
         public static Camera CreateCamera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double viewPaneWidth, double viewPaneHeight) {
-            var temp1 = new Vect3(camUp);
-            temp1.Normalize();
             var viewPaneHeightVector = new Vect3(camUp);
             Vect.Scale(viewPaneHeightVector, -viewPaneHeight, ref viewPaneHeightVector);
 
-            Vect.Subtract(position, viewPaneCenter, ref temp1);
+            var temp1 = Vect.Subtract(position, viewPaneCenter);
             var viewPaneWidthVector = Vect.CrossProduct(temp1, viewPaneHeightVector);
             viewPaneWidthVector.Normalize();
             Vect.Scale(viewPaneWidthVector, viewPaneWidth, ref viewPaneWidthVector);
 
-            var viewPaneEdge = new Vect3(0);
             viewPaneWidthVector.CopyDataTo(ref temp1);
             Vect.Scale(temp1, 0.5, ref temp1);
-            Vect.Subtract(viewPaneCenter, temp1, ref viewPaneEdge);
+            Vect3 viewPaneEdge = Vect.Subtract(viewPaneCenter, temp1);
             viewPaneHeightVector.CopyDataTo(ref temp1);
             Vect.Scale(temp1, 0.5, ref temp1);
-            Vect.Subtract(viewPaneEdge, temp1, ref viewPaneEdge);
+            viewPaneEdge = Vect.Subtract(viewPaneEdge, temp1);
 
             return new Camera(position, viewPaneEdge, viewPaneWidthVector, viewPaneHeightVector);
         }
@@ -83,7 +80,7 @@ namespace JRayXLib.Ray
             Vect.Add(_viewPaneEdge, _viewPaneWidthVector, ref _viewPaneEdge);
             _viewPaneWidthVector.Normalize();
             Vect.Scale(_viewPaneWidthVector, factor, ref _viewPaneWidthVector);
-            Vect.Subtract(_viewPaneEdge, _viewPaneWidthVector, ref _viewPaneEdge);
+            _viewPaneEdge = Vect.Subtract(_viewPaneEdge, _viewPaneWidthVector);
             Vect.Scale(_viewPaneWidthVector, 2, ref _viewPaneWidthVector);
         }
 
@@ -97,8 +94,7 @@ namespace JRayXLib.Ray
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            var target = new Vect3(0);
-            Vect.Subtract(hitPoint, Position, ref target);
+            var target = Vect.Subtract(hitPoint, Position);
             return target.Normalize();
         }
 

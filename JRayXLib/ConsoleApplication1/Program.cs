@@ -7,7 +7,7 @@ namespace ConsoleApplication1
 {
     class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             var scene = new RandomForest();
             //var scene = new MeshTest();

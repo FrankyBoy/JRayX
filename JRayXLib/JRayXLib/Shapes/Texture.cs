@@ -63,7 +63,7 @@ namespace JRayXLib.Shapes
 
         public Texture(int width, int height)
         {
-            _data = new Color[width,height];
+            _data = new Color[height, width];
             Width = width;
             Height = height;
         }
@@ -85,7 +85,7 @@ namespace JRayXLib.Shapes
 
             MathHelper.Clamp(x, 0, Width - 1);
             MathHelper.Clamp(y, 0, Height - 1);
-            return _data[x, y];
+            return _data[y, x];
         }
 
         public new string ToString() {
@@ -95,15 +95,15 @@ namespace JRayXLib.Shapes
         public Color this[int x, int y]
         {
             get { return _data[x, y]; }
-            set { _data[x, y] = value; }
+            set { _data[x,y] = value; }
         }
 
         public Bitmap ToBitmap()
         {
             var bmp = new Bitmap(Width, Height);
-            for (int i = 0; i < bmp.Height; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < bmp.Width; j++)
+                for (int j = 0; j < Width; j++)
                 {
 
                     var sysColor = System.Drawing.Color.FromArgb(

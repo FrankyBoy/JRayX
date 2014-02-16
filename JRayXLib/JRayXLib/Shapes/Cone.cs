@@ -32,8 +32,7 @@ namespace JRayXLib.Shapes
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            var tmp = new Vect3(0);
-            Vect.Subtract(hitPoint, Position, ref tmp);
+            var tmp = Vect.Subtract(hitPoint, Position);
 
             Vect3 tmp2 = Vect.CrossProduct(tmp, LookAt);
             return Vect.CrossProduct(tmp, tmp2).Normalize();
@@ -51,7 +50,7 @@ namespace JRayXLib.Shapes
             var normal = new Vect3(@base.Data[2], @base.Data[0], @base.Data[1]);
             var tmp = new Vect3(0);
             Vect.Project(normal, LookAt, ref tmp);
-            Vect.Subtract(normal, tmp, ref normal);
+            normal = Vect.Subtract(normal, tmp);
             normal.Normalize();
             double l = CosPhi*AxisLength;
 
@@ -62,7 +61,7 @@ namespace JRayXLib.Shapes
                                      (Position.Data[1]+tmp.Data[1]+@base.Data[1])/3,
                                      (Position.Data[2]+tmp.Data[2]+@base.Data[2])/3);
 
-            Vect.Subtract(center, Position, ref tmp);
+            tmp = Vect.Subtract(center, Position);
 		
             return new Sphere(center,tmp.Length(),Color.Black);
         }

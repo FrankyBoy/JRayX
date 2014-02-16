@@ -1,9 +1,11 @@
+using System;
+
 namespace JRayXLib.Shapes
 {
     public class Ray {
 
         private readonly Vect3 _origin;
-        private readonly Vect3 _direction;
+        public Vect3 Direction { get; set; }
 
         public Ray() : this(new Vect3(0), new Vect3(0)){}
 
@@ -15,11 +17,12 @@ namespace JRayXLib.Shapes
      */
         public Ray(Vect3 origin, Vect3 direction) {
             _origin = origin;
-            _direction = direction;
+            Direction = direction;
         }
 
+        [Obsolete] 
         public Vect3 GetDirection() {
-            return _direction;
+            return Direction;
         }
 
         public Vect3 GetOrigin() {
@@ -27,7 +30,7 @@ namespace JRayXLib.Shapes
         }
 
         public override string ToString() {
-            return "Ray origin=" + _origin + " dir=" + _direction;
+            return "Ray origin=" + _origin + " dir=" + Direction;
         }
     }
 }

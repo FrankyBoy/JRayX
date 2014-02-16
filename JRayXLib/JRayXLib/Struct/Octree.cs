@@ -38,15 +38,14 @@ namespace JRayXLib.Struct
         public static Octree BuildTree(Vect3 center, I3DObject[] objects)
         {
             double maxQuadDist=0;
-            var dist=new Vect3(0);
-		
+
             Log.Debug("Building octree... ");
 
             foreach (I3DObject o in objects)
             {
                 Sphere s = o.GetBoundingSphere();
                 if(s!=null){
-                    Vect.Subtract(center, s.Position, ref dist);
+                    Vect3 dist = Vect.Subtract(center, s.Position);
                     double qdist = s.GetRadius();
                     if(double.IsInfinity(qdist)||Double.IsNaN(qdist))
                         throw new Exception("Invalid BoundingSphere: "+s+" from "+o);

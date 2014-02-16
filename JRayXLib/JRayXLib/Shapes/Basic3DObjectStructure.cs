@@ -45,10 +45,7 @@ namespace JRayXLib.Shapes
             {
                 return ret.GetNormalAt(hitPoint);
             }
-            else
-            {
-                throw new Exception("internal error!");
-            }
+            throw new Exception("internal error!");
         }
 
         public override bool Contains(Vect3 hitPoint)
@@ -66,7 +63,7 @@ namespace JRayXLib.Shapes
             foreach (Basic3DObject o3D in _objects)
             {
                 Vect3 objPos = o3D.Position;
-                Vect.Subtract(objPos, Position, ref objPos);
+                objPos = Vect.Subtract(objPos, Position);
                 Vect.Add(objPos, position, ref objPos);
             }
 
@@ -80,7 +77,7 @@ namespace JRayXLib.Shapes
                 Vect3 objPos = o3D.Position;
 
                 // TODO: we have a matrix to combine these three, right?
-                Vect.Subtract(objPos, Position, ref objPos);
+                objPos = Vect.Subtract(objPos, Position);
                 VectMatrix.Multiply(objPos, rotationMatrix, ref objPos);
                 Vect.Add(objPos, Position, ref objPos);
 

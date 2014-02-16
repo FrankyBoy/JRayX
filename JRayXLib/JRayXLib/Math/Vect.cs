@@ -36,15 +36,16 @@ namespace JRayXLib.Math
                 v1[0] * v2[1] - v1[1] * v2[0]
             );
         }
-
-        public static void Subtract(Vect3 vec1, Vect3 vec2, ref Vect3 erg) {
+        
+        public static Vect3 Subtract(Vect3 vec1, Vect3 vec2) {
             double[] v1 = vec1.Data;
             double[] v2 = vec2.Data;
-            double[] data = erg.Data;
 
-            data[0] = v1[0] - v2[0];
-            data[1] = v1[1] - v2[1];
-            data[2] = v1[2] - v2[2];
+            return new Vect3(
+                v1[0] - v2[0],
+                v1[1] - v2[1],
+                v1[2] - v2[2]
+            );
         }
 
         public static void Add(Vect3 vec1, Vect3 vec2, ref Vect3 erg) {
@@ -78,38 +79,38 @@ namespace JRayXLib.Math
         }
 
         /**
-     * Projects vect onto normedProjectionAxis. If the axis is not normed the result has to be scaled 
-     * by 1/LengthOf(axis) for results to be valid after invokation of this method.
-     * 
-     * @param vect the vector which will be projected
-     * @param normedProjectionAxis the axis onto which vect will b projected and which MUST BE NORMED 
-     * @param projection the result of the projection
-     */
+         * Projects vect onto normedProjectionAxis. If the axis is not normed the result has to be scaled 
+         * by 1/LengthOf(axis) for results to be valid after invokation of this method.
+         * 
+         * @param vect the vector which will be projected
+         * @param normedProjectionAxis the axis onto which vect will b projected and which MUST BE NORMED 
+         * @param projection the result of the projection
+         */
         public static void Project(Vect3 vect, Vect3 normedProjectionAxis, ref Vect3 projection) {
             double dot = DotProduct(vect, normedProjectionAxis);
             Scale(normedProjectionAxis, dot, ref projection);
         }
     
         /**
-     * Projects vect onto normedProjectionAxis. If the axis is not normed the result has to be scaled 
-     * by 1/LengthOf(axis) for results to be valid after invokation of this method.
-     * 
-     * @param vect the vector which will be projected
-     * @param normal of the surface onto which is projected (MUST BE NORMED) 
-     * @param projection the result of the projection
-     */
+         * Projects vect onto normedProjectionAxis. If the axis is not normed the result has to be scaled 
+         * by 1/LengthOf(axis) for results to be valid after invokation of this method.
+         * 
+         * @param vect the vector which will be projected
+         * @param normal of the surface onto which is projected (MUST BE NORMED) 
+         * @param projection the result of the projection
+         */
         public static void ProjectOnNormal(Vect3 vect, Vect3 normal, ref Vect3 projection) {
             double dot = DotProduct(vect, normal);
             AddMultiple(vect, normal, -dot, ref projection);
         }
 
         /**
-     * Reflects the incoming vector on the axis (must be normed).
-     * 
-     * @param incoming incoming vector
-     * @param normal normal of the reflectio area
-     * @param outgoing result of the computation
-     */
+         * Reflects the incoming vector on the axis (must be normed).
+         * 
+         * @param incoming incoming vector
+         * @param normal normal of the reflectio area
+         * @param outgoing result of the computation
+         */
         public static void Reflect(Vect3 incoming, Vect3 normal, ref Vect3 outgoing) {
             Project(incoming, normal, ref outgoing);
             Scale(outgoing, -2, ref outgoing);
@@ -117,12 +118,12 @@ namespace JRayXLib.Math
         }
     
         /**
-     * Refraction
-     * 
-     * @param incoming incoming vector
-     * @param normal normal of the reflectio area
-     * @param outgoing result of the computation
-     */
+         * Refraction
+         * 
+         * @param incoming incoming vector
+         * @param normal normal of the reflectio area
+         * @param outgoing result of the computation
+         */
         public static void Refract(Vect3 incoming, Vect3 normal, double refractionIndex, ref Vect3 outgoing) {
             //test implementation - working but propably slow
             ProjectOnNormal(incoming, normal, ref outgoing);
@@ -156,40 +157,32 @@ namespace JRayXLib.Math
         }
     
         public static void InterpolateTriangle(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 t1, Vect3 t2, Vect3 t3, Vect3 point, ref Vect3 result){
-            double i1 = InterpolateTriangleEdge1(v1,v2,v3,point);
-            double i2 = InterpolateTriangleEdge1(v2,v3,v1,point);
-            double i3 = InterpolateTriangleEdge1(v3,v1,v2,point);
+            double i1 = InterpolateTriangleEdge(v1,v2,v3,point);
+            double i2 = InterpolateTriangleEdge(v2,v3,v1,point);
+            double i3 = InterpolateTriangleEdge(v3,v1,v2,point);
     	
             Scale(              t1, i1, ref result);
             AddMultiple(result, t2, i2, ref result);
             AddMultiple(result, t3, i3, ref result);
         }
     
-        /**
-         * TODO: 3 vect3 allocated here...
-         */
-        public static double InterpolateTriangleEdge1(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 point){
-            var v23N = new Vect3(0);
-            Subtract(v3, v2, ref v23N);
+        public static double InterpolateTriangleEdge(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 point){
+            var v23N = Subtract(v3, v2);
             v23N.Normalize();
     	
-            var v21 = new Vect3(0);
-            Subtract(v1, v2, ref v21);
+            var v21 = Subtract(v1, v2);
     	
-            var v1O = new Vect3(0); //punkt gegenüber der ecke v1 (o ... opposite)
-            Project(v21, v23N, ref v1O);
-            Subtract(v1O, v21, ref v1O);
+            var v1o = new Vect3(0); //punkt gegenüber der ecke v1 (o ... opposite)
+            Project(v21, v23N, ref v1o);
+            v1o = Subtract(v1o, v21);
+            
+            double h1 = v1o.Length(); //höhe auf v1
+            Scale(v1o, 1 / h1, ref v1o); //normieren
     	
-            var v1Hn = v1O;//höhe auf v1 (h ... height) - von v1 nach v1o - normiert
-    	
-            double h1 = v1Hn.Length(); //höhe auf v1
-            Scale(v1Hn, 1/h1, ref v1Hn); //normieren
-    	
-            Vect3 v1P = v21;//von v1 nach point
-            Subtract(point, v1, ref v1P);
+            Vect3 v1P = Subtract(point, v1);
     	
             Vect3 p1 = v23N;//projektion von v1p auf v1hn
-            Project(v1P, v1Hn, ref p1);
+            Project(v1P, v1o, ref p1);
     	
             return 1-(p1.Length()/h1);
         }

@@ -74,6 +74,9 @@
     <Report>
       <Path>ConsoleApplication1140216(1).vsp</Path>
     </Report>
+    <Report>
+      <Path>ConsoleApplication1140216(2).vsp</Path>
+    </Report>
   </Reports>
   <Launches>
     <ProjBinary>
