@@ -156,9 +156,9 @@ namespace JRayXLib.Ray
             var ray = new Shapes.Ray(new Vect3(camera.Position), rayDirection);
 
             var vertAdd = new Vect3(camera.GetViewPaneHeightVector());
-            vertAdd = Vect.Scale(vertAdd, 1.0/(_heightPx - 1));
+            vertAdd /= _heightPx - 1;
             var horzAdd = new Vect3(camera.GetViewPaneWidthVector());
-            horzAdd = Vect.Scale(horzAdd, 1.0/(_widthPx - 1));
+            horzAdd /= _widthPx - 1;
 
             var localMaxBrightness = 0;
             for (int i = from; i < to; i++)

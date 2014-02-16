@@ -38,16 +38,6 @@ namespace JRayXLib.Math
             );
         }
         
-        public static Vect3 Scale(Vect3 vec, double d) {
-            double[] vdat = vec.Data;
-
-            return new Vect3(
-                vdat[0] * d,
-                vdat[1] * d,
-                vdat[2] * d
-            );
-        }
-
         public static double Distance(Vect3 vec1, ref Vect3 vec2) {
             double[] v1Data = vec1.Data;
             double[] v2Data = vec2.Data;
@@ -69,7 +59,7 @@ namespace JRayXLib.Math
          */
         public static Vect3 Project(Vect3 vect, Vect3 normedProjectionAxis) {
             double dot = DotProduct(vect, normedProjectionAxis);
-            return Scale(normedProjectionAxis, dot);
+            return normedProjectionAxis * dot;
         }
     
         /**
@@ -95,7 +85,7 @@ namespace JRayXLib.Math
         public static Vect3 Reflect(Vect3 incoming, Vect3 normal)
         {
             var result = Project(incoming, normal);
-            result = Scale(result, -2);
+            result = result * -2;
             return incoming + result;
         }
     
@@ -110,7 +100,7 @@ namespace JRayXLib.Math
             var result = new Vect3();
             //test implementation - working but propably slow
             ProjectOnNormal(incoming, normal, ref result);
-            result = Scale(result, 1 / refractionIndex);
+            result = result / refractionIndex;
             double quadLen = result.QuadLength();
         
             if(quadLen>=1){//total reflection
@@ -145,7 +135,7 @@ namespace JRayXLib.Math
             double i2 = InterpolateTriangleEdge(v2,v3,v1,point);
             double i3 = InterpolateTriangleEdge(v3,v1,v2,point);
     	    
-            var result = Scale( t1, i1);
+            var result = t1 * i1;
             AddMultiple(result, t2, i2, ref result);
             AddMultiple(result, t3, i3, ref result);
 
@@ -165,7 +155,7 @@ namespace JRayXLib.Math
             v1o -= v21;
             
             double h1 = v1o.Length(); //höhe auf v1
-            v1o = Scale(v1o, 1 / h1); //normieren
+            v1o = v1o / h1; //normieren
     	
             Vect3 v1P = point - v1;
             Vect3 p1 = Project(v1P, v1o);//projektion von v1p auf v1hn
@@ -178,7 +168,7 @@ namespace JRayXLib.Math
             var ret = new Vect3(0);
 
             ret = vects.Aggregate(ret, (a,b) => a+b);
-            ret = Scale(ret, 1/(float)vects.Length);
+            ret = ret / vects.Length;
     	
             return ret;
         }    

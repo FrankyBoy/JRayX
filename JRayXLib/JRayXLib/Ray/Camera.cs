@@ -32,18 +32,18 @@ namespace JRayXLib.Ray
 
         public static Camera CreateCamera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double viewPaneWidth, double viewPaneHeight) {
             var viewPaneHeightVector = new Vect3(camUp);
-            viewPaneHeightVector = Vect.Scale(viewPaneHeightVector, -viewPaneHeight);
+            viewPaneHeightVector *= -viewPaneHeight;
 
             var temp1 = position - viewPaneCenter;
             var viewPaneWidthVector = Vect.CrossProduct(temp1, viewPaneHeightVector);
             viewPaneWidthVector.Normalize();
-            viewPaneWidthVector = Vect.Scale(viewPaneWidthVector, viewPaneWidth);
+            viewPaneWidthVector *= viewPaneWidth;
 
             viewPaneWidthVector.CopyDataTo(ref temp1);
-            temp1 = Vect.Scale(temp1, 0.5);
+            temp1 = temp1 / 2;
             Vect3 viewPaneEdge = viewPaneCenter - temp1;
             viewPaneHeightVector.CopyDataTo(ref temp1);
-            temp1 = Vect.Scale(temp1, 0.5);
+            temp1 = temp1 / 2;
             viewPaneEdge -= temp1;
 
             return new Camera(position, viewPaneEdge, viewPaneWidthVector, viewPaneHeightVector);
@@ -76,12 +76,12 @@ namespace JRayXLib.Ray
         // cheap ;)
         public void SetScreenDimensions(int width, int height) {
             double factor = width / (2.0 * height);
-            _viewPaneWidthVector = Vect.Scale(_viewPaneWidthVector, 0.5);
+            _viewPaneWidthVector /= 2;
             _viewPaneEdge += _viewPaneWidthVector;
             _viewPaneWidthVector.Normalize();
-            _viewPaneWidthVector = Vect.Scale(_viewPaneWidthVector, factor);
+            _viewPaneWidthVector *= factor;
             _viewPaneEdge -= _viewPaneWidthVector;
-            _viewPaneWidthVector = Vect.Scale(_viewPaneWidthVector, 2);
+            _viewPaneWidthVector *= 2;
         }
 
         public override void Rotate(Matrix4 rotationMatrix) {

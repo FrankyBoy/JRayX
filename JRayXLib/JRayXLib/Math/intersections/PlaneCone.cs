@@ -22,7 +22,7 @@ namespace JRayXLib.Math.intersections
                 Vect.AddMultiple(q, p, coneAxisLength * System.Math.Sin(System.Math.Acos(coneCosPhi)), ref q);
                 q -= conePosition;
                 len = q.Length();
-                p = Vect.Scale(q, 1 / len);
+                p = q / len;
             }
 
             double d = RayPlane.GetHitPointRayPlaneDistance(conePosition, p, planePoint, planeNormal);

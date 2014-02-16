@@ -16,7 +16,7 @@ namespace JRayXLib.Shapes
         {
             CosPhi = System.Math.Cos(MathHelper.ToRadians(phiDegree));
             AxisLength = axis.Length();
-            LookAt = Vect.Scale(axis, 1 / AxisLength);
+            LookAt = axis / AxisLength;
             Color = color;
         }
 	
