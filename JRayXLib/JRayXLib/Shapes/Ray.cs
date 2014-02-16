@@ -20,11 +20,6 @@ namespace JRayXLib.Shapes
             Direction = direction;
         }
 
-        [Obsolete] 
-        public Vect3 GetDirection() {
-            return Direction;
-        }
-
         public Vect3 GetOrigin() {
             return _origin;
         }

@@ -27,7 +27,7 @@ namespace JRayXLib.Shapes
         }
 	
         public override double GetHitPointDistance(Ray r) {
-            return RayCone.GetRayConeIntersectionDistance(r.GetOrigin(), r.GetDirection(), Position, LookAt, CosPhi, AxisLength);
+            return RayCone.GetRayConeIntersectionDistance(r.GetOrigin(), r.Direction, Position, LookAt, CosPhi, AxisLength);
         }
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)

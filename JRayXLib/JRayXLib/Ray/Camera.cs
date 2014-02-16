@@ -77,7 +77,7 @@ namespace JRayXLib.Ray
         public void SetScreenDimensions(int width, int height) {
             double factor = width / (2.0 * height);
             Vect.Scale(_viewPaneWidthVector, 0.5, ref _viewPaneWidthVector);
-            Vect.Add(_viewPaneEdge, _viewPaneWidthVector, ref _viewPaneEdge);
+            _viewPaneEdge = Vect.Add(_viewPaneEdge, _viewPaneWidthVector);
             _viewPaneWidthVector.Normalize();
             Vect.Scale(_viewPaneWidthVector, factor, ref _viewPaneWidthVector);
             _viewPaneEdge = Vect.Subtract(_viewPaneEdge, _viewPaneWidthVector);
@@ -89,7 +89,7 @@ namespace JRayXLib.Ray
         }
 
         public override double GetHitPointDistance(Shapes.Ray r) {
-            return RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.GetDirection(), Position, 0);
+            return RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.Direction, Position, 0);
         }
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)

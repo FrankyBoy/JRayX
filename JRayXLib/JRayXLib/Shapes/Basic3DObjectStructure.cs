@@ -64,7 +64,7 @@ namespace JRayXLib.Shapes
             {
                 Vect3 objPos = o3D.Position;
                 objPos = Vect.Subtract(objPos, Position);
-                Vect.Add(objPos, position, ref objPos);
+                o3D.Position = Vect.Add(objPos, position);
             }
 
             Position = position;
@@ -79,7 +79,7 @@ namespace JRayXLib.Shapes
                 // TODO: we have a matrix to combine these three, right?
                 objPos = Vect.Subtract(objPos, Position);
                 VectMatrix.Multiply(objPos, rotationMatrix, ref objPos);
-                Vect.Add(objPos, Position, ref objPos);
+                o3D.Position = Vect.Add(objPos, Position);
 
                 o3D.Rotate(rotationMatrix);
             }

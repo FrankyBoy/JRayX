@@ -1,9 +1,10 @@
 ﻿
+using System.Linq;
 using JRayXLib.Shapes;
 
 namespace JRayXLib.Math
 {
-    public class Vect {
+    public static class Vect {
 
         /**
          * calculates the dot product of the given vectors <vec1,vec2>
@@ -36,7 +37,7 @@ namespace JRayXLib.Math
                 v1[0] * v2[1] - v1[1] * v2[0]
             );
         }
-        
+
         public static Vect3 Subtract(Vect3 vec1, Vect3 vec2) {
             double[] v1 = vec1.Data;
             double[] v2 = vec2.Data;
@@ -48,14 +49,15 @@ namespace JRayXLib.Math
             );
         }
 
-        public static void Add(Vect3 vec1, Vect3 vec2, ref Vect3 erg) {
+        public static Vect3 Add(Vect3 vec1, Vect3 vec2) {
             double[] v1 = vec1.Data;
             double[] v2 = vec2.Data;
-            double[] data = erg.Data;
 
-            data[0] = v1[0] + v2[0];
-            data[1] = v1[1] + v2[1];
-            data[2] = v1[2] + v2[2];
+            return new Vect3(
+                v1[0] + v2[0],
+                v1[1] + v2[1],
+                v1[2] + v2[2]
+            );
         }
 
         public static void Scale(Vect3 vec, double d, ref Vect3 erg) {
@@ -111,10 +113,12 @@ namespace JRayXLib.Math
          * @param normal normal of the reflectio area
          * @param outgoing result of the computation
          */
-        public static void Reflect(Vect3 incoming, Vect3 normal, ref Vect3 outgoing) {
-            Project(incoming, normal, ref outgoing);
-            Scale(outgoing, -2, ref outgoing);
-            Add(incoming, outgoing, ref outgoing);
+        public static Vect3 Reflect(Vect3 incoming, Vect3 normal)
+        {
+            var result = new Vect3();
+            Project(incoming, normal, ref result);
+            Scale(result, -2, ref result);
+            return Add(incoming, result);
         }
     
         /**
@@ -124,18 +128,20 @@ namespace JRayXLib.Math
          * @param normal normal of the reflectio area
          * @param outgoing result of the computation
          */
-        public static void Refract(Vect3 incoming, Vect3 normal, double refractionIndex, ref Vect3 outgoing) {
+        public static Vect3 Refract(Vect3 incoming, Vect3 normal, double refractionIndex) {
+            var result = new Vect3();
             //test implementation - working but propably slow
-            ProjectOnNormal(incoming, normal, ref outgoing);
-            Scale(outgoing, 1/refractionIndex, ref outgoing);
-            double quadLen = outgoing.QuadLength();
+            ProjectOnNormal(incoming, normal, ref result);
+            Scale(result, 1 / refractionIndex, ref result);
+            double quadLen = result.QuadLength();
         
             if(quadLen>=1){//total reflection
-                Reflect(incoming,normal,ref outgoing);
+                result = Reflect(incoming, normal);
             }else{
-                AddMultiple(outgoing, normal, -System.Math.Sqrt(1-quadLen), ref outgoing);
-                outgoing.Normalize();
+                AddMultiple(result, normal, -System.Math.Sqrt(1 - quadLen), ref result);
+                result.Normalize();
             }
+            return result;
         }
     
         public static void AddMultiple(Vect3 ori, Vect3 addition, double scale, ref Vect3 erg) {
@@ -189,10 +195,9 @@ namespace JRayXLib.Math
     
         public static Vect3 Avg(Vect3[] vects){
             var ret = new Vect3(0);
-    	
-            foreach (Vect3 v in vects)
-                Add(ret, v, ref ret);
-    	
+
+            ret = vects.Aggregate(ret, Add);
+
             Scale(ret, 1/(float)vects.Length, ref ret);
     	
             return ret;

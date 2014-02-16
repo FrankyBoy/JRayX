@@ -30,8 +30,8 @@ namespace JRayXLib.Model
         {
             var v1v2 = Vect.Subtract(V2, Position);
             var v1v3 = Vect.Subtract(V3, Position);
-		
-            double ret = RayTriangle.GetHitPointRayTriangleDistance(r.GetOrigin(), r.GetDirection(), Position, v1v2, v1v3);
+
+            double ret = RayTriangle.GetHitPointRayTriangleDistance(r.GetOrigin(), r.Direction, Position, v1v2, v1v3);
             if (ret <= 0) {
                 return double.PositiveInfinity;
             }

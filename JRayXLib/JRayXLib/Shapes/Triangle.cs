@@ -36,7 +36,7 @@ namespace JRayXLib.Shapes
         }
 
         public override double GetHitPointDistance(Ray r) {
-            return RayTriangle.GetHitPointRayTriangleDistance(r.GetOrigin(), r.GetDirection(), Position, edgev1v2, edgev1v3);
+            return RayTriangle.GetHitPointRayTriangleDistance(r.GetOrigin(), r.Direction, Position, edgev1v2, edgev1v3);
         }
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)

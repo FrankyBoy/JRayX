@@ -59,7 +59,7 @@ namespace JRayXLib.Shapes
 
         public override double GetHitPointDistance(Ray r)
         {
-            return RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.GetDirection(), Position, Radius);
+            return RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.Direction, Position, Radius);
         }
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)

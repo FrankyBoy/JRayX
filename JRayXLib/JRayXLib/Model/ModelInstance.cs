@@ -24,23 +24,22 @@ namespace JRayXLib.Model
         public override double GetHitPointDistance(Shapes.Ray r) {
             double dist;
             Shapes.Ray subRay;
-            var tmp = new Vect3(0);
-            Vect.Add(Position, _model.GetBoundingSphere().Position, ref tmp);
+            var tmp = Vect.Add(Position, _model.GetBoundingSphere().Position);
 		
-            if(RaySphere.IsRayOriginatingInSphere(r.GetOrigin(), r.GetDirection(), tmp, _model.GetBoundingSphere().GetRadius())){
+            if(RaySphere.IsRayOriginatingInSphere(r.GetOrigin(), r.Direction, tmp, _model.GetBoundingSphere().GetRadius())){
                 tmp = Vect.Subtract(r.GetOrigin(), Position);
-                subRay = new Shapes.Ray(tmp, r.GetDirection());
+                subRay = new Shapes.Ray(tmp, r.Direction);
 			
                 dist = 0;
             }else{
-                dist=RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.GetDirection(), tmp, _model.GetBoundingSphere().GetRadius());
+                dist = RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.Direction, tmp, _model.GetBoundingSphere().GetRadius());
 			
                 if(double.IsInfinity(dist))
                     return dist;
-			
-                Vect.AddMultiple(r.GetOrigin(), r.GetDirection(), dist, ref tmp);
+
+                Vect.AddMultiple(r.GetOrigin(), r.Direction, dist, ref tmp);
                 tmp = Vect.Subtract(tmp, Position);
-                subRay = new Shapes.Ray(tmp, r.GetDirection());
+                subRay = new Shapes.Ray(tmp, r.Direction);
             }
 		
             var d = new CollisionData
@@ -50,10 +49,9 @@ namespace JRayXLib.Model
 
             if(!double.IsInfinity(d.Details.Distance)){
                 var hitPointLocal = new Vect3(0);
-                Vect.AddMultiple(subRay.GetOrigin(), subRay.GetDirection(), d.Details.Distance, ref hitPointLocal);
+                Vect.AddMultiple(subRay.GetOrigin(), subRay.Direction, d.Details.Distance, ref hitPointLocal);
                 d.HitPointLocal = hitPointLocal;
-                var hitPointGlobal = new Vect3(0);
-                Vect.Add(hitPointLocal, Position, ref hitPointGlobal);
+                var hitPointGlobal = Vect.Add(hitPointLocal, Position);
                 d.HitPointGlobal = hitPointGlobal;
                 return d.Details.Distance + dist;
             }
@@ -78,8 +76,7 @@ namespace JRayXLib.Model
         }
     
         public new Vect3 GetBoundingSphereCenter(){
-            var pos = new Vect3(0);
-            Vect.Add(Position, _model.GetBoundingSphere().Position, ref pos);
+            var pos = Vect.Add(Position, _model.GetBoundingSphere().Position);
             return pos;
         }
     
