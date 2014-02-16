@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using JRayXLib.Math;
@@ -13,7 +12,6 @@ namespace JRayXLib.Model
 
         private readonly TriangleMeshModel _model;
         private readonly Dictionary<Thread, CollisionData> _lastCollision = new Dictionary<Thread, CollisionData>();
-        private int i=0;
 
         public ModelInstance(Vect3 position, TriangleMeshModel model) : base(position, new Vect3()) {
             _model = model;
@@ -49,7 +47,7 @@ namespace JRayXLib.Model
                 {
                     Details = RayPath.getFirstCollision(_model.GetTree(), subRay)
                 };
-            i++;
+
             if(!double.IsInfinity(d.Details.Distance)){
                 var hitPointLocal = new Vect3();
                 Vect.AddMultiple(subRay.GetOrigin(), subRay.GetDirection(), d.Details.Distance, hitPointLocal);

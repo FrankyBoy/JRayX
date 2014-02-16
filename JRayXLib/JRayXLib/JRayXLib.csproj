@@ -63,6 +63,7 @@
     <Compile Include="Math\intersections\RayTriangle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shapes\Cone.cs" />
+    <Compile Include="Shapes\I3DObject.cs" />
     <Compile Include="Shapes\Matrix3.cs" />
     <Compile Include="Shapes\Matrix4.cs" />
     <Compile Include="Shapes\Object3D.cs" />
