@@ -25,7 +25,8 @@ namespace JRayXLib.Ray.Tracer
             CollisionDetails c = FindNearestHit(ray);
 
             //No hit
-            if (c.Obj == null) {
+            if (c.Obj == null || double.IsInfinity(c.Distance))
+            {
                 return Color.White.ToWide();
             }
         

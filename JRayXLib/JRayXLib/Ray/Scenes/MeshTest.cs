@@ -26,6 +26,8 @@ namespace JRayXLib.Ray.Scenes
                     objects.Add(new ModelInstance(new Vect3(i*15+(j%2)*7,0,(j+4)*-15),model));
             //objects.add(new Plane(new Vect3(0,0,0),new Vect3(0,1,0),0xFFFFFFFF));
 
+            objects.Add(Camera);
+
             Objects = objects.ToArray();
             _tree = Octree.BuildTree(new Vect3(0,0,0),Objects);
         }

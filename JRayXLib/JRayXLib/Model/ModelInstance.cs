@@ -12,8 +12,9 @@ namespace JRayXLib.Model
     public class ModelInstance : Object3D{
 
         private readonly TriangleMeshModel _model;
-        private readonly ConcurrentDictionary<Thread, CollisionData> _lastCollision = new ConcurrentDictionary<Thread, CollisionData>();
-	
+        private readonly Dictionary<Thread, CollisionData> _lastCollision = new Dictionary<Thread, CollisionData>();
+        private int i=0;
+
         public ModelInstance(Vect3 position, TriangleMeshModel model) : base(position, new Vect3()) {
             _model = model;
         }
@@ -44,8 +45,11 @@ namespace JRayXLib.Model
                 subRay = new Shapes.Ray(tmp, r.GetDirection());
             }
 		
-            var d = new CollisionData();
-            d.Details = RayPath.getFirstCollision(_model.GetTree(), subRay);
+            var d = new CollisionData
+                {
+                    Details = RayPath.getFirstCollision(_model.GetTree(), subRay)
+                };
+            i++;
             if(!double.IsInfinity(d.Details.Distance)){
                 var hitPointLocal = new Vect3();
                 Vect.AddMultiple(subRay.GetOrigin(), subRay.GetDirection(), d.Details.Distance, hitPointLocal);
@@ -55,17 +59,20 @@ namespace JRayXLib.Model
                 d.HitPointGlobal = hitPointGlobal;
                 return d.Details.Distance + dist;
             }
-            _lastCollision.AddOrUpdate(Thread.CurrentThread, d, (x, y) => y);
+            _lastCollision[Thread.CurrentThread] = d;
             return d.Details.Distance;
         }
 
         public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
             CollisionData d;
 
-            if (!_lastCollision.TryGetValue(Thread.CurrentThread, out d) || !d.HitPointGlobal.Equals(hitPoint, 1e-9))
-                throw new Exception("hitpoint not in cache: "+hitPoint);
-		
-            d.Details.Obj.GetNormalAt(d.HitPointLocal, normal);
+            if (_lastCollision.TryGetValue(Thread.CurrentThread, out d)
+                && d.HitPointGlobal.Equals(hitPoint, Constants.EPS))
+            {
+                d.Details.Obj.GetNormalAt(d.HitPointLocal, normal);
+            }
+
+            throw new Exception("hitpoint not in cache: " + hitPoint);
         }
 
         public override bool Contains(Vect3 hitPoint) {
