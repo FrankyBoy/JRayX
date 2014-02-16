@@ -24,26 +24,20 @@ namespace JRayXLib.Model
 
             var max = new Vect3(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity);
             var min = new Vect3(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity);
-
-            double[] maxData = max.Data;
-            double[] minData = min.Data;
-
+            
             foreach (MinimalTriangle m in _triangles)
             {
                 Vect3 p = m.GetBoundingSphere().Position;
-                double[] pData = p.Data;
 
-                if (pData[0] > maxData[0]) maxData[0] = pData[0];
-                if (pData[1] > maxData[1]) maxData[1] = pData[1];
-                if (pData[2] > maxData[2]) maxData[2] = pData[2];
-                if (pData[0] < minData[0]) minData[0] = pData[0];
-                if (pData[1] < minData[1]) minData[1] = pData[1];
-                if (pData[2] < minData[2]) minData[2] = pData[2];
+                if (p.X > max.X) max.X = p.X;
+                if (p.Y > max.Y) max.Y = p.Y;
+                if (p.Z > max.Z) max.Z = p.Z;
+                if (p.X < min.X) min.X = p.X;
+                if (p.Y < min.Y) min.Y = p.Y;
+                if (p.Z < min.Z) min.Z = p.Z;
             }
 
-            maxData[0] = (maxData[0] + minData[0]) / 2;
-            maxData[1] = (maxData[1] + minData[1]) / 2;
-            maxData[2] = (maxData[2] + minData[2]) / 2;
+            max = (max + min)/2;
 
             double radius = 0;
             foreach (MinimalTriangle m in _triangles)

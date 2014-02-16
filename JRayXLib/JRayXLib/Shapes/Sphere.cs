@@ -41,15 +41,15 @@ namespace JRayXLib.Shapes
             RotVect = new Vect3(lookAt);
 
             // check so we don't end up with two linear dependent vectors
-            if (   System.Math.Abs(RotVect.Data[1] - 0) > Constants.EPS
-                && System.Math.Abs(RotVect.Data[0] - 0) < Constants.EPS
-                && System.Math.Abs(RotVect.Data[2] - 0) < Constants.EPS)
+            if (   System.Math.Abs(RotVect.Y - 0) > Constants.EPS
+                && System.Math.Abs(RotVect.X - 0) < Constants.EPS
+                && System.Math.Abs(RotVect.Z - 0) < Constants.EPS)
             {
-                RotVect.Data[0] += 1;
+                RotVect.X += 1;
             }
             else
             {
-                RotVect.Data[1] += 1;
+                RotVect.Y += 1;
             }
             RotVect = Vect3Extensions.CrossProduct(RotVect, lookAt).Normalize();
             LookAt = LookAt.Normalize();

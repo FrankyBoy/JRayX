@@ -14,7 +14,7 @@ namespace JRayXLib.Math
          * @return result of the dot product
          */
         public static double DotProduct(this Vect3 v1, Vect3 v2) {
-            return v1.Data[0] * v2.Data[0] + v1.Data[1] * v2.Data[1] + v1.Data[2] * v2.Data[2];
+            return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
         }
 
         /**
@@ -27,21 +27,17 @@ namespace JRayXLib.Math
          */
         public static Vect3 CrossProduct(Vect3 v1, Vect3 v2)
         {
-            double[] v1Data = v1.Data;
-            double[] v2Data = v2.Data;
             return new Vect3(
-                  v1Data[1] * v2Data[2] - v1Data[2] * v2Data[1],
-                -(v1Data[0] * v2Data[2] - v1Data[2] * v2Data[0]),
-                  v1Data[0] * v2Data[1] - v1Data[1] * v2Data[0]
+                  v1.Y * v1.Z - v1.Z * v1.Y,
+                -(v1.X * v1.Z - v1.Z * v1.X),
+                  v1.X * v1.Y - v1.Y * v1.X
             );
         }
 
         public static double Distance(Vect3 v1, ref Vect3 v2) {
-            double[] v1Data = v1.Data;
-            double[] v2Data = v2.Data;
-            double x = v1Data[0] - v2Data[0];
-            double y = v1Data[1] - v2Data[1];
-            double z = v1Data[2] - v2Data[2];
+            double x = v1.X - v1.X;
+            double y = v1.Y - v1.Y;
+            double z = v1.Z - v1.Z;
 
             return System.Math.Sqrt(x * x + y * y + z * z);
         }

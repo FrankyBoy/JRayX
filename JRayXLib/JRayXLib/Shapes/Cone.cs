@@ -43,11 +43,11 @@ namespace JRayXLib.Shapes
         }
 
         public new Sphere GetBoundingSphere(){
-            var @base = new Vect3(Position.Data[0] + LookAt.Data[0] * AxisLength,
-                                     Position.Data[1] + LookAt.Data[1] * AxisLength,
-                                     Position.Data[2] + LookAt.Data[2] * AxisLength);
+            var @base = new Vect3(Position.X + LookAt.X * AxisLength,
+                                     Position.Y + LookAt.Y * AxisLength,
+                                     Position.Z + LookAt.Z * AxisLength);
 
-            var normal = new Vect3(@base.Data[2], @base.Data[0], @base.Data[1]);
+            var normal = new Vect3(@base.Z, @base.X, @base.Y);
             var tmp = Vect3Extensions.Project(normal, LookAt);
             normal -= tmp;
             normal = normal.Normalize();
@@ -56,9 +56,9 @@ namespace JRayXLib.Shapes
             tmp = @base + normal * len;
             @base = @base - normal * len;
 
-            var center = new Vect3((Position.Data[0] + tmp.Data[0] + @base.Data[0]) / 3,
-                                     (Position.Data[1] + tmp.Data[1] + @base.Data[1]) / 3,
-                                     (Position.Data[2] + tmp.Data[2] + @base.Data[2]) / 3);
+            var center = new Vect3((Position.X + tmp.X + @base.X) / 3,
+                                     (Position.Y + tmp.Y + @base.Y) / 3,
+                                     (Position.Z + tmp.Z + @base.Z) / 3);
 
             tmp = center - Position;
 		

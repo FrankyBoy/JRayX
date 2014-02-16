@@ -6,20 +6,16 @@ namespace JRayXLib.Math.intersections
 
         public static bool IsSphereEnclosedByCube(Vect3 cCenter, double cWidthHalf, Vect3 sCenter, double sRadius)
         {
-            var cdata = cCenter.Data;
-            var sdata = sCenter.Data;
-            return System.Math.Abs(cdata[0] - sdata[0]) < cWidthHalf - sRadius &&
-                   System.Math.Abs(cdata[1] - sdata[1]) < cWidthHalf - sRadius &&
-                   System.Math.Abs(cdata[2] - sdata[2]) < cWidthHalf - sRadius;
+            return System.Math.Abs(cCenter.X - sCenter.X) < cWidthHalf - sRadius &&
+                   System.Math.Abs(cCenter.Y - sCenter.Y) < cWidthHalf - sRadius &&
+                   System.Math.Abs(cCenter.Z - sCenter.Z) < cWidthHalf - sRadius;
         }
 
         public static bool IsSphereIntersectingCube(Vect3 cCenter, double cWidthHalf, Vect3 sCenter, double sRadius)
         {
-            var cdata = cCenter.Data;
-            var sdata = sCenter.Data;
-            return System.Math.Abs(cdata[0] - sdata[0]) < cWidthHalf + sRadius &&
-                   System.Math.Abs(cdata[1] - sdata[1]) < cWidthHalf + sRadius &&
-                   System.Math.Abs(cdata[2] - sdata[2]) < cWidthHalf + sRadius;
+            return System.Math.Abs(cCenter.X - sCenter.X) < cWidthHalf + sRadius &&
+                   System.Math.Abs(cCenter.Y - sCenter.Y) < cWidthHalf + sRadius &&
+                   System.Math.Abs(cCenter.Z - sCenter.Z) < cWidthHalf + sRadius;
         }
     }
 }

@@ -16,58 +16,53 @@ namespace JRayXLib.Math
             mac = a + mac/2;
             dab = dab.Normalize();
             dac = dac.Normalize();
+            
 
-            double[] dacData = dac.Data;
-            double[] dabData = dab.Data;
-            double[] mabData = mab.Data;
-            double[] macData = mac.Data;
-
-
-            if (System.Math.Abs(dacData[0]) > Constants.EPS &&
-                System.Math.Abs(dacData[1]) > Constants.EPS &&
-                System.Math.Abs(dabData[0] / dacData[0] - dabData[1] / dacData[1]) > Constants.EPS)
+            if (System.Math.Abs(dac.X) > Constants.EPS &&
+                System.Math.Abs(dac.Y) > Constants.EPS &&
+                System.Math.Abs(dab.X / dac.X - dab.Y / dac.Y) > Constants.EPS)
             {
-                double x = ((mabData[1] - macData[1]) / dacData[1] - (mabData[0] - macData[0]) / dacData[0]) / (dabData[0] / dacData[0] - dabData[1] / dacData[1]);
+                double x = ((mab.Y - mac.Y) / dac.Y - (mab.X - mac.X) / dac.X) / (dab.X / dac.X - dab.Y / dac.Y);
                 return mab + dab*x;
             }
 
-            if (System.Math.Abs(dacData[0]) > Constants.EPS &&
-                System.Math.Abs(dacData[2]) > Constants.EPS &&
-                System.Math.Abs(dabData[2] / dacData[2] - dabData[0] / dacData[0]) > Constants.EPS)
+            if (System.Math.Abs(dac.X) > Constants.EPS &&
+                System.Math.Abs(dac.Z) > Constants.EPS &&
+                System.Math.Abs(dab.Z / dac.Z - dab.X / dac.X) > Constants.EPS)
             {
-                double x = ((mabData[0] - macData[0]) / dacData[0] - (mabData[2] - macData[2]) / dacData[2]) / (dabData[2] / dacData[2] - dabData[0] / dacData[0]);
+                double x = ((mab.X - mac.X) / dac.X - (mab.Z - mac.Z) / dac.Z) / (dab.Z / dac.Z - dab.X / dac.X);
                 return mab + dab * x;
             }
 
-            if (System.Math.Abs(dacData[1]) > Constants.EPS &&
-                System.Math.Abs(dacData[2]) > Constants.EPS &&
-                System.Math.Abs(dabData[1] / dacData[1] - dabData[2] / dacData[2]) > Constants.EPS)
+            if (System.Math.Abs(dac.Y) > Constants.EPS &&
+                System.Math.Abs(dac.Z) > Constants.EPS &&
+                System.Math.Abs(dab.Y / dac.Y - dab.Z / dac.Z) > Constants.EPS)
             {
-                double x = ((mabData[2] - macData[2]) / dacData[2] - (mabData[1] - macData[1]) / dacData[1]) / (dabData[1] / dacData[1] - dabData[2] / dacData[2]);
+                double x = ((mab.Z - mac.Z) / dac.Z - (mab.Y - mac.Y) / dac.Y) / (dab.Y / dac.Y - dab.Z / dac.Z);
                 return mab + dab*x;
             }
 
-            if (System.Math.Abs(dabData[1]) > Constants.EPS &&
-                System.Math.Abs(dabData[0]) > Constants.EPS &&
-                System.Math.Abs(dacData[0] / dabData[0] - dacData[1] / dabData[1]) > Constants.EPS)
+            if (System.Math.Abs(dab.Y) > Constants.EPS &&
+                System.Math.Abs(dab.X) > Constants.EPS &&
+                System.Math.Abs(dac.X / dab.X - dac.Y / dab.Y) > Constants.EPS)
             {
-                double y = ((macData[1] - mabData[1]) / dabData[1] - (macData[0] - mabData[0]) / dabData[0]) / (dacData[0] / dabData[0] - dacData[1] / dabData[1]);
+                double y = ((mac.Y - mab.Y) / dab.Y - (mac.X - mab.X) / dab.X) / (dac.X / dab.X - dac.Y / dab.Y);
                 return mac + dac * y;
             }
 
-            if (System.Math.Abs(dabData[2]) > Constants.EPS &&
-                System.Math.Abs(dabData[0]) > Constants.EPS &&
-                System.Math.Abs(dacData[2] / dabData[2] - dacData[0] / dabData[0]) > Constants.EPS)
+            if (System.Math.Abs(dab.Z) > Constants.EPS &&
+                System.Math.Abs(dab.X) > Constants.EPS &&
+                System.Math.Abs(dac.Z / dab.Z - dac.X / dab.X) > Constants.EPS)
             {
-                double y = ((macData[0] - mabData[0]) / dabData[0] - (macData[2] - mabData[2]) / dabData[2]) / (dacData[2] / dabData[2] - dacData[0] / dabData[0]);
+                double y = ((mac.X - mab.X) / dab.X - (mac.Z - mab.Z) / dab.Z) / (dac.Z / dab.Z - dac.X / dab.X);
                 return mac + dac * y;
             }
 
-            if (System.Math.Abs(dabData[2]) > Constants.EPS &&
-                System.Math.Abs(dabData[1]) > Constants.EPS &&
-                System.Math.Abs(dacData[1] / dabData[1] - dacData[2] / dabData[2]) > Constants.EPS)
+            if (System.Math.Abs(dab.Z) > Constants.EPS &&
+                System.Math.Abs(dab.Y) > Constants.EPS &&
+                System.Math.Abs(dac.Y / dab.Y - dac.Z / dab.Z) > Constants.EPS)
             {
-                double y = ((macData[2] - mabData[2]) / dabData[2] - (macData[1] - mabData[1]) / dabData[1]) / (dacData[1] / dabData[1] - dacData[2] / dabData[2]);
+                double y = ((mac.Z - mab.Z) / dab.Z - (mac.Y - mab.Y) / dab.Y) / (dac.Y / dab.Y - dac.Z / dab.Z);
                 return mac + dac*y;
             }
 

@@ -22,8 +22,8 @@ namespace JRayXLib.Shapes
         public new Color GetColorAt(Vect3 hitPoint)
         {
             var hpLength = hitPoint.Length();
-            double x = System.Math.Acos(hitPoint.Data[1] / hpLength) / System.Math.PI;
-            double y = System.Math.Acos(hitPoint.Data[2] / hpLength) / System.Math.PI;
+            double x = System.Math.Acos(hitPoint.Y / hpLength) / System.Math.PI;
+            double y = System.Math.Acos(hitPoint.Z / hpLength) / System.Math.PI;
 
             return _texture.GetColorAt(x, y);
         }

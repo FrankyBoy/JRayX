@@ -2,7 +2,8 @@ using JRayXLib.Shapes;
 
 namespace JRayXLib.Math.intersections
 {
-    public class RayCube {
+    public class RayCube
+    {
         /**
 	 * Calculates the distance to the nearest ray-cube intersection (in positive ray-direction) for a ray originating in a cube.
 	 * 
@@ -12,43 +13,52 @@ namespace JRayXLib.Math.intersections
 	 * @param boxWidthHalf
 	 * @return rayOrigin + <b>x</b> * rayDirection = a-cube-border-point
 	 */
-        public static double GetDistanceToBorderPlane(Vect3 rayOrigin, Vect3 rayDirection, Vect3 boxCenter, double boxWidthHalf){
-            double distance=double.PositiveInfinity, tmp;
+        public static double GetDistanceToBorderPlane(Vect3 rayOrigin, Vect3 rayDirection, Vect3 boxCenter, double boxWidthHalf)
+        {
+            double distance = double.PositiveInfinity, tmp;
 
-            double[] dirData = rayDirection.Data;
-            double[] centerData = boxCenter.Data;
-            double[] originData = rayOrigin.Data;
-            
-            if(dirData[0]>0){
-                tmp = (centerData[0]+boxWidthHalf - originData[0]) / dirData[0];
-                if(tmp < distance) distance = tmp;
+            if (rayDirection.X > 0)
+            {
+                tmp = (boxCenter.X + boxWidthHalf - rayOrigin.X) / rayDirection.X;
+                if (tmp < distance)
+                    distance = tmp;
             }
-		
-            if(dirData[1]>0){
-                tmp = (centerData[1]+boxWidthHalf - originData[1]) / dirData[1];
-                if(tmp < distance) distance = tmp;
+
+            if (rayDirection.Y > 0)
+            {
+                tmp = (boxCenter.Y + boxWidthHalf - rayOrigin.Y) / rayDirection.Y;
+                if (tmp < distance)
+                    distance = tmp;
             }
-		
-            if(dirData[2]>0){
-                tmp = (centerData[2]+boxWidthHalf - originData[2]) / dirData[2];
-                if(tmp < distance) distance = tmp;
+
+            if (rayDirection.Z > 0)
+            {
+                tmp = (boxCenter.Z + boxWidthHalf - rayOrigin.Z) / rayDirection.Z;
+                if (tmp < distance) 
+                    distance = tmp;
             }
-		
-            if(dirData[0]<0){
-                tmp = (centerData[0]-boxWidthHalf - originData[0]) / dirData[0];
-                if(tmp < distance) distance = tmp;
+
+            if (rayDirection.X < 0)
+            {
+                tmp = (boxCenter.X - boxWidthHalf - rayOrigin.X) / rayDirection.X;
+                if (tmp < distance)
+                    distance = tmp;
             }
-		
-            if(dirData[1]<0){
-                tmp = (centerData[1]-boxWidthHalf - originData[1]) / dirData[1];
-                if(tmp < distance) distance = tmp;
+
+            if (rayDirection.Y < 0)
+            {
+                tmp = (boxCenter.Y - boxWidthHalf - rayOrigin.Y) / rayDirection.Y;
+                if (tmp < distance) 
+                    distance = tmp;
             }
-		
-            if(dirData[2]<0){
-                tmp = (centerData[2]-boxWidthHalf - originData[2]) / dirData[2];
-                if(tmp < distance) distance = tmp;
+
+            if (rayDirection.Z < 0)
+            {
+                tmp = (boxCenter.Z - boxWidthHalf - rayOrigin.Z) / rayDirection.Z;
+                if (tmp < distance) 
+                    distance = tmp;
             }
-		
+
             return distance;
         }
     }

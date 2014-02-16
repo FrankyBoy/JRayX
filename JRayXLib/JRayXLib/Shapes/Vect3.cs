@@ -4,20 +4,22 @@ namespace JRayXLib.Shapes
 {
     public struct Vect3
     {
-        public readonly double[] Data;
+        public double X, Y, Z;
 
-        public Vect3(double a = 0, double b = 0, double c = 0)
+        public Vect3(double x = 0, double y = 0, double z = 0)
         {
-            Data = new[]{ a, b, c };
+            X = x;
+            Y = y;
+            Z = z;
         }
 
-        public Vect3(Vect3 old) : this(old.Data[0], old.Data[1], old.Data[2]) { }
+        public Vect3(Vect3 old) : this(old.X, old.Y, old.Z) { }
 
         public bool Equals(Vect3 v, double eps = Constants.EPS)
         {
-            return System.Math.Abs(Data[0] - v.Data[0]) < eps
-                && System.Math.Abs(Data[1] - v.Data[1]) < eps
-                && System.Math.Abs(Data[2] - v.Data[2]) < eps;
+            return System.Math.Abs(X - v.X) < eps
+                && System.Math.Abs(Y - v.Y) < eps
+                && System.Math.Abs(Z - v.Z) < eps;
         }
 
         public double Length()
@@ -27,70 +29,60 @@ namespace JRayXLib.Shapes
 
         public double QuadLength()
         {
-            return Data[0] * Data[0] + Data[1] * Data[1] + Data[2] * Data[2];
+            return X * X + Y * Y + Z * Z;
         }
 
         public Vect3 Normalize()
         {
             double len = Length();
             return new Vect3(
-                Data[0] / len,
-                Data[1] / len,
-                Data[2] / len
+                X / len,
+                Y / len,
+                Z / len
             );
         }
 
         public void CopyDataTo(ref Vect3 other)
         {
-            other.Data[0] = Data[0];
-            other.Data[1] = Data[1];
-            other.Data[2] = Data[2];
+            other.X = X;
+            other.Y = Y;
+            other.Z = Z;
         }
 
         #region operator overloads
-        public static Vect3 operator -(Vect3 vec1, Vect3 vec2)
+        public static Vect3 operator -(Vect3 v1, Vect3 v2)
         {
-            double[] v1 = vec1.Data;
-            double[] v2 = vec2.Data;
-
             return new Vect3(
-                v1[0] - v2[0],
-                v1[1] - v2[1],
-                v1[2] - v2[2]
+                v1.X - v2.X,
+                v1.Y - v2.Y,
+                v1.Z - v2.Z
             );
         }
 
-        public static Vect3 operator +(Vect3 vec1, Vect3 vec2)
+        public static Vect3 operator +(Vect3 v1, Vect3 v2)
         {
-            double[] v1 = vec1.Data;
-            double[] v2 = vec2.Data;
-
             return new Vect3(
-                v1[0] + v2[0],
-                v1[1] + v2[1],
-                v1[2] + v2[2]
+                v1.X + v2.X,
+                v1.Y + v2.Y,
+                v1.Z + v2.Z
             );
         }
 
-        public static Vect3 operator *(Vect3 vec, double d)
+        public static Vect3 operator *(Vect3 v, double d)
         {
-            double[] vdat = vec.Data;
-
             return new Vect3(
-                vdat[0] * d,
-                vdat[1] * d,
-                vdat[2] * d
+                v.X * d,
+                v.Y * d,
+                v.Z * d
             );
         }
 
-        public static Vect3 operator /(Vect3 vec, double d)
+        public static Vect3 operator /(Vect3 v, double d)
         {
-            double[] vdat = vec.Data;
-
             return new Vect3(
-                vdat[0] / d,
-                vdat[1] / d,
-                vdat[2] / d
+                v.X / d,
+                v.Y / d,
+                v.Z / d
             );
         }
 

@@ -28,11 +28,9 @@ namespace JRayXLib.Math.intersections
             if(d<len){
                 //check if Hitpoint is in the +/-width/2 - area of the plane
                 p = conePosition + p * d;
-                var pData = p.Data;
-                var ppData = planePoint.Data;
-                if (System.Math.Abs(pData[0] - ppData[0]) < planeWidth2 * 2 &&
-                    System.Math.Abs(pData[1] - ppData[1]) < planeWidth2 * 2 &&
-                    System.Math.Abs(pData[2] - ppData[2]) < planeWidth2 * 2)
+                if (System.Math.Abs(p.X - planePoint.X) < planeWidth2 * 2 &&
+                    System.Math.Abs(p.Y - planePoint.Y) < planeWidth2 * 2 &&
+                    System.Math.Abs(p.Z - planePoint.Z) < planeWidth2 * 2)
 
                     return true;
             }
