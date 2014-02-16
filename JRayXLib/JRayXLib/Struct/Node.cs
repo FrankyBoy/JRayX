@@ -265,15 +265,16 @@ namespace JRayXLib.Struct
             _child = new Node[8];
             double w2 = Width/2;
             double w4 = Width/4;
-		
-            _child[0] = new Node(new Vect3(Center[0] + w4, Center[1] + w4, Center[2] + w4),this,w2);
-            _child[1] = new Node(new Vect3(Center[0] + w4, Center[1] + w4, Center[2] - w4),this,w2);
-            _child[2] = new Node(new Vect3(Center[0] + w4, Center[1] - w4, Center[2] + w4),this,w2);
-            _child[3] = new Node(new Vect3(Center[0] + w4, Center[1] - w4, Center[2] - w4),this,w2);
-            _child[4] = new Node(new Vect3(Center[0] - w4, Center[1] + w4, Center[2] + w4),this,w2);
-            _child[5] = new Node(new Vect3(Center[0] - w4, Center[1] + w4, Center[2] - w4),this,w2);
-            _child[6] = new Node(new Vect3(Center[0] - w4, Center[1] - w4, Center[2] + w4),this,w2);
-            _child[7] = new Node(new Vect3(Center[0] - w4, Center[1] - w4, Center[2] - w4),this,w2);
+
+            double[] centerData = Center.Data;
+            _child[0] = new Node(new Vect3(centerData[0] + w4, centerData[1] + w4, centerData[2] + w4),this,w2);
+            _child[1] = new Node(new Vect3(centerData[0] + w4, centerData[1] + w4, centerData[2] - w4),this,w2);
+            _child[2] = new Node(new Vect3(centerData[0] + w4, centerData[1] - w4, centerData[2] + w4),this,w2);
+            _child[3] = new Node(new Vect3(centerData[0] + w4, centerData[1] - w4, centerData[2] - w4),this,w2);
+            _child[4] = new Node(new Vect3(centerData[0] - w4, centerData[1] + w4, centerData[2] + w4),this,w2);
+            _child[5] = new Node(new Vect3(centerData[0] - w4, centerData[1] + w4, centerData[2] - w4),this,w2);
+            _child[6] = new Node(new Vect3(centerData[0] - w4, centerData[1] - w4, centerData[2] + w4),this,w2);
+            _child[7] = new Node(new Vect3(centerData[0] - w4, centerData[1] - w4, centerData[2] - w4),this,w2);
 
             List<I3DObject> oldContent = Content;
             Content = new List<I3DObject>();

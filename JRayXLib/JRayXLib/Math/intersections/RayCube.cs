@@ -14,34 +14,38 @@ namespace JRayXLib.Math.intersections
 	 */
         public static double GetDistanceToBorderPlane(Vect3 rayOrigin, Vect3 rayDirection, Vect3 boxCenter, double boxWidthHalf){
             double distance=double.PositiveInfinity, tmp;
-		
-            if(rayDirection[0]>0){
-                tmp = (boxCenter[0]+boxWidthHalf - rayOrigin[0]) / rayDirection[0];
+
+            double[] dirData = rayDirection.Data;
+            double[] centerData = boxCenter.Data;
+            double[] originData = rayOrigin.Data;
+            
+            if(dirData[0]>0){
+                tmp = (centerData[0]+boxWidthHalf - originData[0]) / dirData[0];
                 if(tmp < distance) distance = tmp;
             }
 		
-            if(rayDirection[1]>0){
-                tmp = (boxCenter[1]+boxWidthHalf - rayOrigin[1]) / rayDirection[1];
+            if(dirData[1]>0){
+                tmp = (centerData[1]+boxWidthHalf - originData[1]) / dirData[1];
                 if(tmp < distance) distance = tmp;
             }
 		
-            if(rayDirection[2]>0){
-                tmp = (boxCenter[2]+boxWidthHalf - rayOrigin[2]) / rayDirection[2];
+            if(dirData[2]>0){
+                tmp = (centerData[2]+boxWidthHalf - originData[2]) / dirData[2];
                 if(tmp < distance) distance = tmp;
             }
 		
-            if(rayDirection[0]<0){
-                tmp = (boxCenter[0]-boxWidthHalf - rayOrigin[0]) / rayDirection[0];
+            if(dirData[0]<0){
+                tmp = (centerData[0]-boxWidthHalf - originData[0]) / dirData[0];
                 if(tmp < distance) distance = tmp;
             }
 		
-            if(rayDirection[1]<0){
-                tmp = (boxCenter[1]-boxWidthHalf - rayOrigin[1]) / rayDirection[1];
+            if(dirData[1]<0){
+                tmp = (centerData[1]-boxWidthHalf - originData[1]) / dirData[1];
                 if(tmp < distance) distance = tmp;
             }
 		
-            if(rayDirection[2]<0){
-                tmp = (boxCenter[2]-boxWidthHalf - rayOrigin[2]) / rayDirection[2];
+            if(dirData[2]<0){
+                tmp = (centerData[2]-boxWidthHalf - originData[2]) / dirData[2];
                 if(tmp < distance) distance = tmp;
             }
 		

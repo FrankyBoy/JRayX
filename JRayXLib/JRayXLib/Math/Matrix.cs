@@ -18,19 +18,21 @@ namespace JRayXLib.Math
             double sina = System.Math.Sin(angleRad);
 
             double icosa = 1 - cosa; // performance ... every bit matters
-            double v1xICosA = axis[0] * icosa;
+            double[] axisData = axis.Data;
 
-            data[0, 0] = cosa + axis[0] * v1xICosA;
-            data[0, 1] = axis[1] * v1xICosA - axis[2] * sina;
-            data[0, 2] = axis[2] * v1xICosA + axis[1] * sina;
+            double v1xICosA = axisData[0] * icosa;
+
+            data[0, 0] = cosa + axisData[0] * v1xICosA;
+            data[0, 1] = axisData[1] * v1xICosA - axisData[2] * sina;
+            data[0, 2] = axisData[2] * v1xICosA + axisData[1] * sina;
             data[0, 3] = 0;
-            data[1, 0] = axis[1] * v1xICosA + axis[2] * sina;
-            data[1, 1] = cosa + axis[1] * axis[1] * icosa;
-            data[1, 2] = axis[1] * axis[2] * icosa - axis[0] * sina;
+            data[1, 0] = axisData[1] * v1xICosA + axisData[2] * sina;
+            data[1, 1] = cosa + axisData[1] * axisData[1] * icosa;
+            data[1, 2] = axisData[1] * axisData[2] * icosa - axisData[0] * sina;
             data[1, 3] = 0;
-            data[2, 0] = axis[2] * v1xICosA - axis[1] * sina;
-            data[2, 1] = axis[2] * axis[1] * icosa + axis[0] * sina;
-            data[2, 2] = cosa + axis[2] * axis[2] * icosa;
+            data[2, 0] = axisData[2] * v1xICosA - axisData[1] * sina;
+            data[2, 1] = axisData[2] * axisData[1] * icosa + axisData[0] * sina;
+            data[2, 2] = cosa + axisData[2] * axisData[2] * icosa;
             data[2, 3] = 0;
             data[3, 0] = 0;
             data[3, 1] = 0;
@@ -56,26 +58,26 @@ namespace JRayXLib.Math
             data[1, 1] = 1;
             data[2, 2] = 1;
             data[3, 3] = 1;
-            data[0, 3] = axis[0];
-            data[1, 3] = axis[1];
-            data[2, 3] = axis[2];
+            data[0, 3] = axis.Data[0];
+            data[1, 3] = axis.Data[1];
+            data[2, 3] = axis.Data[2];
         }
 
         public static void CreateScaleMatrix(Vect3 axis, Matrix4 erg)
         {
             double[,] ergData = erg.GetData();
 
-            ergData[0, 0] = axis[0];
+            ergData[0, 0] = axis.Data[0];
             ergData[0, 1] = 0;
             ergData[0, 2] = 0;
             ergData[0, 3] = 0;
             ergData[1, 0] = 0;
-            ergData[1, 1] = axis[1];
+            ergData[1, 1] = axis.Data[1];
             ergData[1, 2] = 0;
             ergData[1, 3] = 0;
             ergData[2, 0] = 0;
             ergData[2, 1] = 0;
-            ergData[2, 2] = axis[2];
+            ergData[2, 2] = axis.Data[2];
             ergData[2, 3] = 0;
             ergData[3, 0] = 0;
             ergData[3, 1] = 0;
