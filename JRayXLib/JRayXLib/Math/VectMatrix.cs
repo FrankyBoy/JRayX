@@ -1,11 +1,10 @@
-
 using JRayXLib.Shapes;
 
 namespace JRayXLib.Math
 {
     public class VectMatrix {
-
-        public static void Multiply(Matrix4 m, Vect3 v, Vect3 erg) {
+        
+        public static void Multiply(Matrix4 m, Vect3 v, ref Vect3 erg) {
             double[,] md = m.GetData();
             double[] vd = v.Data;
             double[] ed = erg.Data;
@@ -23,7 +22,7 @@ namespace JRayXLib.Math
             }
         }
 
-        public static void Multiply(Vect3 v, Matrix4 m, Vect3 erg) {
+        public static void Multiply(Vect3 v, Matrix4 m, ref Vect3 erg) {
             double[] vd = v.Data;
             double[,] md = m.GetData();
             double[] ed = erg.Data;

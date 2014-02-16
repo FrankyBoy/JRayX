@@ -18,7 +18,7 @@ namespace JRayXLib.Model
 		
             Vect3 avg = GetBoundingSphereCenter();
             Vect3 tmp = new Vect3();
-            Vect.Subtract(avg, v3, tmp);
+            Vect.Subtract(avg, v3, ref tmp);
     	
             Bounds = new Sphere(avg,tmp.Length(), Color.Black);
         }
@@ -32,8 +32,8 @@ namespace JRayXLib.Model
             Vect3 v1v2 = new Vect3();
             Vect3 v1v3 = new Vect3();
 		
-            Vect.Subtract(V2, Position, v1v2);
-            Vect.Subtract(V3, Position, v1v3);
+            Vect.Subtract(V2, Position, ref v1v2);
+            Vect.Subtract(V3, Position, ref v1v3);
 		
             double ret = RayTriangle.GetHitPointRayTriangleDistance(r.GetOrigin(), r.GetDirection(), Position, v1v2, v1v3);
             if (ret <= 0) {
@@ -42,7 +42,7 @@ namespace JRayXLib.Model
             return ret;
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
+        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal) {
             LookAt.CopyDataTo(normal);
         }
 

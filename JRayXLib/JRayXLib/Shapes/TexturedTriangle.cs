@@ -43,7 +43,7 @@ namespace JRayXLib.Shapes
         private Color GetTextureColorAt(Vect3 hitPoint)
         {
             var texcoord = new Vect3();
-            Vect.InterpolateTriangle(Position, v2, v3, _t1, _t2, _t3, hitPoint, texcoord);
+            Vect.InterpolateTriangle(Position, v2, v3, _t1, _t2, _t3, hitPoint, ref texcoord);
             return _texture.GetColorAt(texcoord);
         }
     }

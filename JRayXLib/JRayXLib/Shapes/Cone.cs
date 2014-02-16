@@ -16,12 +16,12 @@ namespace JRayXLib.Shapes
         {
             CosPhi = System.Math.Cos(MathHelper.ToRadians(phiDegree));
             AxisLength = axis.Length();
-            Vect.Scale(axis, 1/AxisLength, axis);
+            Vect.Scale(axis, 1 / AxisLength, ref axis);
             Color = color;
         }
 	
         public override void Rotate(Matrix4 rotationMatrix) {
-            VectMatrix.Multiply(LookAt, rotationMatrix, LookAt);
+            VectMatrix.Multiply(LookAt, rotationMatrix, ref _lookAt);
 
             LookAt.Normalize();
         }
@@ -29,14 +29,15 @@ namespace JRayXLib.Shapes
         public override double GetHitPointDistance(Ray r) {
             return RayCone.GetRayConeIntersectionDistance(r.GetOrigin(), r.GetDirection(), Position, LookAt, CosPhi, AxisLength);
         }
-	
-        public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
+
+        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
+        {
             var tmp = new Vect3();
             var tmp2 = new Vect3();
-            Vect.Subtract(hitPoint, Position, tmp);
-		
-            Vect.CrossProduct(tmp, LookAt, tmp2);
-            Vect.CrossProduct(tmp, tmp2, normal);
+            Vect.Subtract(hitPoint, Position, ref tmp);
+
+            Vect.CrossProduct(tmp, LookAt, ref tmp2);
+            Vect.CrossProduct(tmp, tmp2, ref normal);
             normal.Normalize();
         }
 	
@@ -54,19 +55,19 @@ namespace JRayXLib.Shapes
             normal.Data[1] = @base.Data[0];
             normal.Data[2] = @base.Data[1];
             var tmp = new Vect3();
-            Vect.Project(normal, LookAt, tmp);
-            Vect.Subtract(normal, tmp, normal);
+            Vect.Project(normal, LookAt, ref tmp);
+            Vect.Subtract(normal, tmp, ref normal);
             normal.Normalize();
             double l = CosPhi*AxisLength;
-		
-            Vect.AddMultiple(@base, normal, l, tmp);
-            Vect.AddMultiple(@base, normal, -l, @base);
+
+            Vect.AddMultiple(@base, normal, l, ref tmp);
+            Vect.AddMultiple(@base, normal, -l, ref  @base);
 		
             var center = new Vect3((Position.Data[0]+tmp.Data[0]+@base.Data[0])/3,
                                      (Position.Data[1]+tmp.Data[1]+@base.Data[1])/3,
                                      (Position.Data[2]+tmp.Data[2]+@base.Data[2])/3);
-		
-            Vect.Subtract(center, Position, tmp);
+
+            Vect.Subtract(center, Position, ref tmp);
 		
             return new Sphere(center,tmp.Length(),Color.Black);
         }

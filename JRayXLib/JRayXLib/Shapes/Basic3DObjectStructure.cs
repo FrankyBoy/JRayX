@@ -38,12 +38,12 @@ namespace JRayXLib.Shapes
             throw new Exception("internal error!");
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, Vect3 normal)
+        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
         {
             var ret = GetObjectAt(hitPoint);
             if (ret != null)
             {
-                ret.GetNormalAt(hitPoint, normal);
+                ret.GetNormalAt(hitPoint, ref normal);
             }
             else
             {
@@ -66,8 +66,8 @@ namespace JRayXLib.Shapes
             foreach (Basic3DObject o3D in _objects)
             {
                 Vect3 objPos = o3D.Position;
-                Vect.Subtract(objPos, Position, objPos);
-                Vect.Add(objPos, position, objPos);
+                Vect.Subtract(objPos, Position, ref objPos);
+                Vect.Add(objPos, position, ref objPos);
             }
 
             Position = position;
@@ -80,9 +80,9 @@ namespace JRayXLib.Shapes
                 Vect3 objPos = o3D.Position;
 
                 // TODO: we have a matrix to combine these three, right?
-                Vect.Subtract(objPos, Position, objPos);
-                VectMatrix.Multiply(objPos, rotationMatrix, objPos);
-                Vect.Add(objPos, Position, objPos);
+                Vect.Subtract(objPos, Position, ref objPos);
+                VectMatrix.Multiply(objPos, rotationMatrix, ref objPos);
+                Vect.Add(objPos, Position, ref objPos);
 
                 o3D.Rotate(rotationMatrix);
             }

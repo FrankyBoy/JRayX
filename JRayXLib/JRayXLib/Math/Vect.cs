@@ -49,7 +49,7 @@ namespace JRayXLib.Math
      * @param vec2
      * @param erg
      */
-        public static void CrossProduct(Vect3 vec1, Vect3 vec2, Vect3 erg) {
+        public static void CrossProduct(Vect3 vec1, Vect3 vec2, ref Vect3 erg) {
             double[] v1 = vec1.Data;
             double[] v2 = vec2.Data;
             double[] data = erg.Data;
@@ -63,7 +63,7 @@ namespace JRayXLib.Math
             data[2] = z;
         }
 
-        public static void Subtract(Vect3 vec1, Vect3 vec2, Vect3 erg) {
+        public static void Subtract(Vect3 vec1, Vect3 vec2, ref Vect3 erg) {
             double[] v1 = vec1.Data;
             double[] v2 = vec2.Data;
             double[] data = erg.Data;
@@ -73,7 +73,7 @@ namespace JRayXLib.Math
             data[2] = v1[2] - v2[2];
         }
 
-        public static void Add(Vect3 vec1, Vect3 vec2, Vect3 erg) {
+        public static void Add(Vect3 vec1, Vect3 vec2, ref Vect3 erg) {
             double[] v1 = vec1.Data;
             double[] v2 = vec2.Data;
             double[] data = erg.Data;
@@ -83,7 +83,7 @@ namespace JRayXLib.Math
             data[2] = v1[2] + v2[2];
         }
 
-        public static void Scale(Vect3 vec, double d, Vect3 erg) {
+        public static void Scale(Vect3 vec, double d, ref Vect3 erg) {
             double[] vdat = vec.Data;
             double[] data = erg.Data;
 
@@ -92,7 +92,7 @@ namespace JRayXLib.Math
             data[2] = vdat[2] * d;
         }
 
-        public static double Distance(Vect3 vec1, Vect3 vec2) {
+        public static double Distance(Vect3 vec1, ref Vect3 vec2) {
             double[] v1Data = vec1.Data;
             double[] v2Data = vec2.Data;
 
@@ -111,9 +111,9 @@ namespace JRayXLib.Math
      * @param normedProjectionAxis the axis onto which vect will b projected and which MUST BE NORMED 
      * @param projection the result of the projection
      */
-        public static void Project(Vect3 vect, Vect3 normedProjectionAxis, Vect3 projection) {
+        public static void Project(Vect3 vect, Vect3 normedProjectionAxis, ref Vect3 projection) {
             double dot = DotProduct(vect, normedProjectionAxis);
-            Scale(normedProjectionAxis, dot, projection);
+            Scale(normedProjectionAxis, dot, ref projection);
         }
     
         /**
@@ -124,9 +124,9 @@ namespace JRayXLib.Math
      * @param normal of the surface onto which is projected (MUST BE NORMED) 
      * @param projection the result of the projection
      */
-        public static void ProjectOnNormal(Vect3 vect, Vect3 normal, Vect3 projection) {
+        public static void ProjectOnNormal(Vect3 vect, Vect3 normal, ref Vect3 projection) {
             double dot = DotProduct(vect, normal);
-            AddMultiple(vect, normal, -dot, projection);
+            AddMultiple(vect, normal, -dot, ref projection);
         }
 
         /**
@@ -136,10 +136,10 @@ namespace JRayXLib.Math
      * @param normal normal of the reflectio area
      * @param outgoing result of the computation
      */
-        public static void Reflect(Vect3 incoming, Vect3 normal, Vect3 outgoing) {
-            Project(incoming, normal, outgoing);
-            Scale(outgoing, -2, outgoing);
-            Add(incoming, outgoing, outgoing);
+        public static void Reflect(Vect3 incoming, Vect3 normal, ref Vect3 outgoing) {
+            Project(incoming, normal, ref outgoing);
+            Scale(outgoing, -2, ref outgoing);
+            Add(incoming, outgoing, ref outgoing);
         }
     
         /**
@@ -149,21 +149,21 @@ namespace JRayXLib.Math
      * @param normal normal of the reflectio area
      * @param outgoing result of the computation
      */
-        public static void Refract(Vect3 incoming, Vect3 normal, double refractionIndex, Vect3 outgoing) {
+        public static void Refract(Vect3 incoming, Vect3 normal, double refractionIndex, ref Vect3 outgoing) {
             //test implementation - working but propably slow
-            ProjectOnNormal(incoming, normal, outgoing);
-            Scale(outgoing, 1/refractionIndex, outgoing);
+            ProjectOnNormal(incoming, normal, ref outgoing);
+            Scale(outgoing, 1/refractionIndex, ref outgoing);
             double quadLen = outgoing.QuadLength();
         
             if(quadLen>=1){//total reflection
-                Reflect(incoming,normal,outgoing);
+                Reflect(incoming,normal,ref outgoing);
             }else{
-                AddMultiple(outgoing, normal, -System.Math.Sqrt(1-quadLen), outgoing);
+                AddMultiple(outgoing, normal, -System.Math.Sqrt(1-quadLen), ref outgoing);
                 outgoing.Normalize();
             }
         }
     
-        public static void AddMultiple(Vect3 ori, Vect3 addition, double scale, Vect3 erg) {
+        public static void AddMultiple(Vect3 ori, Vect3 addition, double scale, ref Vect3 erg) {
             double[] add = addition.Data;
             double[] ergdat = erg.Data;
             double[] odat = ori.Data;
@@ -173,16 +173,7 @@ namespace JRayXLib.Math
             ergdat[2] = odat[2] + add[2] * scale;
         }
     
-        public static void AddMultiple(Vect3 addTo, Vect3 addition, double scale) {
-            double[] add = addition.Data;
-            double[] sum = addTo.Data;
-        
-            sum[0] += add[0] * scale;
-            sum[1] += add[1] * scale;
-            sum[2] += add[2] * scale;
-        }
-    
-        public static void Invert(Vect3 vect, Vect3 erg) {
+        public static void Invert(Vect3 vect, ref Vect3 erg) {
             double[] vectdat = vect.Data;
             double[] ergdat = erg.Data;
 
@@ -191,14 +182,14 @@ namespace JRayXLib.Math
             ergdat[2] = - vectdat[2];
         }
     
-        public static void InterpolateTriangle(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 t1, Vect3 t2, Vect3 t3, Vect3 point, Vect3 result){
+        public static void InterpolateTriangle(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 t1, Vect3 t2, Vect3 t3, Vect3 point, ref Vect3 result){
             double i1 = InterpolateTriangleEdge1(v1,v2,v3,point);
             double i2 = InterpolateTriangleEdge1(v2,v3,v1,point);
             double i3 = InterpolateTriangleEdge1(v3,v1,v2,point);
     	
-            Scale(              t1, i1, result);
-            AddMultiple(result, t2, i2, result);
-            AddMultiple(result, t3, i3, result);
+            Scale(              t1, i1, ref result);
+            AddMultiple(result, t2, i2, ref result);
+            AddMultiple(result, t3, i3, ref result);
         }
     
         /**
@@ -206,26 +197,26 @@ namespace JRayXLib.Math
          */
         public static double InterpolateTriangleEdge1(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 point){
             var v23N = new Vect3();
-            Subtract(v3, v2, v23N);
+            Subtract(v3, v2, ref v23N);
             v23N.Normalize();
     	
             var v21 = new Vect3();
-            Subtract(v1, v2, v21);
+            Subtract(v1, v2, ref v21);
     	
             var v1O = new Vect3(); //punkt gegenüber der ecke v1 (o ... opposite)
-            Project(v21, v23N, v1O);
-            Subtract(v1O, v21, v1O);
+            Project(v21, v23N, ref v1O);
+            Subtract(v1O, v21, ref v1O);
     	
             var v1Hn = v1O;//höhe auf v1 (h ... height) - von v1 nach v1o - normiert
     	
             double h1 = v1Hn.Length(); //höhe auf v1
-            Scale(v1Hn, 1/h1, v1Hn); //normieren
+            Scale(v1Hn, 1/h1, ref v1Hn); //normieren
     	
             Vect3 v1P = v21;//von v1 nach point
-            Subtract(point, v1, v1P);
+            Subtract(point, v1, ref v1P);
     	
             Vect3 p1 = v23N;//projektion von v1p auf v1hn
-            Project(v1P, v1Hn, p1);
+            Project(v1P, v1Hn, ref p1);
     	
             return 1-(p1.Length()/h1);
         }
@@ -234,9 +225,9 @@ namespace JRayXLib.Math
             var ret = new Vect3();
     	
             foreach (Vect3 v in vects)
-                Add(ret, v, ret);
+                Add(ret, v, ref ret);
     	
-            Scale(ret, 1/(float)vects.Length, ret);
+            Scale(ret, 1/(float)vects.Length, ref ret);
     	
             return ret;
         }    

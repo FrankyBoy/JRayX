@@ -32,7 +32,8 @@ namespace JRayXLib.Shapes
             return ret;
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
+        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
+        {
             LookAt.CopyDataTo(normal);
         }
 
@@ -41,7 +42,7 @@ namespace JRayXLib.Shapes
         }
 
         public override void Rotate(Matrix4 tmp) {
-            VectMatrix.Multiply(LookAt, tmp, LookAt);
+            VectMatrix.Multiply(LookAt, tmp, ref _lookAt);
         }
 
         public new Sphere GetBoundingSphere() {

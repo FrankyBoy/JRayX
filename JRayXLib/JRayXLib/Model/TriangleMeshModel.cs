@@ -7,7 +7,7 @@ namespace JRayXLib.Model
 {
     public class TriangleMeshModel
     {
-        private readonly MinimalTriangle[] _triangles;
+        private readonly I3DObject[] _triangles;
         private readonly Sphere _bounds;
         private readonly Octree _tree;
 
@@ -19,7 +19,7 @@ namespace JRayXLib.Model
      * 
      * @param triangleEdgeData
      */
-        public TriangleMeshModel(MinimalTriangle[] triangleEdgeData)
+        public TriangleMeshModel(I3DObject[] triangleEdgeData)
         {
             _triangles = triangleEdgeData;
 
@@ -46,7 +46,7 @@ namespace JRayXLib.Model
             foreach (MinimalTriangle m in _triangles)
             {
                 Vect3 p = m.GetBoundingSphere().Position;
-                Vect.Subtract(p, max, min);
+                Vect.Subtract(p, max, ref min);
                 double dist = m.GetBoundingSphereRadius() + min.Length();
 
                 if (dist > radius)

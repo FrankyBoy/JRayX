@@ -29,9 +29,9 @@ namespace JRayXLib.Shapes
             this.v2 = v2;
             this.v3 = v3;
 
-            Vect.Subtract(v2, v1, edgev1v2);
-            Vect.Subtract(v3, v1, edgev1v3);
-            Vect.CrossProduct(edgev1v2, edgev1v3, this.LookAt);
+            Vect.Subtract(v2, v1, ref edgev1v2);
+            Vect.Subtract(v3, v1, ref edgev1v3);
+            Vect.CrossProduct(edgev1v2, edgev1v3, ref _lookAt);
             LookAt.Normalize();
         }
 
@@ -39,7 +39,8 @@ namespace JRayXLib.Shapes
             return RayTriangle.GetHitPointRayTriangleDistance(r.GetOrigin(), r.GetDirection(), Position, edgev1v2, edgev1v3);
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
+        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
+        {
             LookAt.CopyDataTo(normal);
         }
 
@@ -47,9 +48,9 @@ namespace JRayXLib.Shapes
             var tmp = new Vect3();
             var temp3 = new Vect3();
 
-            Vect.Subtract(hitPoint, Position, tmp);
+            Vect.Subtract(hitPoint, Position, ref tmp);
 
-            Vect.CrossProduct(edgev1v2, edgev1v3, temp3);
+            Vect.CrossProduct(edgev1v2, edgev1v3, ref temp3);
             if (System.Math.Abs(Vect.DotProduct(temp3, tmp)) > 1e-10) {
                 return false;
             }
@@ -75,10 +76,10 @@ namespace JRayXLib.Shapes
         }
 
         public override void Rotate(Matrix4 rotationMatrix) {
-            VectMatrix.Multiply(edgev1v2, rotationMatrix, edgev1v2);
-            VectMatrix.Multiply(edgev1v3, rotationMatrix, edgev1v3);
+            VectMatrix.Multiply(edgev1v2, rotationMatrix, ref edgev1v2);
+            VectMatrix.Multiply(edgev1v3, rotationMatrix, ref edgev1v3);
 
-            Vect.CrossProduct(edgev1v2, edgev1v3, this.LookAt);
+            Vect.CrossProduct(edgev1v2, edgev1v3, ref _lookAt);
         }
 
         public new string ToString() {
@@ -92,7 +93,7 @@ namespace JRayXLib.Shapes
         public override double GetBoundingSphereRadius()
         {
             Vect3 avg = Vect.Avg(new[] { Position, v2, v3 });
-            Vect.Subtract(avg, v3, avg);
+            Vect.Subtract(avg, v3, ref avg);
 		
             return avg.Length();
         }

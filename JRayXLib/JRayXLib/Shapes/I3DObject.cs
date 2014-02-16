@@ -13,7 +13,7 @@ namespace JRayXLib.Shapes
         double GetHitPointDistance(Ray r);
         
         Color GetColorAt(Vect3 hitPoint);
-        void GetNormalAt(Vect3 hitPoint, Vect3 normal);
+        void GetNormalAt(Vect3 hitPoint, ref Vect3 normal);
         double GetReflectivityAt(Vect3 hitPoint);
         bool Contains(Vect3 hitPoint);
 

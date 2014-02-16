@@ -8,9 +8,21 @@ namespace JRayXLib.Shapes
     {
 
         protected Color Color;
-        public Vect3 Position { get; set; }
-        public Vect3 LookAt { get; set; }
+        public Vect3 Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
+
+        public Vect3 LookAt
+        {
+            get { return _lookAt; }
+            set { _lookAt = value; }
+        }
+
         protected double Reflectivity;
+        protected Vect3 _lookAt;
+        protected Vect3 _position;
 
         protected Basic3DObject(Vect3 position, Vect3 lookAt, double rotationRad) : this(position, lookAt) {
             Rotate(lookAt, rotationRad);
@@ -40,7 +52,7 @@ namespace JRayXLib.Shapes
             return Color;
         }
 
-        public abstract void GetNormalAt(Vect3 hitPoint, Vect3 normal);
+        public abstract void GetNormalAt(Vect3 hitPoint, ref Vect3 normal);
 
 
         public double GetReflectivityAt(Vect3 hitPoint) {

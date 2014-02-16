@@ -21,7 +21,7 @@ namespace JRayXLib.Shapes
             : this(position, radius, color, 0) {}
 
         public Sphere(Vect3 position, double radius, Color color, double reflectivity)
-            : this(position, new Vect3(0, radius, 0), 0, color)
+            : this(position, new Vect3(0, radius), 0, color)
         {
             Reflectivity = reflectivity;
         }
@@ -53,7 +53,7 @@ namespace JRayXLib.Shapes
             {
                 rVData[1] += 1;
             }
-            Vect.CrossProduct(RotVect, lookAt, RotVect);
+            Vect.CrossProduct(RotVect, lookAt, ref RotVect);
             RotVect.Normalize();
             LookAt.Normalize();
             Rotate(lookAt, rotationRad);
@@ -63,22 +63,22 @@ namespace JRayXLib.Shapes
         {
             return RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.GetDirection(), Position, Radius);
         }
-        
-        public override void GetNormalAt(Vect3 hitPoint, Vect3 normal)
+
+        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
         {
-            Vect.Subtract(hitPoint, Position, normal);
+            Vect.Subtract(hitPoint, Position, ref normal);
             normal.Normalize();
         }
 
         public override bool Contains(Vect3 hitPoint)
         {
-            return System.Math.Abs(Vect.Distance(hitPoint, Position) - Radius) < Constants.EPS;
+            return System.Math.Abs(Vect.Distance(hitPoint, ref _position) - Radius) < Constants.EPS;
         }
         
         public override void Rotate(Matrix4 rotationMatrix)
         {
-            VectMatrix.Multiply(LookAt, rotationMatrix, LookAt);
-            VectMatrix.Multiply(RotVect, rotationMatrix, RotVect);
+            VectMatrix.Multiply(LookAt, rotationMatrix, ref _lookAt);
+            VectMatrix.Multiply(RotVect, rotationMatrix, ref RotVect);
 
             LookAt.Normalize();
             RotVect.Normalize();

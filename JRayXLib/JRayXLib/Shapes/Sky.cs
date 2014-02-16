@@ -30,8 +30,8 @@ namespace JRayXLib.Shapes
             return _texture.GetColorAt(x, y);
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
-            Vect.Invert(hitPoint, normal); // the normal is everywhere the vect pt -> 0
+        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal) {
+            Vect.Invert(hitPoint, ref normal); // the normal is everywhere the vect pt -> 0
         }
 
         public override bool Contains(Vect3 hitPoint) {

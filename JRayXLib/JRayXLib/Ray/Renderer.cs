@@ -152,12 +152,12 @@ namespace JRayXLib.Ray
             var rayDirection = new Vect3();
             Camera camera = _scene.Camera;
 
-            var ray = new Shapes.Ray(new Vect3(camera.GetPosition()), rayDirection);
+            var ray = new Shapes.Ray(new Vect3(camera.Position), rayDirection);
 
             var vertAdd = new Vect3(camera.GetViewPaneHeightVector());
-            Vect.Scale(vertAdd, 1.0/(_heightPx - 1), vertAdd);
+            Vect.Scale(vertAdd, 1.0/(_heightPx - 1), ref vertAdd);
             var horzAdd = new Vect3(camera.GetViewPaneWidthVector());
-            Vect.Scale(horzAdd, 1.0/(_widthPx - 1), horzAdd);
+            Vect.Scale(horzAdd, 1.0/(_widthPx - 1), ref horzAdd);
 
             var localMaxBrightness = 0;
             for (int i = from; i < to; i++)
@@ -165,9 +165,9 @@ namespace JRayXLib.Ray
                 for (int j = 0; j < _widthPx; j++)
                 {
 
-                    Vect.Subtract(camera.GetViewPaneEdge(), ray.GetOrigin(), rayDirection);
-                    Vect.AddMultiple(rayDirection, vertAdd, i, rayDirection);
-                    Vect.AddMultiple(rayDirection, horzAdd, j, rayDirection);
+                    Vect.Subtract(camera.GetViewPaneEdge(), ray.GetOrigin(), ref rayDirection);
+                    Vect.AddMultiple(rayDirection, vertAdd, i, ref rayDirection);
+                    Vect.AddMultiple(rayDirection, horzAdd, j, ref rayDirection);
 
                     rayDirection.Normalize();
 

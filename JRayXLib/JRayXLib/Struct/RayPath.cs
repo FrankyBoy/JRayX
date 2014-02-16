@@ -36,13 +36,13 @@ namespace JRayXLib.Struct
 			
                 //march out of current node
                 double d = RayCube.GetDistanceToBorderPlane(pos, r.GetDirection(), n.Center, n.Width/2) + Constants.EPS*1e4; //distance traveled since the ray's origin
-                Vect.AddMultiple(pos, r.GetDirection(), d, pos);
+                Vect.AddMultiple(pos, r.GetDirection(), d, ref pos);
                 distanceTravelled+=d;
 			
                 //in case eps was not enough
                 while(n.Encloses(pos)){
                     d = Constants.EPS * 1e4;
-                    Vect.AddMultiple(pos, r.GetDirection(), d, pos);
+                    Vect.AddMultiple(pos, r.GetDirection(), d, ref pos);
                     distanceTravelled+=d;
                 }
 			

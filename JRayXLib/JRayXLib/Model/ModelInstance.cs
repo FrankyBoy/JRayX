@@ -25,10 +25,10 @@ namespace JRayXLib.Model
             double dist;
             Shapes.Ray subRay;
             var tmp = new Vect3();
-            Vect.Add(Position, _model.GetBoundingSphere().Position, tmp);
+            Vect.Add(Position, _model.GetBoundingSphere().Position, ref tmp);
 		
             if(RaySphere.IsRayOriginatingInSphere(r.GetOrigin(), r.GetDirection(), tmp, _model.GetBoundingSphere().GetRadius())){
-                Vect.Subtract(r.GetOrigin(), Position, tmp);
+                Vect.Subtract(r.GetOrigin(), Position, ref tmp);
                 subRay = new Shapes.Ray(tmp, r.GetDirection());
 			
                 dist = 0;
@@ -38,8 +38,8 @@ namespace JRayXLib.Model
                 if(double.IsInfinity(dist))
                     return dist;
 			
-                Vect.AddMultiple(r.GetOrigin(), r.GetDirection(), dist, tmp);
-                Vect.Subtract(tmp, Position, tmp);
+                Vect.AddMultiple(r.GetOrigin(), r.GetDirection(), dist, ref tmp);
+                Vect.Subtract(tmp, Position, ref tmp);
                 subRay = new Shapes.Ray(tmp, r.GetDirection());
             }
 		
@@ -50,10 +50,10 @@ namespace JRayXLib.Model
 
             if(!double.IsInfinity(d.Details.Distance)){
                 var hitPointLocal = new Vect3();
-                Vect.AddMultiple(subRay.GetOrigin(), subRay.GetDirection(), d.Details.Distance, hitPointLocal);
+                Vect.AddMultiple(subRay.GetOrigin(), subRay.GetDirection(), d.Details.Distance, ref hitPointLocal);
                 d.HitPointLocal = hitPointLocal;
                 var hitPointGlobal = new Vect3();
-                Vect.Add(hitPointLocal, Position, hitPointGlobal);
+                Vect.Add(hitPointLocal, Position, ref hitPointGlobal);
                 d.HitPointGlobal = hitPointGlobal;
                 return d.Details.Distance + dist;
             }
@@ -61,13 +61,13 @@ namespace JRayXLib.Model
             return d.Details.Distance;
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, Vect3 normal) {
+        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal) {
             CollisionData d;
 
             if (_lastCollision.TryGetValue(Thread.CurrentThread, out d)
-                && d.HitPointGlobal.Equals(hitPoint, Constants.EPS))
+                && d.HitPointGlobal.Equals(hitPoint))
             {
-                d.Details.Obj.GetNormalAt(d.HitPointLocal, normal);
+                d.Details.Obj.GetNormalAt(d.HitPointLocal, ref normal);
             }
 
             throw new Exception("hitpoint not in cache: " + hitPoint);
@@ -79,7 +79,7 @@ namespace JRayXLib.Model
     
         public new Vect3 GetBoundingSphereCenter(){
             var pos = new Vect3();
-            Vect.Add(Position, _model.GetBoundingSphere().Position, pos);
+            Vect.Add(Position, _model.GetBoundingSphere().Position, ref pos);
             return pos;
         }
     
