@@ -10,8 +10,9 @@ namespace JRayXLib.Ray.Scenes
         public KugelTest() {
             var objects = new List<I3DObject>
                 {
-                    new Sphere(new Vect3(0, 0, 0), 1, Color.Yellow, 0.5),
-                    new Plane(new Vect3(0, -2, 0), new Vect3(0, 1, 0), Color.Green)
+                    //new Sphere(new Vect3(0, 0, 0), 1, Color.Yellow, 0.5),
+                    new Plane(new Vect3(0, -2, 0), new Vect3(0, 1, 0), Color.Green),
+                    new Cone(new Vect3(0,0,0), new Vect3(0,1,0), 0, Color.Red)
                 };
             Objects = objects.ToArray();
 

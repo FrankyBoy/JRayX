@@ -8,7 +8,7 @@ namespace JRayXLib.Shapes
 
         public Vect3(double a = 0, double b = 0, double c = 0)
         {
-            Data = new[] { a, b, c };
+            Data = new[]{ a, b, c };
         }
 
         public Vect3(Vect3 old) : this(old.Data[0], old.Data[1], old.Data[2]) { }
@@ -30,7 +30,6 @@ namespace JRayXLib.Shapes
             return Data[0] * Data[0] + Data[1] * Data[1] + Data[2] * Data[2];
         }
 
-        // TODO: make this return a new vector and not scale itself.
         public Vect3 Normalize()
         {
             double len = Length();

@@ -17,7 +17,7 @@ namespace JRayXLib.Math.intersections
                 len = coneAxisLength;
             }else{//bend axis towards plane normal as far as sinPhi allows
                 p = p.Normalize();
-                q = q - (p * coneAxisLength * System.Math.Sin(System.Math.Acos(coneCosPhi)));
+                q = q + (p * coneAxisLength * System.Math.Sin(System.Math.Acos(coneCosPhi)));
                 q -= conePosition;
                 len = q.Length();
                 p = q / len;
