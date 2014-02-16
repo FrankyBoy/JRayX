@@ -31,16 +31,15 @@ namespace JRayXLib.Ray.Tracer
             }
         
             //Calculate hit position
-            var hitPoint = new Vect3();
+            var hitPoint = new Vect3(0);
             Vect.AddMultiple(ray.GetOrigin(), ray.GetDirection(), c.Distance, ref hitPoint);
         
             //Get color and normal at hitpoint
             var color = c.Obj.GetColorAt(hitPoint).ToWide(); 
-            var normal = new Vect3();
-            c.Obj.GetNormalAt(hitPoint, ref normal);
+            var normal = c.Obj.GetNormalAt(hitPoint);
         
             //Check if anything is blocking direct sunlight (go where the sunlight comes from)
-            var lrDir = new Vect3();
+            var lrDir = new Vect3(0);
             Vect.Scale(Scene.LightDirection, -1, ref lrDir);
             var lightRay = new Shapes.Ray(hitPoint, lrDir);
             CollisionDetails lc = FindNearestHit(lightRay);

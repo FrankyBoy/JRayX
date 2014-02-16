@@ -16,7 +16,7 @@ namespace JRayXLib.Math.intersections
      */
         public static double GetHitPointRaySphereDistance(Vect3 rayOrigin, Vect3 rayDirection, Vect3 sphereCenter, double sphereRadius) {
 
-            var tmp = new Vect3();
+            var tmp = new Vect3(0);
 
             /* calculate b, c for the quadratic formula described in
          * http://en.wikipedia.org/wiki/Line–sphere_intersection
@@ -67,7 +67,7 @@ namespace JRayXLib.Math.intersections
         }
     
         public static bool IsRayOriginatingInSphere(Vect3 rayOrigin, Vect3 rayDirection, Vect3 sphereCenter, double sphereRadius){
-            var tmp = new Vect3();
+            var tmp = new Vect3(0);
             Vect.Subtract(sphereCenter, rayOrigin, ref tmp);
     	
             return tmp.QuadLength()<sphereRadius*sphereRadius;

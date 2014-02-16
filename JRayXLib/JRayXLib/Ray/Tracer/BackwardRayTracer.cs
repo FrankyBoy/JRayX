@@ -38,7 +38,7 @@ namespace JRayXLib.Ray.Tracer
             }
         
             //Calculate hit point
-            var hitPoint = new Vect3();
+            var hitPoint = new Vect3(0);
             Vect.AddMultiple(ray.GetOrigin(), ray.GetDirection(), c.Distance, ref hitPoint); //Position des Treffers berechnen
         
             //Return object's color at hit point

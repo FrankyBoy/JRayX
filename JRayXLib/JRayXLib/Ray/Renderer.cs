@@ -149,7 +149,7 @@ namespace JRayXLib.Ray
             }
 
             BackwardRayTracer logic = GetLogic();
-            var rayDirection = new Vect3();
+            var rayDirection = new Vect3(0);
             Camera camera = _scene.Camera;
 
             var ray = new Shapes.Ray(new Vect3(camera.Position), rayDirection);

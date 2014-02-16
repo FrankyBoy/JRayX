@@ -12,7 +12,7 @@ namespace JRayXLib.Ray
         private readonly Vect3 _viewPaneHeightVector; //RichtungsVektor von der linken oberen Ecke zur linken unteren Ecke
 
         private Camera(Vect3 position, Vect3 viewPaneEdge, Vect3 viewPaneWidthVector, Vect3 viewPaneHeightVector)
-            : base(position, null){
+            : base(position, new Vect3(0)){
             _viewPaneEdge = viewPaneEdge;
             _viewPaneWidthVector = viewPaneWidthVector;
             _viewPaneHeightVector = viewPaneHeightVector;
@@ -36,17 +36,16 @@ namespace JRayXLib.Ray
             var viewPaneHeightVector = new Vect3(camUp);
             Vect.Scale(viewPaneHeightVector, -viewPaneHeight, ref viewPaneHeightVector);
 
-            var viewPaneWidthVector = new Vect3();
             Vect.Subtract(position, viewPaneCenter, ref temp1);
-            Vect.CrossProduct(temp1, viewPaneHeightVector, ref viewPaneWidthVector);
+            var viewPaneWidthVector = Vect.CrossProduct(temp1, viewPaneHeightVector);
             viewPaneWidthVector.Normalize();
             Vect.Scale(viewPaneWidthVector, viewPaneWidth, ref viewPaneWidthVector);
 
-            var viewPaneEdge = new Vect3();
-            viewPaneWidthVector.CopyDataTo(temp1);
+            var viewPaneEdge = new Vect3(0);
+            viewPaneWidthVector.CopyDataTo(ref temp1);
             Vect.Scale(temp1, 0.5, ref temp1);
             Vect.Subtract(viewPaneCenter, temp1, ref viewPaneEdge);
-            viewPaneHeightVector.CopyDataTo(temp1);
+            viewPaneHeightVector.CopyDataTo(ref temp1);
             Vect.Scale(temp1, 0.5, ref temp1);
             Vect.Subtract(viewPaneEdge, temp1, ref viewPaneEdge);
 
@@ -96,10 +95,11 @@ namespace JRayXLib.Ray
             return RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.GetDirection(), Position, 0);
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
+        public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            Vect.Subtract(hitPoint, Position, ref normal);
-            normal.Normalize();
+            var target = new Vect3(0);
+            Vect.Subtract(hitPoint, Position, ref target);
+            return target.Normalize();
         }
 
         public override bool Contains(Vect3 hitPoint) {

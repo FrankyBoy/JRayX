@@ -6,12 +6,12 @@ namespace JRayXLib.Shapes
     public class Sky : Basic3DObject {
         readonly Texture _texture;
 
-        public Sky(string texture) : base(null, null){
+        public Sky(string texture) : base(new Vect3(0), new Vect3(0)){
             _texture = Texture.Load(texture);
         }
 
         public Sky(Color color)
-            : base(null, null, 0)
+            : base(new Vect3(0), new Vect3(0))
         {
             Color = color;
         }
@@ -22,16 +22,16 @@ namespace JRayXLib.Shapes
 
         public new Color GetColorAt(Vect3 hitPoint)
         {
-            double[] hpdat = hitPoint.Data;
-
-            double x = System.Math.Acos(hpdat[1] / hitPoint.Length()) / System.Math.PI;
-            double y = System.Math.Acos(hpdat[2] / hitPoint.Length()) / System.Math.PI;
+            var hpLength = hitPoint.Length();
+            double x = System.Math.Acos(hitPoint.Data[1] / hpLength) / System.Math.PI;
+            double y = System.Math.Acos(hitPoint.Data[2] / hpLength) / System.Math.PI;
 
             return _texture.GetColorAt(x, y);
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal) {
-            Vect.Invert(hitPoint, ref normal); // the normal is everywhere the vect pt -> 0
+        public override Vect3 GetNormalAt(Vect3 hitPoint) {
+
+            return Vect.Invert(hitPoint); // the normal is everywhere the vect pt -> 0
         }
 
         public override bool Contains(Vect3 hitPoint) {

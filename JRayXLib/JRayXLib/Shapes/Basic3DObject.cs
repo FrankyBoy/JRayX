@@ -52,7 +52,7 @@ namespace JRayXLib.Shapes
             return Color;
         }
 
-        public abstract void GetNormalAt(Vect3 hitPoint, ref Vect3 normal);
+        public abstract Vect3 GetNormalAt(Vect3 hitPoint);
 
 
         public double GetReflectivityAt(Vect3 hitPoint) {

@@ -38,7 +38,7 @@ namespace JRayXLib.Struct
         public static Octree BuildTree(Vect3 center, I3DObject[] objects)
         {
             double maxQuadDist=0;
-            var dist=new Vect3();
+            var dist=new Vect3(0);
 		
             Log.Debug("Building octree... ");
 

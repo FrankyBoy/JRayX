@@ -5,9 +5,9 @@ namespace JRayXLib.Math.intersections
     public class AreaCone {
 	
         public static bool IsAreaIntersectingCone(Vect3 planeNormal, Vect3 planePoint, double planeWidth2, Vect3 conePosition, Vect3 coneAxis, double coneAxisLength, double coneCosPhi){
-            var qx = new Vect3();
-            var p = new Vect3();
-            var q = new Vect3();
+            var qx = new Vect3(0);
+            var p = new Vect3(0);
+            var q = new Vect3(0);
             double len;
 		
             //try "bending" axis towards plane normal 
@@ -16,7 +16,7 @@ namespace JRayXLib.Math.intersections
             Vect.AddMultiple(qx, planeNormal, -1, ref p);
 		
             if(System.Math.Abs(p.QuadLength() - 0) < Constants.EPS){// axis equals plane normal
-                coneAxis.CopyDataTo(p);
+                p = new Vect3(coneAxis);
                 len = coneAxisLength;
             }else{//bend axis towards plane normal as far as sinPhi allows
                 p.Normalize();

@@ -30,15 +30,13 @@ namespace JRayXLib.Shapes
             return RayCone.GetRayConeIntersectionDistance(r.GetOrigin(), r.GetDirection(), Position, LookAt, CosPhi, AxisLength);
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
+        public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            var tmp = new Vect3();
-            var tmp2 = new Vect3();
+            var tmp = new Vect3(0);
             Vect.Subtract(hitPoint, Position, ref tmp);
 
-            Vect.CrossProduct(tmp, LookAt, ref tmp2);
-            Vect.CrossProduct(tmp, tmp2, ref normal);
-            normal.Normalize();
+            Vect3 tmp2 = Vect.CrossProduct(tmp, LookAt);
+            return Vect.CrossProduct(tmp, tmp2).Normalize();
         }
 	
         public override bool Contains(Vect3 hitPoint) {
@@ -50,11 +48,8 @@ namespace JRayXLib.Shapes
                                      Position.Data[1]+LookAt.Data[1]*AxisLength,
                                      Position.Data[2]+LookAt.Data[2]*AxisLength);
 
-            var normal = new Vect3();
-            normal.Data[0] = @base.Data[2];
-            normal.Data[1] = @base.Data[0];
-            normal.Data[2] = @base.Data[1];
-            var tmp = new Vect3();
+            var normal = new Vect3(@base.Data[2], @base.Data[0], @base.Data[1]);
+            var tmp = new Vect3(0);
             Vect.Project(normal, LookAt, ref tmp);
             Vect.Subtract(normal, tmp, ref normal);
             normal.Normalize();

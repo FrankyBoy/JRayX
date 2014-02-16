@@ -5,7 +5,7 @@ namespace JRayXLib.Shapes
         private readonly Vect3 _origin;
         private readonly Vect3 _direction;
 
-        public Ray() : this(new Vect3(), new Vect3()){}
+        public Ray() : this(new Vect3(0), new Vect3(0)){}
 
         /**
      * Creates a new Ray

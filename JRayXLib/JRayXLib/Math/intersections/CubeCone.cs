@@ -18,7 +18,7 @@ namespace JRayXLib.Math.intersections
 	 * @return
 	 */
         public static bool IsCubeEnclosingCone(Vect3 cubeCenter, double cubeWidthHalf, Vect3 conePosition, Vect3 coneAxis, double coneAxisLength, double coneCosPhi){
-            Vect3 planeNormal = new Vect3(),
+            Vect3 planeNormal = new Vect3(0),
                   planePoint = new Vect3(cubeCenter);
 		
             if(!PointCube.Encloses(cubeCenter, cubeWidthHalf, conePosition))
@@ -56,7 +56,7 @@ namespace JRayXLib.Math.intersections
 	 * @return
 	 */
         public static bool IsCubeIntersectingCone(Vect3 cubeCenter, double cubeWidthHalf, Vect3 conePosition, Vect3 coneAxis, double coneAxisLength, double coneCosPhi){
-            Vect3 planeNormal = new Vect3(),
+            Vect3 planeNormal = new Vect3(0),
                   planePoint = new Vect3(cubeCenter);
 		
             if(PointCube.Encloses(cubeCenter, cubeWidthHalf, conePosition))

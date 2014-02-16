@@ -17,7 +17,7 @@ namespace JRayXLib.Model
             V3 = v3;
 		
             Vect3 avg = GetBoundingSphereCenter();
-            Vect3 tmp = new Vect3();
+            Vect3 tmp = new Vect3(0);
             Vect.Subtract(avg, v3, ref tmp);
     	
             Bounds = new Sphere(avg,tmp.Length(), Color.Black);
@@ -29,8 +29,8 @@ namespace JRayXLib.Model
 
         public override double GetHitPointDistance(Shapes.Ray r)
         {
-            Vect3 v1v2 = new Vect3();
-            Vect3 v1v3 = new Vect3();
+            var v1v2 = new Vect3(0);
+            var v1v3 = new Vect3(0);
 		
             Vect.Subtract(V2, Position, ref v1v2);
             Vect.Subtract(V3, Position, ref v1v3);
@@ -42,8 +42,8 @@ namespace JRayXLib.Model
             return ret;
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal) {
-            LookAt.CopyDataTo(normal);
+        public override Vect3 GetNormalAt(Vect3 hitPoint) {
+            return new Vect3(LookAt);
         }
 
         public override void Rotate(Matrix4 rotationMatrix) {

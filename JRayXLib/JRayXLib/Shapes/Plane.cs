@@ -32,9 +32,9 @@ namespace JRayXLib.Shapes
             return ret;
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
+        public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            LookAt.CopyDataTo(normal);
+            return new Vect3(LookAt);
         }
 
         public override bool Contains(Vect3 hitPoint) {

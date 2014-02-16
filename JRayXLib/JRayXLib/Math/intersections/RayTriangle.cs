@@ -7,8 +7,7 @@ namespace JRayXLib.Math.intersections
         public static double TriEPS = 0;
 	
         public static double GetHitPointRayTriangleDistance(Vect3 rayPosition, Vect3 rayDirection, Vect3 trianglePos, Vect3 triangleVect1, Vect3 triangleVect2) {
-            Vect3 tmp = new Vect3();
-            Vect.CrossProduct(triangleVect1, triangleVect2, ref tmp);
+            Vect3 tmp = Vect.CrossProduct(triangleVect1, triangleVect2);
             double ret = RayPlane.GetHitPointRayPlaneDistance(rayPosition, rayDirection, trianglePos, tmp);
             if(ret == double.PositiveInfinity || ret < Constants.MinDistance) {
                 return double.PositiveInfinity;

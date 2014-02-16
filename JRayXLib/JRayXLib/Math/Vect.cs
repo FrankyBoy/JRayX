@@ -5,36 +5,13 @@ namespace JRayXLib.Math
 {
     public class Vect {
 
-        public static void GetXAxis(Vect3 erg) {
-            double[] d = erg.Data;
-
-            d[0] = 1;
-            d[1] = 0;
-            d[2] = 0;
-        }
-
-        public static void GetYAxis(Vect3 erg) {
-            double[] d = erg.Data;
-            d[0] = 0;
-            d[1] = 1;
-            d[2] = 0;
-        }
-
-        public static void GetZAxis(Vect3 erg) {
-            double[] d = erg.Data;
-
-            d[0] = 0;
-            d[1] = 0;
-            d[2] = 1;
-        }
-
         /**
-     * calculates the dot product of the given vectors <vec1,vec2>
-     * @author Hari
-     * @param vec1
-     * @param vec2
-     * @return result of the dot product
-     */
+         * calculates the dot product of the given vectors <vec1,vec2>
+         * @author Hari
+         * @param vec1
+         * @param vec2
+         * @return result of the dot product
+         */
         public static double DotProduct(Vect3 vec1, Vect3 vec2) {
             double[] v1 = vec1.Data;
             double[] v2 = vec2.Data;
@@ -42,25 +19,22 @@ namespace JRayXLib.Math
         }
 
         /**
-     * calculates the cross product of the given vectors and store the result in
-     * the given erg vector: erg = vec1 x vec2
-     * @author Hari
-     * @param vec1
-     * @param vec2
-     * @param erg
-     */
-        public static void CrossProduct(Vect3 vec1, Vect3 vec2, ref Vect3 erg) {
+         * calculates the cross product of the given vectors and store the result in
+         * the given erg vector: erg = vec1 x vec2
+         * @author Hari
+         * @param vec1
+         * @param vec2
+         * @param erg
+         */
+        public static Vect3 CrossProduct(Vect3 vec1, Vect3 vec2) {
             double[] v1 = vec1.Data;
             double[] v2 = vec2.Data;
-            double[] data = erg.Data;
 
-            double x = v1[1] * v2[2] - v1[2] * v2[1];
-            double y = -(v1[0] * v2[2] - v1[2] * v2[0]);
-            double z = v1[0] * v2[1] - v1[1] * v2[0];
-
-            data[0] = x;
-            data[1] = y;
-            data[2] = z;
+            return new Vect3(
+                v1[1] * v2[2] - v1[2] * v2[1],
+                -(v1[0] * v2[2] - v1[2] * v2[0]),
+                v1[0] * v2[1] - v1[1] * v2[0]
+            );
         }
 
         public static void Subtract(Vect3 vec1, Vect3 vec2, ref Vect3 erg) {
@@ -173,13 +147,12 @@ namespace JRayXLib.Math
             ergdat[2] = odat[2] + add[2] * scale;
         }
     
-        public static void Invert(Vect3 vect, ref Vect3 erg) {
-            double[] vectdat = vect.Data;
-            double[] ergdat = erg.Data;
-
-            ergdat[0] = - vectdat[0];
-            ergdat[1] = - vectdat[1];
-            ergdat[2] = - vectdat[2];
+        public static Vect3 Invert(Vect3 vect) {
+            return new Vect3(
+                 - vect.Data[0],
+                 - vect.Data[1],
+                 - vect.Data[2]
+                );
         }
     
         public static void InterpolateTriangle(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 t1, Vect3 t2, Vect3 t3, Vect3 point, ref Vect3 result){
@@ -196,14 +169,14 @@ namespace JRayXLib.Math
          * TODO: 3 vect3 allocated here...
          */
         public static double InterpolateTriangleEdge1(Vect3 v1, Vect3 v2, Vect3 v3, Vect3 point){
-            var v23N = new Vect3();
+            var v23N = new Vect3(0);
             Subtract(v3, v2, ref v23N);
             v23N.Normalize();
     	
-            var v21 = new Vect3();
+            var v21 = new Vect3(0);
             Subtract(v1, v2, ref v21);
     	
-            var v1O = new Vect3(); //punkt gegenüber der ecke v1 (o ... opposite)
+            var v1O = new Vect3(0); //punkt gegenüber der ecke v1 (o ... opposite)
             Project(v21, v23N, ref v1O);
             Subtract(v1O, v21, ref v1O);
     	
@@ -222,7 +195,7 @@ namespace JRayXLib.Math
         }
     
         public static Vect3 Avg(Vect3[] vects){
-            var ret = new Vect3();
+            var ret = new Vect3(0);
     	
             foreach (Vect3 v in vects)
                 Add(ret, v, ref ret);

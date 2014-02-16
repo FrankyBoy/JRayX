@@ -11,7 +11,7 @@ namespace JRayXLib.Shapes
         private readonly I3DObject[] _objects;
 
         public Basic3DObjectStructure(Vect3 position, Vect3 lookAt, I3DObject[] objects)
-            : base(new Vect3(), lookAt)
+            : base(new Vect3(0), lookAt)
         {
             _objects = objects;
             SetPosition(position);
@@ -38,12 +38,12 @@ namespace JRayXLib.Shapes
             throw new Exception("internal error!");
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
+        public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
             var ret = GetObjectAt(hitPoint);
             if (ret != null)
             {
-                ret.GetNormalAt(hitPoint, ref normal);
+                return ret.GetNormalAt(hitPoint);
             }
             else
             {

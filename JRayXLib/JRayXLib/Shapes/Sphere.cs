@@ -40,20 +40,18 @@ namespace JRayXLib.Shapes
             // calculate the rotation of the 0-meridian
             RotVect = new Vect3(lookAt);
 
-            double[] rVData = RotVect.Data;
-
             // check so we don't end up with two linear dependent vectors
-            if (System.Math.Abs(rVData[1] - 0) > Constants.EPS
-                && System.Math.Abs(rVData[0] - 0) < Constants.EPS
-                && System.Math.Abs(rVData[2] - 0) < Constants.EPS)
+            if (   System.Math.Abs(RotVect.Data[1] - 0) > Constants.EPS
+                && System.Math.Abs(RotVect.Data[0] - 0) < Constants.EPS
+                && System.Math.Abs(RotVect.Data[2] - 0) < Constants.EPS)
             {
-                rVData[0] += 1;
+                RotVect.Data[0] += 1;
             }
             else
             {
-                rVData[1] += 1;
+                RotVect.Data[1] += 1;
             }
-            Vect.CrossProduct(RotVect, lookAt, ref RotVect);
+            RotVect = Vect.CrossProduct(RotVect, lookAt);
             RotVect.Normalize();
             LookAt.Normalize();
             Rotate(lookAt, rotationRad);
@@ -64,10 +62,11 @@ namespace JRayXLib.Shapes
             return RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.GetDirection(), Position, Radius);
         }
 
-        public override void GetNormalAt(Vect3 hitPoint, ref Vect3 normal)
+        public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            Vect.Subtract(hitPoint, Position, ref normal);
-            normal.Normalize();
+            var tmp = new Vect3(0);
+            Vect.Subtract(hitPoint, Position, ref tmp);
+            return tmp.Normalize();
         }
 
         public override bool Contains(Vect3 hitPoint)
