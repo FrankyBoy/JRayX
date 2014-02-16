@@ -37,18 +37,7 @@ namespace JRayXLib.Math
                 v1[0] * v2[1] - v1[1] * v2[0]
             );
         }
-
-        public static Vect3 Add(Vect3 vec1, Vect3 vec2) {
-            double[] v1 = vec1.Data;
-            double[] v2 = vec2.Data;
-
-            return new Vect3(
-                v1[0] + v2[0],
-                v1[1] + v2[1],
-                v1[2] + v2[2]
-            );
-        }
-
+        
         public static Vect3 Scale(Vect3 vec, double d) {
             double[] vdat = vec.Data;
 
@@ -107,7 +96,7 @@ namespace JRayXLib.Math
         {
             var result = Project(incoming, normal);
             result = Scale(result, -2);
-            return Add(incoming, result);
+            return incoming + result;
         }
     
         /**
@@ -184,10 +173,11 @@ namespace JRayXLib.Math
             return 1-(p1.Length()/h1);
         }
     
+        // TODO: we can do better!
         public static Vect3 Avg(Vect3[] vects){
             var ret = new Vect3(0);
 
-            ret = vects.Aggregate(ret, Add);
+            ret = vects.Aggregate(ret, (a,b) => a+b);
             ret = Scale(ret, 1/(float)vects.Length);
     	
             return ret;

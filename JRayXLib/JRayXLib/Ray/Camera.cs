@@ -77,7 +77,7 @@ namespace JRayXLib.Ray
         public void SetScreenDimensions(int width, int height) {
             double factor = width / (2.0 * height);
             _viewPaneWidthVector = Vect.Scale(_viewPaneWidthVector, 0.5);
-            _viewPaneEdge = Vect.Add(_viewPaneEdge, _viewPaneWidthVector);
+            _viewPaneEdge += _viewPaneWidthVector;
             _viewPaneWidthVector.Normalize();
             _viewPaneWidthVector = Vect.Scale(_viewPaneWidthVector, factor);
             _viewPaneEdge -= _viewPaneWidthVector;
