@@ -28,16 +28,15 @@ namespace JRayXLib.Math
         public static Vect3 CrossProduct(Vect3 v1, Vect3 v2)
         {
             return new Vect3(
-                  v1.Y * v1.Z - v1.Z * v1.Y,
-                -(v1.X * v1.Z - v1.Z * v1.X),
-                  v1.X * v1.Y - v1.Y * v1.X
-            );
+                  v1.Y * v2.Z - v1.Z * v2.Y,
+                -(v1.X * v2.Z - v1.Z * v2.X),
+                  v1.X * v2.Y - v1.Y * v2.X);
         }
 
         public static double Distance(Vect3 v1, ref Vect3 v2) {
-            double x = v1.X - v1.X;
-            double y = v1.Y - v1.Y;
-            double z = v1.Z - v1.Z;
+            double x = v1.X - v2.X;
+            double y = v1.Y - v2.Y;
+            double z = v1.Z - v2.Z;
 
             return System.Math.Sqrt(x * x + y * y + z * z);
         }

@@ -20,7 +20,7 @@
       <PdhCountersRate>500</PdhCountersRate>
       <PdhCounters>
         <PdhCounter>\Arbeitsspeicher\Seiten/s</PdhCounter>
-        <PdhCounter>\Physikalischer Datentr&amp;amp;amp;#228;ger(_Total)\Durchschnittl. Warteschlangenl&amp;amp;amp;#228;nge des Datentr&amp;amp;amp;#228;gers</PdhCounter>
+        <PdhCounter>\Physikalischer Datentr&amp;amp;amp;amp;amp;#228;ger(_Total)\Durchschnittl. Warteschlangenl&amp;amp;amp;amp;amp;#228;nge des Datentr&amp;amp;amp;amp;amp;#228;gers</PdhCounter>
         <PdhCounter>\Prozessor(_Total)\Prozessorzeit (%)</PdhCounter>
       </PdhCounters>
     </PdhSettings>
@@ -100,6 +100,9 @@
     </Report>
     <Report>
       <Path>ConsoleApplication1140216(10).vsp</Path>
+    </Report>
+    <Report>
+      <Path>ConsoleApplication1140217.vsp</Path>
     </Report>
   </Reports>
   <Launches>

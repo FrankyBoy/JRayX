@@ -34,61 +34,56 @@ namespace JRayXLib.Shapes
             Color = Color.Red;
         }
 
-        public void Rotate(Vect3 axis, double rad) {
+        public void Rotate(Vect3 axis, double rad)
+        {
             var tmp = new Matrix4();
             Matrix.CreateRotationMatrix(axis, rad, tmp);
             Rotate(tmp);
         }
 
-        /**
-         * Rotate an object with this matrix (whatever this means for the object)
-         * @param tmp
-         */
-        public abstract void Rotate(Matrix4 rotationMatrix);
 
-        public abstract double GetHitPointDistance(Ray r);
-
-        public Color GetColorAt(Vect3 hitPoint) {
+        public virtual Color GetColorAt(Vect3 hitPoint)
+        {
             return Color;
         }
 
-        public abstract Vect3 GetNormalAt(Vect3 hitPoint);
 
 
-        public double GetReflectivityAt(Vect3 hitPoint) {
+        public virtual double GetReflectivityAt(Vect3 hitPoint)
+        {
             return Reflectivity;
         }
 
-        public void SetReflectivity(double reflectivity) {
+        public virtual void SetReflectivity(double reflectivity)
+        {
             Reflectivity = reflectivity;
         }
 
-        public override string ToString()
+        public virtual double GetRefractionIndex()
         {
-            return GetType().Name + "@" + Position;
-        }
-
-        public abstract bool Contains(Vect3 hitPoint);
-    
-        public double GetRefractionIndex(){
             return 1.03;
         }
-    
-        public Sphere GetBoundingSphere(){
+
+        public virtual Sphere GetBoundingSphere()
+        {
             return new Sphere(GetBoundingSphereCenter(),GetBoundingSphereRadius(),Color.Black);
         }
     
-        public Vect3 GetBoundingSphereCenter(){
+        public virtual Vect3 GetBoundingSphereCenter(){
             return Position;
         }
 
-        public abstract double GetBoundingSphereRadius();
-    
-       
-        public bool IsEnclosedByCube(Vect3 cCenter, double cWidthHalf){
+        public virtual bool IsEnclosedByCube(Vect3 cCenter, double cWidthHalf)
+        {
             Sphere s = GetBoundingSphere();
-    	
+
             return CubeSphere.IsSphereEnclosedByCube(cCenter, cWidthHalf, s.Position, s.GetRadius());
         }
+
+        public abstract bool Contains(Vect3 hitPoint);
+        public abstract void Rotate(Matrix4 rotationMatrix);
+        public abstract Vect3 GetNormalAt(Vect3 hitPoint);
+        public abstract double GetHitPointDistance(Ray r);
+        public abstract double GetBoundingSphereRadius();
     }
 }

@@ -41,9 +41,9 @@ namespace JRayXLib.Shapes
             RotVect = new Vect3(lookAt);
 
             // check so we don't end up with two linear dependent vectors
-            if (   System.Math.Abs(RotVect.Y - 0) > Constants.EPS
-                && System.Math.Abs(RotVect.X - 0) < Constants.EPS
-                && System.Math.Abs(RotVect.Z - 0) < Constants.EPS)
+            if (   System.Math.Abs(RotVect.Y) > Constants.EPS
+                && System.Math.Abs(RotVect.X) < Constants.EPS
+                && System.Math.Abs(RotVect.Z) < Constants.EPS)
             {
                 RotVect.X += 1;
             }

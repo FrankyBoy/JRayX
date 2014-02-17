@@ -4,7 +4,7 @@ namespace JRayXLib.Math.intersections
 {
     public class AreaCone {
 	
-        public static bool IsAreaIntersectingCone(Vect3 planeNormal, Vect3 planePoint, double planeWidth2, Vect3 conePosition, Vect3 coneAxis, double coneAxisLength, double coneCosPhi){
+        public static bool IsAreaIntersectingCone(Vect3 planeNormal, Vect3 planePoint, double areaWidthHalf, Vect3 conePosition, Vect3 coneAxis, double coneAxisLength, double coneCosPhi){
             double len;
 		
             //try "bending" axis towards plane normal 
@@ -28,11 +28,10 @@ namespace JRayXLib.Math.intersections
             if(d<len){
                 //check if Hitpoint is in the +/-width/2 - area of the plane
                 p = conePosition + p * d;
-                if (System.Math.Abs(p.X - planePoint.X) < planeWidth2 * 2 &&
-                    System.Math.Abs(p.Y - planePoint.Y) < planeWidth2 * 2 &&
-                    System.Math.Abs(p.Z - planePoint.Z) < planeWidth2 * 2)
-
-                    return true;
+                return 
+                    System.Math.Abs(p.X - planePoint.X) < areaWidthHalf * 2 &&
+                    System.Math.Abs(p.Y - planePoint.Y) < areaWidthHalf * 2 &&
+                    System.Math.Abs(p.Z - planePoint.Z) < areaWidthHalf * 2;
             }
 
             return false;

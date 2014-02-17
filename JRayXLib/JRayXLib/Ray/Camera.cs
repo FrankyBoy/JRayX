@@ -69,10 +69,6 @@ namespace JRayXLib.Ray
             _viewPaneWidthVector = temp._viewPaneWidthVector;
         }
 
-        public new string ToString() {
-            return "Camera@" + Position + " VPE=" + _viewPaneEdge + " VPHV=" + _viewPaneHeightVector + " VPWV=" + _viewPaneWidthVector;
-        }
-
         // cheap ;)
         public void SetScreenDimensions(int width, int height) {
             double factor = width / (2.0 * height);

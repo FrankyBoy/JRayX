@@ -25,14 +25,14 @@ namespace ConsoleApplication1
             renderer.RenderImage(target);
             var bmp = target.ToBitmap();
             bmp.Save("test1.png");
-
+            /*
             renderer.RenderImage(target);
             bmp = target.ToBitmap();
             bmp.Save("test2.png");
 
             renderer.RenderImage(target);
             bmp = target.ToBitmap();
-            bmp.Save("test3.png");
+            bmp.Save("test3.png");*/
         }
     }
 }

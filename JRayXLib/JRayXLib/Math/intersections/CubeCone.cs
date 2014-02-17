@@ -25,19 +25,19 @@ namespace JRayXLib.Math.intersections
                 return false;
 		
             for(int a=0;a<3;a++){
-                planeNormal.Data[a] = 1;
+                planeNormal[a] = 1;
 			
                 for(int d=0;d<2;d++){
-                    planePoint.Data[a] = planePoint.Data[a] - planeNormal.Data[a] * cubeWidthHalf;
+                    planePoint[a] = planePoint[a] - planeNormal[a] * cubeWidthHalf;
 					
                     if(PlaneCone.IsPlaneIntersectingCone(planeNormal, planePoint, conePosition, coneAxis, coneAxisLength, coneCosPhi))
                         return false;
 
-                    planePoint.Data[a] = cubeCenter.Data[a];
-                    planeNormal.Data[a] *= -1;
+                    planePoint[a] = cubeCenter[a];
+                    planeNormal[a] *= -1;
                 }
 
-                planeNormal.Data[a] = 0;
+                planeNormal[a] = 0;
             }
 		
             return true;
@@ -63,19 +63,19 @@ namespace JRayXLib.Math.intersections
                 return true;
 		
             for(int a=0;a<3;a++){
-                planeNormal.Data[a] = 1;
+                planeNormal[a] = 1;
 			
                 for(int d=0;d<2;d++){
-                    planePoint.Data[a] = planePoint.Data[a] - planeNormal.Data[a] * cubeWidthHalf;
+                    planePoint[a] = planePoint[a] - planeNormal[a] * cubeWidthHalf;
 					
                     if(AreaCone.IsAreaIntersectingCone(planeNormal, planePoint, cubeWidthHalf, conePosition, coneAxis, coneAxisLength, coneCosPhi))
                         return true;
 
-                    planePoint.Data[a] = cubeCenter.Data[a];
-                    planeNormal.Data[a] *= -1;
+                    planePoint[a] = cubeCenter[a];
+                    planeNormal[a] *= -1;
                 }
 
-                planeNormal.Data[a] = 0;
+                planeNormal[a] = 0;
             }
             //System.out.println("ni with "+cubeCenter+" +/-"+cubeWidthHalf);
             return false;
