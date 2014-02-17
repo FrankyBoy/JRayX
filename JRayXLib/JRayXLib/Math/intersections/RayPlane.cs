@@ -1,4 +1,3 @@
-
 /**
  *
  * @author Immanuel S. Hayden <cs071007 at fhstp.ac.at>
@@ -9,16 +8,19 @@ using JRayXLib.Shapes;
 
 namespace JRayXLib.Math.intersections
 {
-    abstract public class RayPlane {
-        public static double GetHitPointRayPlaneDistance(Vect3 rayOrigin, Vect3 rayDirection, Vect3 planePosition, Vect3 planeNormal) {
+    public abstract class RayPlane
+    {
+        public static double GetHitPointRayPlaneDistance(Vect3 rayOrigin, Vect3 rayDirection, Vect3 planePosition, Vect3 planeNormal)
+        {
+            double ret = rayDirection.DotProduct(planeNormal); // set ret to cos(a)
 
-            double ret = Vect3Extensions.DotProduct(rayDirection, planeNormal); // set ret to cos(a)
-
-            if(System.Math.Abs(ret - 0) < Constants.EPS) { // if cos(a) == 0 -> no hit
+            if (System.Math.Abs(ret - 0) < Constants.EPS)
+            {
+                // if cos(a) == 0 -> no hit
                 return double.PositiveInfinity;
             }
 
-            ret = (Vect3Extensions.DotProduct(planePosition, planeNormal) -  Vect3Extensions.DotProduct(rayOrigin, planeNormal)) / ret;
+            ret = (planePosition.DotProduct(planeNormal) - rayOrigin.DotProduct(planeNormal))/ret;
 
             return ret > Constants.MinDistance ? ret : double.PositiveInfinity;
         }

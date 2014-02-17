@@ -7,50 +7,66 @@ using JRayXLib.Struct;
 
 namespace JRayXLib.Model
 {
-    public class ModelInstance : Basic3DObject{
-
-        private readonly TriangleMeshModel _model;
+    public class ModelInstance : Basic3DObject
+    {
         private readonly Dictionary<Thread, CollisionData> _lastCollision = new Dictionary<Thread, CollisionData>();
+        private readonly TriangleMeshModel _model;
 
-        public ModelInstance(Vect3 position, TriangleMeshModel model) : base(position, new Vect3(0)) {
+        public ModelInstance(Vect3 position, TriangleMeshModel model) : base(position, new Vect3(0,0,0))
+        {
             _model = model;
         }
 
-        public override void Rotate(Matrix4 rotationMatrix) {
+        public override void Rotate(Matrix4 rotationMatrix)
+        {
             throw new Exception("not implemented");
         }
 
-        public override double GetHitPointDistance(Shapes.Ray r) {
+        public override double GetHitPointDistance(Shapes.Ray r)
+        {
             double dist;
             Shapes.Ray subRay;
-            var tmp = Position + _model.GetBoundingSphere().Position;
-		
-            if(RaySphere.IsRayOriginatingInSphere(r.GetOrigin(), r.Direction, tmp, _model.GetBoundingSphere().GetRadius())){
-                tmp = r.GetOrigin() - Position;
-                subRay = new Shapes.Ray(tmp, r.Direction);
-			
+            Vect3 tmp = Position + _model.GetBoundingSphere().Position;
+
+            if (RaySphere.IsRayOriginatingInSphere(r.Origin, r.Direction, tmp,
+                                                   _model.GetBoundingSphere().GetRadius()))
+            {
+                tmp = r.Origin - Position;
+                subRay = new Shapes.Ray
+                    {
+                        Origin = tmp,
+                        Direction = r.Direction
+                    };
+
                 dist = 0;
-            }else{
-                dist = RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.Direction, tmp, _model.GetBoundingSphere().GetRadius());
-			
-                if(double.IsInfinity(dist))
+            }
+            else
+            {
+                dist = RaySphere.GetHitPointRaySphereDistance(r.Origin, r.Direction, tmp,
+                                                              _model.GetBoundingSphere().GetRadius());
+
+                if (double.IsInfinity(dist))
                     return dist;
 
-                tmp = r.GetOrigin() + r.Direction*dist;
+                tmp = r.Origin + r.Direction*dist;
                 tmp -= Position;
-                subRay = new Shapes.Ray(tmp, r.Direction);
+                subRay = new Shapes.Ray
+                {
+                    Origin = tmp,
+                    Direction = r.Direction
+                };
             }
-		
+
             var d = new CollisionData
                 {
                     Details = RayPath.GetFirstCollision(_model.GetTree(), subRay)
                 };
 
-            if(!double.IsInfinity(d.Details.Distance))
+            if (!double.IsInfinity(d.Details.Distance))
             {
-                var hitPointLocal = subRay.GetOrigin() + subRay.Direction*d.Details.Distance;
+                Vect3 hitPointLocal = subRay.Origin + subRay.Direction*d.Details.Distance;
                 d.HitPointLocal = hitPointLocal;
-                var hitPointGlobal = hitPointLocal + Position;
+                Vect3 hitPointGlobal = hitPointLocal + Position;
                 d.HitPointGlobal = hitPointGlobal;
                 return d.Details.Distance + dist;
             }
@@ -58,7 +74,8 @@ namespace JRayXLib.Model
             return d.Details.Distance;
         }
 
-        public override Vect3 GetNormalAt(Vect3 hitPoint) {
+        public override Vect3 GetNormalAt(Vect3 hitPoint)
+        {
             CollisionData d;
 
             if (_lastCollision.TryGetValue(Thread.CurrentThread, out d)
@@ -70,20 +87,24 @@ namespace JRayXLib.Model
             throw new Exception("hitpoint not in cache: " + hitPoint);
         }
 
-        public override bool Contains(Vect3 hitPoint) {
+        public override bool Contains(Vect3 hitPoint)
+        {
             throw new Exception("not implemented");
         }
-    
-        public new Vect3 GetBoundingSphereCenter(){
+
+        public new Vect3 GetBoundingSphereCenter()
+        {
             return Position + _model.GetBoundingSphere().Position;
         }
-    
-        public override double GetBoundingSphereRadius(){
+
+        public override double GetBoundingSphereRadius()
+        {
             return _model.GetBoundingSphere().GetRadius();
         }
     }
 
-    internal class CollisionData{
+    internal class CollisionData
+    {
         internal CollisionDetails Details;
         internal Vect3 HitPointGlobal;
         internal Vect3 HitPointLocal;

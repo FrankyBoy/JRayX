@@ -7,14 +7,12 @@ namespace JRayXLib.Shapes
 {
     public class Basic3DObjectStructure : Basic3DObject
     {
-
         private readonly I3DObject[] _objects;
 
         public Basic3DObjectStructure(Vect3 position, Vect3 lookAt, I3DObject[] objects)
-            : base(new Vect3(0), lookAt)
+            : base(position, lookAt)
         {
             _objects = objects;
-            SetPosition(position);
         }
 
         // TODO: can we optimize this?
@@ -30,7 +28,7 @@ namespace JRayXLib.Shapes
 
         public new Color GetColorAt(Vect3 hitPoint)
         {
-            var ret = GetObjectAt(hitPoint);
+            I3DObject ret = GetObjectAt(hitPoint);
             if (ret != null)
             {
                 return ret.GetColorAt(hitPoint);
@@ -40,7 +38,7 @@ namespace JRayXLib.Shapes
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            var ret = GetObjectAt(hitPoint);
+            I3DObject ret = GetObjectAt(hitPoint);
             if (ret != null)
             {
                 return ret.GetNormalAt(hitPoint);
@@ -58,16 +56,20 @@ namespace JRayXLib.Shapes
             throw new NotImplementedException();
         }
 
-        public void SetPosition(Vect3 position)
+        public override Vect3 Position
         {
-            foreach (Basic3DObject o3D in _objects)
+            get { return base.Position; }
+            set
             {
-                Vect3 objPos = o3D.Position;
-                objPos -= Position;
-                o3D.Position = objPos + position;
-            }
+                foreach (Basic3DObject o3D in _objects)
+                {
+                    Vect3 objPos = o3D.Position;
+                    objPos -= base.Position;
+                    o3D.Position = objPos + value;
+                }
 
-            Position = position;
+                base.Position = value;
+            }
         }
 
         public override void Rotate(Matrix4 rotationMatrix)
@@ -87,7 +89,7 @@ namespace JRayXLib.Shapes
 
         public new double GetReflectivityAt(Vect3 hitPoint)
         {
-            var ret = GetObjectAt(hitPoint);
+            I3DObject ret = GetObjectAt(hitPoint);
             if (ret != null)
             {
                 return ret.GetReflectivityAt(hitPoint);

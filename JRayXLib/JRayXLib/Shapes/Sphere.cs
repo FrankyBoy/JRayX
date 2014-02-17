@@ -1,4 +1,3 @@
-
 /**
  * Shpere implementation
  * position is the sphere's center
@@ -13,12 +12,13 @@ namespace JRayXLib.Shapes
 {
     public class Sphere : Basic3DObject
     {
-
         protected double Radius;
         protected Vect3 RotVect;
 
         public Sphere(Vect3 position, double radius, Color color)
-            : this(position, radius, color, 0) {}
+            : this(position, radius, color, 0)
+        {
+        }
 
         public Sphere(Vect3 position, double radius, Color color, double reflectivity)
             : this(position, new Vect3(0, radius), 0, color)
@@ -41,7 +41,7 @@ namespace JRayXLib.Shapes
             RotVect = new Vect3(lookAt);
 
             // check so we don't end up with two linear dependent vectors
-            if (   System.Math.Abs(RotVect.Y) > Constants.EPS
+            if (System.Math.Abs(RotVect.Y) > Constants.EPS
                 && System.Math.Abs(RotVect.X) < Constants.EPS
                 && System.Math.Abs(RotVect.Z) < Constants.EPS)
             {
@@ -58,12 +58,12 @@ namespace JRayXLib.Shapes
 
         public override double GetHitPointDistance(Ray r)
         {
-            return RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.Direction, Position, Radius);
+            return RaySphere.GetHitPointRaySphereDistance(r.Origin, r.Direction, Position, Radius);
         }
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            var tmp = hitPoint - Position;
+            Vect3 tmp = hitPoint - Position;
             return tmp.Normalize();
         }
 
@@ -71,7 +71,7 @@ namespace JRayXLib.Shapes
         {
             return System.Math.Abs(Vect3Extensions.Distance(hitPoint, ref _position) - Radius) < Constants.EPS;
         }
-        
+
         public override void Rotate(Matrix4 rotationMatrix)
         {
             VectMatrix.Multiply(LookAt, rotationMatrix, ref _lookAt);

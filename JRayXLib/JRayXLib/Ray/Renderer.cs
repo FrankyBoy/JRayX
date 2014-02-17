@@ -12,21 +12,23 @@ namespace JRayXLib.Ray
 {
     public class Renderer
     {
-        private ConcurrentDictionary<Thread, BackwardRayTracer> _logics;
-        private int _widthPx;
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
         private int _heightPx;
         private WideColor[,] _lbuf;
+        private ConcurrentDictionary<Thread, BackwardRayTracer> _logics;
 
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
         private Scene _scene;
         private int _splitMultiplier;
         private int _threadCount;
+        private int _widthPx;
 
         #region Public Vars
+
         public int SplitMultiplier
         {
             get { return _splitMultiplier; }
-            set {
+            set
+            {
                 _splitMultiplier = value;
                 UpdateMaxThreads();
             }
@@ -42,7 +44,8 @@ namespace JRayXLib.Ray
             }
         }
 
-        public Scene Scene {
+        public Scene Scene
+        {
             [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
@@ -53,8 +56,8 @@ namespace JRayXLib.Ray
         }
 
         public double BrigthnessScale { get; set; }
-        #endregion
 
+        #endregion
 
         public Renderer()
         {
@@ -62,6 +65,8 @@ namespace JRayXLib.Ray
             SplitMultiplier = 4;
             BrigthnessScale = 1.0;
         }
+
+        protected bool Shutdown { get; set; }
 
         private BackwardRayTracer GetLogic()
         {
@@ -76,23 +81,23 @@ namespace JRayXLib.Ray
             {
                 if (_lbuf == null || _widthPx != image.Width || _heightPx != image.Height)
                 {
-                    _lbuf = new WideColor[image.Height, image.Width];
+                    _lbuf = new WideColor[image.Height,image.Width];
                     _widthPx = image.Width;
                     _heightPx = image.Height;
                     _scene.Camera.SetScreenDimensions(_widthPx, _heightPx);
                 }
 
-                var max = ExecuteTasks();
-                
+                int max = ExecuteTasks();
+
                 double scale = 255.0/max*BrigthnessScale;
 
                 for (int i = 0; i < _heightPx; i++)
                 {
                     for (int j = 0; j < _widthPx; j++)
                     {
-                        WideColor color = _lbuf[i,j];
+                        WideColor color = _lbuf[i, j];
 
-                        image[i, j] = (color * scale).To8Bit();
+                        image[i, j] = (color*scale).To8Bit();
                     }
                 }
             }
@@ -106,7 +111,7 @@ namespace JRayXLib.Ray
 
         private int ExecuteTasks()
         {
-            var splitCount = _threadCount*SplitMultiplier;
+            int splitCount = _threadCount*SplitMultiplier;
             int toProcess = splitCount;
             var localMaxBrightness = new int[splitCount];
             using (var resetEvent = new ManualResetEvent(false))
@@ -129,8 +134,6 @@ namespace JRayXLib.Ray
             return localMaxBrightness.Max();
         }
 
-        protected bool Shutdown { get; set; }
-
         /**
          * Renders the part <code>id</code> of <code>splitCount</code> of the image to ibuf.
          * 
@@ -139,8 +142,8 @@ namespace JRayXLib.Ray
 
         private int RenderImagePart(int id)
         {
-            var splitCount = _threadCount * SplitMultiplier;
-            int slotHeight = _heightPx / splitCount;
+            int splitCount = _threadCount*SplitMultiplier;
+            int slotHeight = _heightPx/splitCount;
             int from = slotHeight*id;
             int to = slotHeight*(id + 1);
             if (id == splitCount - 1)
@@ -149,28 +152,27 @@ namespace JRayXLib.Ray
             }
 
             BackwardRayTracer logic = GetLogic();
-            var rayDirection = new Vect3(0);
             Camera camera = _scene.Camera;
 
-            var ray = new Shapes.Ray(new Vect3(camera.Position), rayDirection);
-
-            var vertAdd = new Vect3(camera.GetViewPaneHeightVector());
+            var baseDirection = camera.ViewPaneEdge - camera.Position;
+            var vertAdd = new Vect3(camera.ViewPaneHeightVector);
             vertAdd /= _heightPx - 1;
-            var horzAdd = new Vect3(camera.GetViewPaneWidthVector());
+            var horzAdd = new Vect3(camera.ViewPaneWidthVector);
             horzAdd /= _widthPx - 1;
 
-            var localMaxBrightness = 0;
+            int localMaxBrightness = 0;
             for (int i = from; i < to; i++)
             {
                 for (int j = 0; j < _widthPx; j++)
                 {
-
-                    rayDirection = camera.GetViewPaneEdge() - ray.GetOrigin() + vertAdd*i+ horzAdd*j;
-                    ray.Direction = rayDirection.Normalize();
+                    var ray = new Shapes.Ray{
+                        Origin = new Vect3(camera.Position),
+                        Direction = (baseDirection + vertAdd * i + horzAdd * j).Normalize()
+                    };
 
                     WideColor color = logic.Shoot(ray);
 
-                    var localBrightness = color.GetMax();
+                    ushort localBrightness = color.GetMax();
                     if (localBrightness > localMaxBrightness)
                         localMaxBrightness = localBrightness;
 
@@ -183,7 +185,7 @@ namespace JRayXLib.Ray
 
         private void UpdateMaxThreads()
         {
-            ThreadPool.SetMaxThreads(_threadCount, SplitMultiplier * _threadCount);
+            ThreadPool.SetMaxThreads(_threadCount, SplitMultiplier*_threadCount);
         }
     }
 }

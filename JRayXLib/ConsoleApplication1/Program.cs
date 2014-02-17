@@ -20,7 +20,7 @@ namespace ConsoleApplication1
                     SplitMultiplier = 4
                 };
 
-            var target = new Texture(500, 500);
+            var target = new Texture(800, 600);
 
             renderer.RenderImage(target);
             var bmp = target.ToBitmap();

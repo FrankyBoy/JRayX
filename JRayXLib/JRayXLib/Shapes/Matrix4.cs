@@ -5,12 +5,6 @@ namespace JRayXLib.Shapes
 {
     public class Matrix4
     {
-
-        public override int GetHashCode()
-        {
-            return (_data != null ? _data.GetHashCode() : 0);
-        }
-
         private readonly double[,] _data;
 
         public Matrix4(Matrix4 m)
@@ -38,12 +32,18 @@ namespace JRayXLib.Shapes
 
         public Matrix4()
         {
-            _data = new double[4, 4];
+            _data = new double[4,4];
+        }
+
+        public override int GetHashCode()
+        {
+            return (_data != null ? _data.GetHashCode() : 0);
         }
 
         /**
      * @return the data
      */
+
         public double[,] GetData()
         {
             return _data;
@@ -68,7 +68,6 @@ namespace JRayXLib.Shapes
 
         public bool Equals(Matrix4 other)
         {
-
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)

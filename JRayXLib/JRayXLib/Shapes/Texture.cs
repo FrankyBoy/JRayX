@@ -11,13 +11,14 @@ namespace JRayXLib.Shapes
     public class Texture
     {
         #region loader
+
         private static readonly Dictionary<string, Texture> Storage = new Dictionary<string, Texture>();
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static Texture Load(string path)
         {
-            var absolutePath = Path.GetFullPath(path);
-            
+            string absolutePath = Path.GetFullPath(path);
+
             Texture ret;
 
             if (!Storage.TryGetValue(absolutePath, out ret))
@@ -38,7 +39,7 @@ namespace JRayXLib.Shapes
             {
                 for (int j = 0; j < bmp.Width; j++)
                 {
-                    var px = bmp.GetPixel(j, i);
+                    System.Drawing.Color px = bmp.GetPixel(j, i);
                     result[i, j].A = px.A;
                     result[i, j].R = px.R;
                     result[i, j].G = px.G;
@@ -51,8 +52,6 @@ namespace JRayXLib.Shapes
         #endregion
 
         private readonly Color[,] _data;
-        public int Width { get; private set; }
-        public int Height { get; private set; }
 
         public Texture(Color[,] data)
         {
@@ -63,9 +62,18 @@ namespace JRayXLib.Shapes
 
         public Texture(int width, int height)
         {
-            _data = new Color[height, width];
+            _data = new Color[height,width];
             Width = width;
             Height = height;
+        }
+
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
+        public Color this[int x, int y]
+        {
+            get { return _data[x, y]; }
+            set { _data[x, y] = value; }
         }
 
         public Color GetColorAt(Vect3 texcoord)
@@ -75,26 +83,22 @@ namespace JRayXLib.Shapes
 
         public Color GetColorAt(double tx, double ty)
         {
-            if (tx < -1 || tx > 2 || ty < -1 || ty > 2) {
+            if (tx < -1 || tx > 2 || ty < -1 || ty > 2)
+            {
                 throw new Exception("This texcoord is far beyond every numerical tolerance: " + new Vect3(tx, ty));
             }
 
-            var x = (int) (tx * Width);
-            var y = (int) (ty * Height);
+            var x = (int) (tx*Width);
+            var y = (int) (ty*Height);
 
             MathHelper.Clamp(x, 0, Width - 1);
             MathHelper.Clamp(y, 0, Height - 1);
             return _data[y, x];
         }
 
-        public new string ToString() {
-            return "Texture [" + Width + "x" + Height + "]";
-        }
-
-        public Color this[int x, int y]
+        public new string ToString()
         {
-            get { return _data[x, y]; }
-            set { _data[x,y] = value; }
+            return "Texture [" + Width + "x" + Height + "]";
         }
 
         public Bitmap ToBitmap()
@@ -104,8 +108,7 @@ namespace JRayXLib.Shapes
             {
                 for (int j = 0; j < Width; j++)
                 {
-
-                    var sysColor = System.Drawing.Color.FromArgb(
+                    System.Drawing.Color sysColor = System.Drawing.Color.FromArgb(
                         _data[i, j].A,
                         _data[i, j].R,
                         _data[i, j].G,

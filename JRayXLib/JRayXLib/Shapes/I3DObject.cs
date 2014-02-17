@@ -9,9 +9,9 @@ namespace JRayXLib.Shapes
 
         void Rotate(Vect3 axis, double rad);
         void Rotate(Matrix4 rotationMatrix);
-        
+
         double GetHitPointDistance(Ray r);
-        
+
         Color GetColorAt(Vect3 hitPoint);
         Vect3 GetNormalAt(Vect3 hitPoint);
         double GetReflectivityAt(Vect3 hitPoint);

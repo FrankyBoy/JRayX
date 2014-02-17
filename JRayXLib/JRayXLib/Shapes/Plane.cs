@@ -5,8 +5,8 @@ using JRayXLib.Math.intersections;
 
 namespace JRayXLib.Shapes
 {
-    public class Plane : Basic3DObject {
-
+    public class Plane : Basic3DObject
+    {
         public Plane(Vect3 position, Vect3 normal, Color color, double reflectivity)
             : this(position, normal)
         {
@@ -20,13 +20,16 @@ namespace JRayXLib.Shapes
             Color = color;
         }
 
-        public Plane(Vect3 position, Vect3 normal) : base(position, normal){
+        public Plane(Vect3 position, Vect3 normal) : base(position, normal)
+        {
             LookAt = LookAt.Normalize();
         }
 
-        public override double GetHitPointDistance(Ray r) {
-            double ret = RayPlane.GetHitPointRayPlaneDistance(r.GetOrigin(), r.Direction, Position, LookAt);
-            if (ret <= Constants.MinDistance) {
+        public override double GetHitPointDistance(Ray r)
+        {
+            double ret = RayPlane.GetHitPointRayPlaneDistance(r.Origin, r.Direction, Position, LookAt);
+            if (ret <= Constants.MinDistance)
+            {
                 return double.PositiveInfinity;
             }
             return ret;
@@ -37,15 +40,18 @@ namespace JRayXLib.Shapes
             return new Vect3(LookAt);
         }
 
-        public override bool Contains(Vect3 hitPoint) {
+        public override bool Contains(Vect3 hitPoint)
+        {
             throw new Exception("Not supported yet.");
         }
 
-        public override void Rotate(Matrix4 tmp) {
+        public override void Rotate(Matrix4 tmp)
+        {
             VectMatrix.Multiply(LookAt, tmp, ref _lookAt);
         }
 
-        public new Sphere GetBoundingSphere() {
+        public new Sphere GetBoundingSphere()
+        {
             return null;
         }
 
@@ -56,4 +62,3 @@ namespace JRayXLib.Shapes
         }
     }
 }
-

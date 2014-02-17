@@ -1,10 +1,10 @@
 ﻿namespace JRayXLib.Util
 {
-    static class MathHelper
+    internal static class MathHelper
     {
-        static public double ToRadians(double angle)
+        public static double ToRadians(double angle)
         {
-            return (System.Math.PI / 180) * angle;
+            return (System.Math.PI/180)*angle;
         }
 
         public static int Clamp(int value, int min, int max)

@@ -1,43 +1,53 @@
 namespace JRayXLib.Colors
 {
-
     public struct Color
     {
-        public byte A, R, G, B;
+        public static Color Green = new Color {A = byte.MaxValue, G = byte.MaxValue};
+        public static Color Red = new Color {A = byte.MaxValue, R = byte.MaxValue};
+        public static Color Blue = new Color {A = byte.MaxValue, B = byte.MaxValue};
+        public static Color Black = new Color {A = byte.MaxValue};
 
-        public static Color Green = new Color { A = byte.MaxValue, G = byte.MaxValue };
-        public static Color Red = new Color { A = byte.MaxValue, R = byte.MaxValue };
-        public static Color Blue = new Color { A = byte.MaxValue, B = byte.MaxValue };
-        public static Color Black = new Color { A = byte.MaxValue };
-        public static Color White = new Color { A = byte.MaxValue, R = byte.MaxValue, G = byte.MaxValue, B = byte.MaxValue };
-        public static Color Yellow = new Color { A = byte.MaxValue, R = byte.MaxValue, G = byte.MaxValue, B = 0 };
+        public static Color White = new Color
+            {
+                A = byte.MaxValue,
+                R = byte.MaxValue,
+                G = byte.MaxValue,
+                B = byte.MaxValue
+            };
+
+        public static Color Yellow = new Color {A = byte.MaxValue, R = byte.MaxValue, G = byte.MaxValue, B = 0};
+        public byte A;
+        public byte B;
+        public byte G;
+        public byte R;
 
         public static Color operator +(Color c, Color other)
         {
             return new Color
-            {
-                A = (byte)(c.A + other.A),
-                R = (byte)(c.R + other.R),
-                G = (byte)(c.G + other.G),
-                B = (byte)(c.G + other.G)
-            };
+                {
+                    A = (byte) (c.A + other.A),
+                    R = (byte) (c.R + other.R),
+                    G = (byte) (c.G + other.G),
+                    B = (byte) (c.G + other.G)
+                };
         }
 
         public static Color operator *(Color c, double d)
         {
             return new Color
-            {
-                A = c.A,
-                R = (byte)(c.R * d),
-                G = (byte)(c.G * d),
-                B = (byte)(c.B * d)
-            };
+                {
+                    A = c.A,
+                    R = (byte) (c.R*d),
+                    G = (byte) (c.G*d),
+                    B = (byte) (c.B*d)
+                };
         }
     }
 
     public static class ColorExtensions
     {
-        public static WideColor ToWide(this Color c) {
+        public static WideColor ToWide(this Color c)
+        {
             return new WideColor
                 {
                     A = c.A,
@@ -58,24 +68,27 @@ namespace JRayXLib.Colors
          * @param bottomColor
          * @return
          */
+
         public static Color MixSurfaceSurface(this Color topColor, Color bottomColor)
         {
-            
-            if (topColor.A == byte.MaxValue) {
+            if (topColor.A == byte.MaxValue)
+            {
                 return topColor;
             }
-            if (topColor.A == 0) {
+            if (topColor.A == 0)
+            {
                 return bottomColor;
             }
 
-            double alpha = topColor.A / 256.0;
+            double alpha = topColor.A/256.0;
             double invAlpha = 1 - alpha;
 
-            return new Color {
-                    A = (byte)(topColor.A + bottomColor.A * invAlpha),
-                    R = (byte)(topColor.R * alpha + bottomColor.R * invAlpha),
-                    G = (byte)(topColor.G * alpha + bottomColor.G * invAlpha),
-                    B = (byte)(topColor.B * alpha + bottomColor.B * invAlpha)
+            return new Color
+                {
+                    A = (byte) (topColor.A + bottomColor.A*invAlpha),
+                    R = (byte) (topColor.R*alpha + bottomColor.R*invAlpha),
+                    G = (byte) (topColor.G*alpha + bottomColor.G*invAlpha),
+                    B = (byte) (topColor.B*alpha + bottomColor.B*invAlpha)
                 };
         }
 
@@ -85,15 +98,16 @@ namespace JRayXLib.Colors
          * @param lightColor 
          * @return
          */
+
         public static Color MixSurfaceLight(this Color surfaceColor, Color lightColor)
         {
             return new Color
-            {
-                A = surfaceColor.A,
-                R = (byte)(surfaceColor.R * lightColor.R / 256),
-                G = (byte)(surfaceColor.G * lightColor.G / 256),
-                B = (byte)(surfaceColor.B * lightColor.B / 256)
-            };
+                {
+                    A = surfaceColor.A,
+                    R = (byte) (surfaceColor.R*lightColor.R/256),
+                    G = (byte) (surfaceColor.G*lightColor.G/256),
+                    B = (byte) (surfaceColor.B*lightColor.B/256)
+                };
         }
 
         public static Color Scale(this Color c1, double d)

@@ -5,96 +5,98 @@ using JRayXLib.Shapes;
 
 namespace JRayXLib.Ray
 {
-    public class Camera : Basic3DObject{
+    public class Camera : Basic3DObject
+    {
+        //Linke obere Ecke der ViewPane
+        public Vect3 ViewPaneEdge { get; private set; }
 
-        private Vect3 _viewPaneEdge; //Linke obere Ecke der ViewPane
-        private Vect3 _viewPaneWidthVector; //RichtungsVektor von der linken oberen Ecke zur rechten oberen Ecke
-        private readonly Vect3 _viewPaneHeightVector; //RichtungsVektor von der linken oberen Ecke zur linken unteren Ecke
+        //RichtungsVektor von der linken oberen Ecke zur linken unteren Ecke
+        public Vect3 ViewPaneHeightVector { get; private set; }
+
+        //RichtungsVektor von der linken oberen Ecke zur rechten oberen Ecke
+        public Vect3 ViewPaneWidthVector { get; private set; }
 
         private Camera(Vect3 position, Vect3 viewPaneEdge, Vect3 viewPaneWidthVector, Vect3 viewPaneHeightVector)
-            : base(position, new Vect3(0)){
-            _viewPaneEdge = viewPaneEdge;
-            _viewPaneWidthVector = viewPaneWidthVector;
-            _viewPaneHeightVector = viewPaneHeightVector;
-            }
-
-        public Vect3 GetViewPaneEdge() {
-            return _viewPaneEdge;
+            : base(position, new Vect3(0, 0, 0))
+        {
+            ViewPaneEdge = viewPaneEdge;
+            ViewPaneWidthVector = viewPaneWidthVector;
+            ViewPaneHeightVector = viewPaneHeightVector;
         }
 
-        public Vect3 GetViewPaneWidthVector() {
-            return _viewPaneWidthVector;
+        public Camera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double width, double height,
+                      double absoluteHeight)
+            : base(position, new Vect3(viewPaneCenter))
+        {
+            Camera temp = CreateCamera(position, viewPaneCenter, camUp, width/height*absoluteHeight, absoluteHeight);
+
+            Position = temp.Position;
+            ViewPaneEdge = temp.ViewPaneEdge;
+            ViewPaneHeightVector = temp.ViewPaneHeightVector;
+            ViewPaneWidthVector = temp.ViewPaneWidthVector;
         }
 
-        public Vect3 GetViewPaneHeightVector() {
-            return _viewPaneHeightVector;
+        public Camera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp) : base(position, new Vect3(viewPaneCenter))
+        {
+            Camera temp = CreateCamera(position, viewPaneCenter, camUp, 640.0/480, 1);
+
+            Position = temp.Position;
+            ViewPaneEdge = temp.ViewPaneEdge;
+            ViewPaneHeightVector = temp.ViewPaneHeightVector;
+            ViewPaneWidthVector = temp.ViewPaneWidthVector;
         }
 
-        public static Camera CreateCamera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double viewPaneWidth, double viewPaneHeight) {
+        public static Camera CreateCamera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double viewPaneWidth,
+                                          double viewPaneHeight)
+        {
             var viewPaneHeightVector = new Vect3(camUp);
             viewPaneHeightVector *= -viewPaneHeight;
 
-            var temp1 = position - viewPaneCenter;
-            var viewPaneWidthVector = Vect3Extensions.CrossProduct(temp1, viewPaneHeightVector);
+            Vect3 temp1 = position - viewPaneCenter;
+            Vect3 viewPaneWidthVector = Vect3Extensions.CrossProduct(temp1, viewPaneHeightVector);
             viewPaneWidthVector = viewPaneWidthVector.Normalize();
             viewPaneWidthVector *= viewPaneWidth;
 
             viewPaneWidthVector.CopyDataTo(ref temp1);
-            temp1 = temp1 / 2;
+            temp1 = temp1/2;
             Vect3 viewPaneEdge = viewPaneCenter - temp1;
             viewPaneHeightVector.CopyDataTo(ref temp1);
-            temp1 = temp1 / 2;
+            temp1 = temp1/2;
             viewPaneEdge -= temp1;
 
             return new Camera(position, viewPaneEdge, viewPaneWidthVector, viewPaneHeightVector);
         }
 
-        public Camera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double width, double height, double absoluteHeight)
-            : base(position, new Vect3(viewPaneCenter)){
-            Camera temp = CreateCamera(position, viewPaneCenter, camUp, width / height * absoluteHeight, absoluteHeight);
-
-            Position = temp.Position;
-            _viewPaneEdge = temp._viewPaneEdge;
-            _viewPaneHeightVector = temp._viewPaneHeightVector;
-            _viewPaneWidthVector = temp._viewPaneWidthVector;
-            }
-
-        public Camera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp) : base(position, new Vect3(viewPaneCenter)) {
-    	
-            Camera temp = CreateCamera(position, viewPaneCenter, camUp, 640.0 / 480, 1);
-
-            Position = temp.Position;
-            _viewPaneEdge = temp._viewPaneEdge;
-            _viewPaneHeightVector = temp._viewPaneHeightVector;
-            _viewPaneWidthVector = temp._viewPaneWidthVector;
-        }
-
         // cheap ;)
-        public void SetScreenDimensions(int width, int height) {
-            double factor = width / (2.0 * height);
-            _viewPaneWidthVector /= 2;
-            _viewPaneEdge += _viewPaneWidthVector;
-            _viewPaneWidthVector = _viewPaneWidthVector.Normalize();
-            _viewPaneWidthVector *= factor;
-            _viewPaneEdge -= _viewPaneWidthVector;
-            _viewPaneWidthVector *= 2;
+        public void SetScreenDimensions(int width, int height)
+        {
+            double factor = width/(2.0*height);
+            ViewPaneWidthVector /= 2;
+            ViewPaneEdge += ViewPaneWidthVector;
+            ViewPaneWidthVector = ViewPaneWidthVector.Normalize();
+            ViewPaneWidthVector *= factor;
+            ViewPaneEdge -= ViewPaneWidthVector;
+            ViewPaneWidthVector *= 2;
         }
 
-        public override void Rotate(Matrix4 rotationMatrix) {
+        public override void Rotate(Matrix4 rotationMatrix)
+        {
             throw new Exception("not yet implemented");
         }
 
-        public override double GetHitPointDistance(Shapes.Ray r) {
-            return RaySphere.GetHitPointRaySphereDistance(r.GetOrigin(), r.Direction, Position, 0);
+        public override double GetHitPointDistance(Shapes.Ray r)
+        {
+            return RaySphere.GetHitPointRaySphereDistance(r.Origin, r.Direction, Position, 0);
         }
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            var target = hitPoint - Position;
+            Vect3 target = hitPoint - Position;
             return target.Normalize();
         }
 
-        public override bool Contains(Vect3 hitPoint) {
+        public override bool Contains(Vect3 hitPoint)
+        {
             return false;
         }
 

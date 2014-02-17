@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JRayXLib.Colors;
 using JRayXLib.Shapes;
 using JRayXLib.Struct;
@@ -6,25 +7,17 @@ namespace JRayXLib.Model
 {
     public class TriangleMeshModel
     {
-        private readonly I3DObject[] _triangles;
         private readonly Sphere _bounds;
         private readonly Octree _tree;
+        private readonly I3DObject[] _triangles;
 
-        /**
-     * 3xnormal
-     * 3x v1
-     * 3x v2
-     * 3x v3
-     * 
-     * @param triangleEdgeData
-     */
-        public TriangleMeshModel(I3DObject[] triangleEdgeData)
+        public TriangleMeshModel(List<I3DObject> triangleEdgeData)
         {
-            _triangles = triangleEdgeData;
+            _triangles = triangleEdgeData.ToArray();
 
             var max = new Vect3(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity);
             var min = new Vect3(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity);
-            
+
             foreach (MinimalTriangle m in _triangles)
             {
                 Vect3 p = m.GetBoundingSphere().Position;
@@ -57,7 +50,7 @@ namespace JRayXLib.Model
             _tree = Octree.BuildTree(_bounds.Position, _triangles);
 
             foreach (MinimalTriangle m in _triangles)
-                m.purge();
+                m.Purge();
         }
 
 

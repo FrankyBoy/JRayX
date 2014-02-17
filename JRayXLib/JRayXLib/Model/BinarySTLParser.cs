@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using JRayXLib.Shapes;
 
@@ -5,7 +6,6 @@ namespace JRayXLib.Model
 {
     public class BinarySTLParser
     {
-
         /**
      *  Format (everything little endian): 
      *  
@@ -24,6 +24,7 @@ namespace JRayXLib.Model
      * @return
      * @throws IOException
      */
+
         public static TriangleMeshModel Parse(string f)
         {
             using (var reader = new BinaryReader(new FileStream(f, FileMode.Open, FileAccess.Read)))
@@ -32,31 +33,31 @@ namespace JRayXLib.Model
 
                 int triangleCount = reader.ReadInt32();
 
-                var triangleEdgeData = new MinimalTriangle[triangleCount];
+                var triangleEdgeData = new List<I3DObject>(triangleCount);
 
                 for (int i = 0; i < triangleCount; i++)
                 {
                     triangleEdgeData[i] = new MinimalTriangle(
-                            new Vect3(
-                                    reader.ReadSingle(),
-                                    reader.ReadSingle(),
-                                    reader.ReadSingle()
-                                ),
-                            new Vect3(
-                                    reader.ReadSingle(),
-                                    reader.ReadSingle(),
-                                    reader.ReadSingle()
-                                ),
-                            new Vect3(
-                                    reader.ReadSingle(),
-                                    reader.ReadSingle(),
-                                    reader.ReadSingle()
-                                ),
-                            new Vect3(
-                                    reader.ReadSingle(),
-                                    reader.ReadSingle(),
-                                    reader.ReadSingle()
-                                )
+                        new Vect3(
+                            reader.ReadSingle(),
+                            reader.ReadSingle(),
+                            reader.ReadSingle()
+                            ),
+                        new Vect3(
+                            reader.ReadSingle(),
+                            reader.ReadSingle(),
+                            reader.ReadSingle()
+                            ),
+                        new Vect3(
+                            reader.ReadSingle(),
+                            reader.ReadSingle(),
+                            reader.ReadSingle()
+                            ),
+                        new Vect3(
+                            reader.ReadSingle(),
+                            reader.ReadSingle(),
+                            reader.ReadSingle()
+                            )
                         );
                     reader.ReadUInt16(); // skip the 2 attribute bytes
                 }
@@ -64,6 +65,5 @@ namespace JRayXLib.Model
                 return new TriangleMeshModel(triangleEdgeData);
             }
         }
-
     }
 }
