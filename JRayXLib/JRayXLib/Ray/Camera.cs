@@ -26,7 +26,7 @@ namespace JRayXLib.Ray
 
         public Camera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double width, double height,
                       double absoluteHeight)
-            : base(position, new Vect3(viewPaneCenter))
+            : base(position, viewPaneCenter)
         {
             Camera temp = CreateCamera(position, viewPaneCenter, camUp, width/height*absoluteHeight, absoluteHeight);
 
@@ -36,7 +36,7 @@ namespace JRayXLib.Ray
             ViewPaneWidthVector = temp.ViewPaneWidthVector;
         }
 
-        public Camera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp) : base(position, new Vect3(viewPaneCenter))
+        public Camera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp) : base(position, viewPaneCenter)
         {
             Camera temp = CreateCamera(position, viewPaneCenter, camUp, 640.0/480, 1);
 
@@ -49,7 +49,7 @@ namespace JRayXLib.Ray
         public static Camera CreateCamera(Vect3 position, Vect3 viewPaneCenter, Vect3 camUp, double viewPaneWidth,
                                           double viewPaneHeight)
         {
-            var viewPaneHeightVector = new Vect3(camUp);
+            var viewPaneHeightVector = camUp;
             viewPaneHeightVector *= -viewPaneHeight;
 
             Vect3 temp1 = position - viewPaneCenter;

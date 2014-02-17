@@ -18,7 +18,7 @@ namespace JRayXLib.Math.intersections
             if (System.Math.Abs(p.QuadLength() - 0) < Constants.EPS)
             {
 // axis equals plane normal
-                p = new Vect3(coneAxis);
+                p = coneAxis;
                 len = coneAxisLength;
             }
             else

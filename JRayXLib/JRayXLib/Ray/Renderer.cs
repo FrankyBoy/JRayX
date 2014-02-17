@@ -155,10 +155,8 @@ namespace JRayXLib.Ray
             Camera camera = _scene.Camera;
 
             var baseDirection = camera.ViewPaneEdge - camera.Position;
-            var vertAdd = new Vect3(camera.ViewPaneHeightVector);
-            vertAdd /= _heightPx - 1;
-            var horzAdd = new Vect3(camera.ViewPaneWidthVector);
-            horzAdd /= _widthPx - 1;
+            var vertAdd = camera.ViewPaneHeightVector / (_heightPx - 1);
+            var horzAdd = camera.ViewPaneWidthVector / (_widthPx - 1);
 
             int localMaxBrightness = 0;
             for (int i = from; i < to; i++)
@@ -166,7 +164,7 @@ namespace JRayXLib.Ray
                 for (int j = 0; j < _widthPx; j++)
                 {
                     var ray = new Shapes.Ray{
-                        Origin = new Vect3(camera.Position),
+                        Origin = camera.Position,
                         Direction = (baseDirection + vertAdd * i + horzAdd * j).Normalize()
                     };
 

@@ -6,13 +6,6 @@ namespace JRayXLib.Shapes
     {
         public double X, Y, Z;
 
-        public Vect3(Vect3 old)
-        {
-            X = old.X;
-            Y = old.Y;
-            Z = old.Z;
-        }
-
         public bool Equals(Vect3 v, double eps = Constants.EPS)
         {
             return System.Math.Abs(X - v.X) < eps

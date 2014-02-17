@@ -37,7 +37,7 @@ namespace JRayXLib.Shapes
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            return new Vect3(LookAt);
+            return LookAt;
         }
 
         public override bool Contains(Vect3 hitPoint)

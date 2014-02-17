@@ -110,6 +110,12 @@
     <Report>
       <Path>ConsoleApplication1140217(2).vsp</Path>
     </Report>
+    <Report>
+      <Path>ConsoleApplication1140217(3).vsp</Path>
+    </Report>
+    <Report>
+      <Path>ConsoleApplication1140217(4).vsp</Path>
+    </Report>
   </Reports>
   <Launches>
     <ProjBinary>

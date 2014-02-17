@@ -43,7 +43,7 @@ namespace JRayXLib.Model
 
         public override Vect3 GetNormalAt(Vect3 hitPoint)
         {
-            return new Vect3(LookAt);
+            return LookAt;
         }
 
         public override void Rotate(Matrix4 rotationMatrix)

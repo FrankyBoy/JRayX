@@ -1,7 +1,6 @@
 using System;
 using JRayXLib.Math;
 using JRayXLib.Math.intersections;
-using JRayXLib.Shapes;
 
 /**
  * Contains the logic to determine the first intersection of a ray traveling
@@ -20,10 +19,11 @@ namespace JRayXLib.Struct
             double distanceTravelled = 0; //distance traveled since the ray's origin
 
             //Algorithm starts at the ray's origin and in the root node.
-            var pos = new Vect3(r.Origin);
+            
             Node n = tree.GetRoot();
             c.CheckCollisionSet(n.Content);
 
+            var pos = r.Origin;
             if (!n.Encloses(pos))
                 throw new Exception("Ray's origin is not located in the octree!");
 
@@ -37,9 +37,9 @@ namespace JRayXLib.Struct
                     break;
 
                 //march out of current node
-                double d = RayCube.GetDistanceToBorderPlane(pos, r.Direction, n.Center, n.Width/2) + Constants.EPS*1e4;
+                double d = RayCube.GetDistanceToBorderPlane(pos, r.Direction, n.Center, n.Width / 2) + Constants.EPS * 1e4;
                     //distance traveled since the ray's origin
-                pos = pos + r.Direction*d;
+                pos = pos + r.Direction * d;
                 distanceTravelled += d;
 
                 //in case eps was not enough

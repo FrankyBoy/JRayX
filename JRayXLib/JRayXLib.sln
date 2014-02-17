@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JRayXLib", "JRayXLib\JRayXL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{8D3F3D3C-6011-4662-8676-32395FD796ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JRayXLibTests", "JRayXLibTests\JRayXLibTests.csproj", "{271C4216-C5EC-4ECF-838F-25EFB86F7A17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{8D3F3D3C-6011-4662-8676-32395FD796ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D3F3D3C-6011-4662-8676-32395FD796ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D3F3D3C-6011-4662-8676-32395FD796ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271C4216-C5EC-4ECF-838F-25EFB86F7A17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271C4216-C5EC-4ECF-838F-25EFB86F7A17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271C4216-C5EC-4ECF-838F-25EFB86F7A17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271C4216-C5EC-4ECF-838F-25EFB86F7A17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

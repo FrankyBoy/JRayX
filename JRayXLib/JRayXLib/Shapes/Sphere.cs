@@ -38,7 +38,7 @@ namespace JRayXLib.Shapes
             Radius = lookAt.Length();
 
             // calculate the rotation of the 0-meridian
-            RotVect = new Vect3(lookAt);
+            RotVect = lookAt;
 
             // check so we don't end up with two linear dependent vectors
             if (System.Math.Abs(RotVect.Y) > Constants.EPS
