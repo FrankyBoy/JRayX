@@ -11,7 +11,7 @@ namespace JRayXLib.Ray
         protected Scene()
         {
             Name = GetType().Name;
-            LightDirection = new Vect3(0, -1, .5).Normalize();
+            LightDirection = new Vect3{ X = 0, Y = -1, Z = .5}.Normalize();
         }
 
         public I3DObject[] Objects { get; set; }

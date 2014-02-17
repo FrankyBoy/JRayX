@@ -38,26 +38,30 @@ namespace JRayXLib.Model
                 for (int i = 0; i < triangleCount; i++)
                 {
                     triangleEdgeData[i] = new MinimalTriangle(
-                        new Vect3(
-                            reader.ReadSingle(),
-                            reader.ReadSingle(),
-                            reader.ReadSingle()
-                            ),
-                        new Vect3(
-                            reader.ReadSingle(),
-                            reader.ReadSingle(),
-                            reader.ReadSingle()
-                            ),
-                        new Vect3(
-                            reader.ReadSingle(),
-                            reader.ReadSingle(),
-                            reader.ReadSingle()
-                            ),
-                        new Vect3(
-                            reader.ReadSingle(),
-                            reader.ReadSingle(),
-                            reader.ReadSingle()
-                            )
+                        new Vect3
+                        {
+                            X = reader.ReadSingle(),
+                            Y = reader.ReadSingle(),
+                            Z = reader.ReadSingle()
+                        },
+                        new Vect3
+                        {
+                            X = reader.ReadSingle(),
+                            Y = reader.ReadSingle(),
+                            Z = reader.ReadSingle()
+                        },
+                        new Vect3
+                        {
+                            X = reader.ReadSingle(),
+                            Y = reader.ReadSingle(),
+                            Z = reader.ReadSingle()
+                        },
+                        new Vect3
+                        {
+                            X = reader.ReadSingle(),
+                            Y = reader.ReadSingle(),
+                            Z = reader.ReadSingle()
+                        }
                         );
                     reader.ReadUInt16(); // skip the 2 attribute bytes
                 }

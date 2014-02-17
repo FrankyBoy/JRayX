@@ -15,8 +15,18 @@ namespace JRayXLib.Model
         {
             _triangles = triangleEdgeData.ToArray();
 
-            var max = new Vect3(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity);
-            var min = new Vect3(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity);
+            var max = new Vect3
+                {
+                    X = double.NegativeInfinity,
+                    Y = double.NegativeInfinity,
+                    Z = double.NegativeInfinity
+                };
+            var min = new Vect3
+                {
+                    X = double.PositiveInfinity,
+                    Y = double.PositiveInfinity,
+                    Z = double.PositiveInfinity
+                };
 
             foreach (MinimalTriangle m in _triangles)
             {

@@ -47,7 +47,7 @@ namespace JRayXLib.Shapes
 
         public override void Rotate(Matrix4 tmp)
         {
-            VectMatrix.Multiply(LookAt, tmp, ref _lookAt);
+            LookAt = VectMatrix.Multiply(LookAt, tmp);
         }
 
         public new Sphere GetBoundingSphere()

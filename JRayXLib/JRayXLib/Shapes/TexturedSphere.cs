@@ -15,7 +15,7 @@ namespace JRayXLib.Shapes
 
         public TexturedSphere(Vect3 position, double radius, double rotation, Color color, double reflectivity,
                               String imagePath)
-            : this(position, new Vect3(0, radius), rotation, color, reflectivity, imagePath)
+            : this(position, new Vect3 { Y = radius }, rotation, color, reflectivity, imagePath)
         {
         }
 

@@ -17,7 +17,7 @@ namespace JRayXLib.Ray
         public Vect3 ViewPaneWidthVector { get; private set; }
 
         private Camera(Vect3 position, Vect3 viewPaneEdge, Vect3 viewPaneWidthVector, Vect3 viewPaneHeightVector)
-            : base(position, new Vect3(0, 0, 0))
+            : base(position, new Vect3())
         {
             ViewPaneEdge = viewPaneEdge;
             ViewPaneWidthVector = viewPaneWidthVector;

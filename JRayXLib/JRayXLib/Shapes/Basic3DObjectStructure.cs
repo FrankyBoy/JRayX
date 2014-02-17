@@ -80,7 +80,7 @@ namespace JRayXLib.Shapes
 
                 // TODO: we have a matrix to combine these three, right?
                 objPos -= Position;
-                VectMatrix.Multiply(objPos, rotationMatrix, ref objPos);
+                objPos = VectMatrix.Multiply(objPos, rotationMatrix);
                 o3D.Position = objPos + Position;
 
                 o3D.Rotate(rotationMatrix);

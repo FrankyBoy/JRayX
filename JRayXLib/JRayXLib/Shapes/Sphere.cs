@@ -21,7 +21,7 @@ namespace JRayXLib.Shapes
         }
 
         public Sphere(Vect3 position, double radius, Color color, double reflectivity)
-            : this(position, new Vect3(0, radius), 0, color)
+            : this(position, new Vect3 { Y = radius }, 0, color)
         {
             Reflectivity = reflectivity;
         }
@@ -69,13 +69,13 @@ namespace JRayXLib.Shapes
 
         public override bool Contains(Vect3 hitPoint)
         {
-            return System.Math.Abs(Vect3Extensions.Distance(hitPoint, ref _position) - Radius) < Constants.EPS;
+            return System.Math.Abs(Vect3Extensions.Distance(hitPoint, Position) - Radius) < Constants.EPS;
         }
 
         public override void Rotate(Matrix4 rotationMatrix)
         {
-            VectMatrix.Multiply(LookAt, rotationMatrix, ref _lookAt);
-            VectMatrix.Multiply(RotVect, rotationMatrix, ref RotVect);
+            LookAt = VectMatrix.Multiply(LookAt, rotationMatrix);
+            RotVect = VectMatrix.Multiply(RotVect, rotationMatrix);
 
             LookAt = LookAt.Normalize();
             RotVect = RotVect.Normalize();

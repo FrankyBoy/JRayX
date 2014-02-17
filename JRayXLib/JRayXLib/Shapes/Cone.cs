@@ -22,9 +22,7 @@ namespace JRayXLib.Shapes
 
         public override void Rotate(Matrix4 rotationMatrix)
         {
-            VectMatrix.Multiply(LookAt, rotationMatrix, ref _lookAt);
-
-            LookAt = LookAt.Normalize();
+            LookAt = VectMatrix.Multiply(LookAt, rotationMatrix).Normalize();
         }
 
         public override double GetHitPointDistance(Ray r)
@@ -48,22 +46,16 @@ namespace JRayXLib.Shapes
 
         public new Sphere GetBoundingSphere()
         {
-            var @base = new Vect3(Position.X + LookAt.X*AxisLength,
-                                  Position.Y + LookAt.Y*AxisLength,
-                                  Position.Z + LookAt.Z*AxisLength);
-
-            var normal = new Vect3(@base.Z, @base.X, @base.Y);
-            Vect3 tmp = Vect3Extensions.Project(normal, LookAt);
-            normal -= tmp;
-            normal = normal.Normalize();
+            var @base = Position + LookAt*AxisLength;
+            Vect3 tmp = Vect3Extensions.Project(@base, LookAt);
+            var normal = (@base - tmp).Normalize();
             double len = CosPhi*AxisLength;
+            normal *= len;
 
-            tmp = @base + normal*len;
-            @base = @base - normal*len;
+            tmp = @base + normal;
+            @base = @base - normal;
 
-            var center = new Vect3((Position.X + tmp.X + @base.X)/3,
-                                   (Position.Y + tmp.Y + @base.Y)/3,
-                                   (Position.Z + tmp.Z + @base.Z)/3);
+            var center = (Position + tmp + @base)/3;
 
             tmp = center - Position;
 

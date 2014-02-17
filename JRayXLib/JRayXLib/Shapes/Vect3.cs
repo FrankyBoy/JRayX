@@ -6,16 +6,12 @@ namespace JRayXLib.Shapes
     {
         public double X, Y, Z;
 
-
-        public Vect3(double x, double y, double z)
+        public Vect3(Vect3 old)
         {
-            X = x;
-            Y = y;
-            Z = z;
+            X = old.X;
+            Y = old.Y;
+            Z = old.Z;
         }
-
-        public Vect3(double x, double y) : this(x, y, 0) { }
-        public Vect3(Vect3 old) : this(old.X, old.Y, old.Z) { }
 
         public bool Equals(Vect3 v, double eps = Constants.EPS)
         {
@@ -31,17 +27,13 @@ namespace JRayXLib.Shapes
 
         public double QuadLength()
         {
-            return X*X + Y*Y + Z*Z;
+            return X * X + Y * Y + Z * Z;
         }
 
         public Vect3 Normalize()
         {
             double len = Length();
-            return new Vect3(
-                X/len,
-                Y/len,
-                Z/len
-                );
+            return this / len;
         }
 
         public void CopyDataTo(ref Vect3 other)
@@ -55,38 +47,42 @@ namespace JRayXLib.Shapes
 
         public static Vect3 operator -(Vect3 v1, Vect3 v2)
         {
-            return new Vect3(
-                v1.X - v2.X,
-                v1.Y - v2.Y,
-                v1.Z - v2.Z
-                );
+            return new Vect3
+            {
+                X = v1.X - v2.X,
+                Y = v1.Y - v2.Y,
+                Z = v1.Z - v2.Z
+            };
         }
 
         public static Vect3 operator +(Vect3 v1, Vect3 v2)
         {
-            return new Vect3(
-                v1.X + v2.X,
-                v1.Y + v2.Y,
-                v1.Z + v2.Z
-                );
+            return new Vect3
+            {
+                X = v1.X + v2.X,
+                Y = v1.Y + v2.Y,
+                Z = v1.Z + v2.Z
+            };
         }
 
         public static Vect3 operator *(Vect3 v, double d)
         {
-            return new Vect3(
-                v.X*d,
-                v.Y*d,
-                v.Z*d
-                );
+            return new Vect3
+            {
+                X = v.X * d,
+                Y = v.Y * d,
+                Z = v.Z * d
+            };
         }
 
         public static Vect3 operator /(Vect3 v, double d)
         {
-            return new Vect3(
-                v.X/d,
-                v.Y/d,
-                v.Z/d
-                );
+            return new Vect3
+            {
+                X = v.X / d,
+                Y = v.Y / d,
+                Z = v.Z / d
+            };
         }
 
         #endregion

@@ -16,8 +16,16 @@ namespace JRayXLib.Math.intersections
                                                   Vect3 coneAxis, double coneAxisLength, double coneCosPhi)
         {
             // --- X ---
-            var planePoint = new Vect3(cubeCenter.X - cubeWidthHalf, cubeCenter.Y, cubeCenter.Z);
-            var planeNormal = new Vect3(cubeWidthHalf, 0, 0);
+            var planePoint = new Vect3
+                {
+                    X = cubeCenter.X - cubeWidthHalf,
+                    Y = cubeCenter.Y,
+                    Z = cubeCenter.Z
+                };
+            var planeNormal = new Vect3
+                {
+                    X = cubeWidthHalf
+                };
             if (AreaCone.IsAreaIntersectingCone(planeNormal, planePoint, cubeWidthHalf, conePosition, coneAxis,
                                                 coneAxisLength, coneCosPhi))
                 return true;
@@ -27,8 +35,16 @@ namespace JRayXLib.Math.intersections
                 return true;
 
             // --- Y ---
-            planePoint = new Vect3(cubeCenter.X, cubeCenter.Y - cubeWidthHalf, cubeCenter.Z);
-            planeNormal = new Vect3(0, cubeWidthHalf, 0);
+            planePoint = new Vect3
+            {
+                X = cubeCenter.X,
+                Y = cubeCenter.Y - cubeWidthHalf,
+                Z = cubeCenter.Z
+            };
+            planeNormal = new Vect3
+            {
+                Y = cubeWidthHalf
+            };
             if (AreaCone.IsAreaIntersectingCone(planeNormal, planePoint, cubeWidthHalf, conePosition, coneAxis,
                                                 coneAxisLength, coneCosPhi))
                 return true;
@@ -38,8 +54,16 @@ namespace JRayXLib.Math.intersections
                 return true;
 
             // --- Z ---
-            planePoint = new Vect3(cubeCenter.X, cubeCenter.Y, cubeCenter.Z - cubeWidthHalf);
-            planeNormal = new Vect3(0, 0, cubeWidthHalf);
+            planePoint = new Vect3
+            {
+                X = cubeCenter.X,
+                Y = cubeCenter.Y,
+                Z = cubeCenter.Z - cubeWidthHalf
+            };
+            planeNormal = new Vect3
+            {
+                Z = cubeWidthHalf
+            };
             if (AreaCone.IsAreaIntersectingCone(planeNormal, planePoint, cubeWidthHalf, conePosition, coneAxis,
                                                 coneAxisLength, coneCosPhi))
                 return true;

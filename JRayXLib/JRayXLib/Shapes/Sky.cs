@@ -8,13 +8,13 @@ namespace JRayXLib.Shapes
         private readonly Texture _texture;
 
         public Sky(string texture)
-            : base(new Vect3(0, 0, 0), new Vect3(0, 0, 0))
+            : base(new Vect3(), new Vect3())
         {
             _texture = Texture.Load(texture);
         }
 
         public Sky(Color color)
-            : base(new Vect3(0, 0, 0), new Vect3(0, 0, 0))
+            : base(new Vect3(), new Vect3())
         {
             Color = color;
         }

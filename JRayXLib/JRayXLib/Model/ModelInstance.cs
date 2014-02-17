@@ -12,7 +12,7 @@ namespace JRayXLib.Model
         private readonly Dictionary<Thread, CollisionData> _lastCollision = new Dictionary<Thread, CollisionData>();
         private readonly TriangleMeshModel _model;
 
-        public ModelInstance(Vect3 position, TriangleMeshModel model) : base(position, new Vect3(0,0,0))
+        public ModelInstance(Vect3 position, TriangleMeshModel model) : base(position, new Vect3())
         {
             _model = model;
         }
