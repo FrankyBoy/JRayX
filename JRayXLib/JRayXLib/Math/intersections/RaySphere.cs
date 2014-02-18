@@ -58,7 +58,7 @@ namespace JRayXLib.Math.intersections
                 ret = d1 < d2 ? d1 : d2;
 
                 // if the smaller value is <= 0 -> put the other value in ret
-                if (ret <= Constants.MinDistance)
+                if (ret <= Constants.EPS)
                 {
                     if (System.Math.Abs(ret - d1) < Constants.EPS)
                     {
@@ -71,7 +71,7 @@ namespace JRayXLib.Math.intersections
                 }
             }
 
-            if (ret <= Constants.MinDistance)
+            if (ret <= Constants.EPS)
             {
                 return double.PositiveInfinity;
             }

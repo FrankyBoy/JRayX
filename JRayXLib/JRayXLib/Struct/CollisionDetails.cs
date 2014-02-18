@@ -24,7 +24,7 @@ namespace JRayXLib.Struct
             {
                 Checks++;
                 double distanceCandidate = candidate.GetHitPointDistance(Ray);
-                if (distanceCandidate > Constants.MinDistance && distanceCandidate < Distance)
+                if (distanceCandidate > Constants.EPS && distanceCandidate < Distance)
                 {
                     Obj = candidate;
                     Distance = distanceCandidate;

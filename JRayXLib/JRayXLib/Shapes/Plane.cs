@@ -28,7 +28,7 @@ namespace JRayXLib.Shapes
         public override double GetHitPointDistance(Ray r)
         {
             double ret = RayPlane.GetHitPointRayPlaneDistance(r.Origin, r.Direction, Position, LookAt);
-            if (ret <= Constants.MinDistance)
+            if (ret <= Constants.EPS)
             {
                 return double.PositiveInfinity;
             }

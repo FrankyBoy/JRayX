@@ -62,6 +62,15 @@
     <Compile Include="Math\intersections\RaySphere.cs" />
     <Compile Include="Math\intersections\RayTriangle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderer.cs" />
+    <Compile Include="Scene\BasicScene.cs" />
+    <Compile Include="Scene\Camera.cs" />
+    <Compile Include="Scene\Loaders\BasicSceneLoader.cs" />
+    <Compile Include="Scene\Loaders\BinarySTLLoader.cs" />
+    <Compile Include="Scene\Loaders\ISceneLoader.cs" />
+    <Compile Include="Scene\Loaders\RandomForrestLoader.cs" />
+    <Compile Include="Scene\OctreeScene.cs" />
+    <Compile Include="Scene\Scene.cs" />
     <Compile Include="Shapes\Cone.cs" />
     <Compile Include="Shapes\I3DObject.cs" />
     <Compile Include="Shapes\Matrix4.cs" />
@@ -102,16 +111,11 @@
     <Compile Include="Model\TriangleMeshModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ray\Camera.cs" />
-    <Compile Include="Ray\Object3DFactory.cs" />
-    <Compile Include="Ray\Renderer.cs" />
-    <Compile Include="Ray\Scene.cs" />
     <Compile Include="Ray\Scenes\KugelTest.cs" />
-    <Compile Include="Ray\Scenes\MeshTest.cs" />
-    <Compile Include="Ray\Scenes\RandomForest.cs" />
     <Compile Include="Ray\Tracer\BackwardRayTracer.cs" />
     <Compile Include="Ray\Tracer\BackwardRayTracerHQ.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

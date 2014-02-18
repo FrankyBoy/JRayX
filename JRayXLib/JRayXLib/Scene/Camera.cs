@@ -3,7 +3,7 @@ using JRayXLib.Math;
 using JRayXLib.Math.intersections;
 using JRayXLib.Shapes;
 
-namespace JRayXLib.Ray
+namespace JRayXLib.Scene
 {
     public class Camera : Basic3DObject
     {

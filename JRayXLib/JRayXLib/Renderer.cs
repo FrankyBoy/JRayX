@@ -6,9 +6,10 @@ using System.Threading;
 using Common.Logging;
 using JRayXLib.Colors;
 using JRayXLib.Ray.Tracer;
+using JRayXLib.Scene;
 using JRayXLib.Shapes;
 
-namespace JRayXLib.Ray
+namespace JRayXLib
 {
     public class Renderer
     {
@@ -17,7 +18,7 @@ namespace JRayXLib.Ray
         private WideColor[,] _lbuf;
         private ConcurrentDictionary<Thread, BackwardRayTracer> _logics;
 
-        private Scene _scene;
+        private Scene.Scene _scene;
         private int _splitMultiplier;
         private int _threadCount;
         private int _widthPx;
@@ -44,12 +45,12 @@ namespace JRayXLib.Ray
             }
         }
 
-        public Scene Scene
+        public Scene.Scene Scene
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
-                Log.Info("Initializing Scene: " + value.GetName());
+                Log.Info("Initializing Scene: " + value.Name);
                 _scene = value;
                 _logics = new ConcurrentDictionary<Thread, BackwardRayTracer>();
             }

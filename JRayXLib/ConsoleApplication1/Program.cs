@@ -1,6 +1,6 @@
 ﻿using System;
-using JRayXLib.Ray;
-using JRayXLib.Ray.Scenes;
+using JRayXLib;
+using JRayXLib.Scene.Loaders;
 using JRayXLib.Shapes;
 
 namespace ConsoleApplication1
@@ -9,7 +9,7 @@ namespace ConsoleApplication1
     {
         private static void Main()
         {
-            var scene = new RandomForest();
+            var scene = new RandomForrestLoader().LoadScene();
             //var scene = new MeshTest();
             //var scene = new KugelTest();
 

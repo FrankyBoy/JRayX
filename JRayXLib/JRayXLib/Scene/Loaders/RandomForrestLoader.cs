@@ -1,18 +1,19 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using JRayXLib.Colors;
+using JRayXLib.Math;
 using JRayXLib.Shapes;
-using JRayXLib.Struct;
 
-namespace JRayXLib.Ray.Scenes
+namespace JRayXLib.Scene.Loaders
 {
-    public class RandomForest : Scene
+    public class RandomForrestLoader : ISceneLoader
     {
         private static readonly Random Rd = new Random();
-        private readonly Octree _tree;
 
-        public RandomForest()
+        public Scene LoadScene()
         {
+            var result = new OctreeScene();
+
             const double dist = 0.2;
             const double h = 0.3;
             const double camheight = 10;
@@ -23,14 +24,16 @@ namespace JRayXLib.Ray.Scenes
                 for (double z = -camheight; z < camheight; z += h)
                     AddTree(x + Rd.NextDouble() * dist - dist / 2, -2, z + Rd.NextDouble() * dist - dist / 2, objects);
 
-            Camera = new Camera(
+            var cam = new Camera(
                 new Vect3 { X = -camheight, Y = camheight * 2 },
                 new Vect3 { X = -camheight + 1, Y = camheight * 2 - 1 },
-                new Vect3 { X = 0.707106781186547, Y = 0.707106781186547 }, 1, 1, 1);
-            objects.Add(Camera);
-            Objects = objects.ToArray();
+                new Vect3 { X = Constants.InvSqurtTwo, Y = Constants.InvSqurtTwo }, 1, 1, 1);
+            objects.Add(cam);
 
-            _tree = Octree.BuildTree(new Vect3 { X = camheight * 1.5, Y = -3.1 }, Objects);
+            result.Camera = cam;
+            result.UpdateObjects(objects);
+
+            return result;
         }
 
         private void AddTree(double x, double y, double z, IList<I3DObject> objects)
@@ -41,19 +44,19 @@ namespace JRayXLib.Ray.Scenes
             const double ld = 0.2;
 
             var leafColor = new Color
-                {
-                    A = byte.MaxValue,
-                    R = byte.MaxValue / 3,
-                    G = (byte)(byte.MaxValue * ((1 + Rd.NextDouble()) / 2)),
-                    B = byte.MaxValue / 3
-                };
+            {
+                A = byte.MaxValue,
+                R = byte.MaxValue / 3,
+                G = (byte)(byte.MaxValue * ((1 + Rd.NextDouble()) / 2)),
+                B = byte.MaxValue / 3
+            };
             var @base = new Color
-                {
-                    A = byte.MaxValue,
-                    R = 0x8B,
-                    G = 0x45,
-                    B = 0x13
-                };
+            {
+                A = byte.MaxValue,
+                R = 0x8B,
+                G = 0x45,
+                B = 0x13
+            };
 
             if (Rd.NextDouble() < 0.5)
             {
@@ -65,16 +68,6 @@ namespace JRayXLib.Ray.Scenes
                 objects.Add(new Sphere(new Vect3 { X = x, Y = y + 1.5 - ld / 2, Z = z }, ld, leafColor));
                 objects.Add(new Cone(new Vect3 { X = x, Y = y + 1.5, Z = z }, new Vect3 { X = t0 * 2, Y = -1.5, Z = t1 * 2 }, 1, @base));
             }
-        }
-
-        public override Sky GetSky()
-        {
-            return null;
-        }
-
-        public override Octree GetSceneTree()
-        {
-            return _tree;
         }
     }
 }

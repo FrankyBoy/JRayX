@@ -22,7 +22,7 @@ namespace JRayXLib.Math.intersections
 
             ret = (planePosition.DotProduct(planeNormal) - rayOrigin.DotProduct(planeNormal))/ret;
 
-            return ret > Constants.MinDistance ? ret : double.PositiveInfinity;
+            return ret > Constants.EPS ? ret : double.PositiveInfinity;
         }
     }
 }

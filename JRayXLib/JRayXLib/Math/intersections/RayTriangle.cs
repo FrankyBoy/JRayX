@@ -11,7 +11,7 @@ namespace JRayXLib.Math.intersections
         {
             Vect3 tmp = Vect3Extensions.CrossProduct(triangleVect1, triangleVect2);
             double ret = RayPlane.GetHitPointRayPlaneDistance(rayPosition, rayDirection, trianglePos, tmp);
-            if (double.IsPositiveInfinity(ret) || ret < Constants.MinDistance)
+            if (double.IsPositiveInfinity(ret) || ret < Constants.EPS)
             {
                 return double.PositiveInfinity;
             }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Common.Logging;
@@ -30,7 +31,7 @@ namespace JRayXLib.Struct
             return Root;
         }
 
-        public static Octree BuildTree(Vect3 center, I3DObject[] objects)
+        public static Octree BuildTree(Vect3 center, IList<I3DObject> objects)
         {
             double maxQuadDist = 0;
 
@@ -85,8 +86,8 @@ namespace JRayXLib.Struct
 
             Log.Debug(string.Format("{0} ms\n", Sw.ElapsedMilliseconds));
             Log.Debug(string.Format(" - contains {0} of {1} elements ({2:0.##}%)",
-                                    t.GetRoot().GetSize(), objects.Length,
-                                    t.GetRoot().GetSize()/(float) objects.Length*100));
+                                    t.GetRoot().GetSize(), objects.Count,
+                                    t.GetRoot().GetSize() / (float)objects.Count * 100));
             Log.Debug(" - avg depth: " + t.GetAverageObjectDepth());
             Log.Debug(" - node count: " + t.GetRoot().GetNodeCount());
             Log.Debug(" - objects per node: " + t.GetRoot().GetSize()/(float) t.GetRoot().GetNodeCount());

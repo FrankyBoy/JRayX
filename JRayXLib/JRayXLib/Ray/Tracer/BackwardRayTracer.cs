@@ -8,14 +8,11 @@ namespace JRayXLib.Ray.Tracer
     {
         protected static bool UseOctree = true;
         protected static int MaxRecursionDepth = 100;
-        protected Scene Scene;
-
-        protected Octree Tree;
-
-        public BackwardRayTracer(Scene scene)
+        protected Scene.Scene Scene;
+        
+        public BackwardRayTracer(Scene.Scene scene)
         {
             Scene = scene;
-            Tree = scene.GetSceneTree();
         }
 
         public WideColor Shoot(Shapes.Ray ray)
@@ -31,7 +28,7 @@ namespace JRayXLib.Ray.Tracer
             }
 
             //Find nearest Hit
-            CollisionDetails c = FindNearestHit(ray);
+            CollisionDetails c = Scene.FindNearestHit(ray);
 
             //No hit
             if (c.Obj == null)
@@ -44,29 +41,6 @@ namespace JRayXLib.Ray.Tracer
 
             //Return object's color at hit point
             return c.Obj.GetColorAt(hitPoint).ToWide();
-        }
-
-        protected CollisionDetails FindNearestHit(Shapes.Ray ray)
-        {
-            if (!UseOctree || Tree == null)
-            {
-                var c = new CollisionDetails(ray);
-
-                //Find nearest Hit
-                foreach (Basic3DObject objectCandidate in Scene.Objects)
-                {
-                    double distanceCandidate = objectCandidate.GetHitPointDistance(ray);
-                    if (distanceCandidate > 0 && distanceCandidate < c.Distance)
-                    {
-                        c.Obj = objectCandidate;
-                        c.Distance = distanceCandidate;
-                        c.Checks++;
-                    }
-                }
-
-                return c;
-            }
-            return RayPath.GetFirstCollision(Tree, ray);
         }
     }
 }

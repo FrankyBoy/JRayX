@@ -14,7 +14,7 @@ namespace JRayXLib.Ray.Tracer
         private const double DiffuseLightIntensity = 0.8;
         private const double AmbientLightIntensity = 0.2;
 
-        public BackwardRayTracerHQ(Scene scene) : base(scene)
+        public BackwardRayTracerHQ(Scene.Scene scene) : base(scene)
         {
         }
 
@@ -26,11 +26,12 @@ namespace JRayXLib.Ray.Tracer
             }
 
             //Find nearest Hit
-            CollisionDetails c = FindNearestHit(ray);
+            CollisionDetails c = Scene.FindNearestHit(ray);
 
             //No hit
             if (c.Obj == null || double.IsInfinity(c.Distance))
             {
+                // TODO: actually use the scene sky here!
                 return Color.White.ToWide();
             }
 
@@ -42,18 +43,18 @@ namespace JRayXLib.Ray.Tracer
             Vect3 normal = c.Obj.GetNormalAt(hitPoint);
 
             //Check if anything is blocking direct sunlight (go where the sunlight comes from)
-            Vect3 lrDir = Scene.LightDirection*-1;
+            Vect3 lrDir = Scene.AmbientLightDirection*-1;
             var lightRay = new Shapes.Ray
                 {
                     Origin = hitPoint,
                     Direction = lrDir
                 };
-            CollisionDetails lc = FindNearestHit(lightRay);
+            CollisionDetails lc = Scene.FindNearestHit(lightRay);
 
             //if nothing blocks the sun's light, add ambient and diffuse light, otherwise ambient only  
             double lightScale = 0;
             if (lc.Obj == null)
-                lightScale = normal.DotProduct(Scene.LightDirection);
+                lightScale = normal.DotProduct(Scene.AmbientLightDirection);
             lightScale = AmbientLightIntensity + DiffuseLightIntensity*(lightScale < 0 ? -lightScale : 0);
 
             return color*lightScale;
