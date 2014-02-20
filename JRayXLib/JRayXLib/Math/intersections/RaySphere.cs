@@ -5,27 +5,27 @@ namespace JRayXLib.Math.intersections
     public class RaySphere
     {
         /**
-     *
-     * @param rayOrigin
-     * @param rayDirection
-     * @param sphereCenter The center of the sphere
-     * @param sphereRadius The radius of the spere
-     * @param biggerThan
-     * @return the (smaller) scalar to apply to the ray to get a hit point with
-     * the sphere or Double.POSITIVE_INFINITY if no hit point is present
-     */
+         *
+         * @param rayOrigin
+         * @param rayDirection
+         * @param sphereCenter The center of the sphere
+         * @param sphereRadius The radius of the spere
+         * @param biggerThan
+         * @return the (smaller) scalar to apply to the ray to get a hit point with
+         * the sphere or Double.POSITIVE_INFINITY if no hit point is present
+         */
 
         public static double GetHitPointRaySphereDistance(Vect3 rayOrigin, Vect3 rayDirection, Vect3 sphereCenter,
                                                           double sphereRadius)
         {
             /* calculate b, c for the quadratic formula described in
-         * http://en.wikipedia.org/wiki/Line–sphere_intersection
-         * a is always 1 as the ray-direction is normalized
-         *
-         * l .... ray's direction vector
-         * cp ... center point of sphere
-         * r .... sphere radius
-         * */
+             * http://en.wikipedia.org/wiki/Line–sphere_intersection
+             * a is always 1 as the ray-direction is normalized
+             *
+             * l .... ray's direction vector
+             * cp ... center point of sphere
+             * r .... sphere radius
+             * */
 
             Vect3 tmp = sphereCenter - rayOrigin;
 

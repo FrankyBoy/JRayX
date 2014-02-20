@@ -63,7 +63,7 @@ namespace JRayXLib.Model
 
         public override double GetBoundingSphereRadius()
         {
-            return Bounds.GetRadius();
+            return Bounds.Radius;
         }
 
         public void Purge()

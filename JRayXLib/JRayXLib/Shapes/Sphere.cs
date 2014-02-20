@@ -12,7 +12,7 @@ namespace JRayXLib.Shapes
 {
     public class Sphere : Basic3DObject
     {
-        protected double Radius;
+        public double Radius { get; protected set; }
         protected Vect3 RotVect;
 
         public Sphere(Vect3 position, double radius, Color color)
@@ -87,11 +87,6 @@ namespace JRayXLib.Shapes
         }
 
         public override double GetBoundingSphereRadius()
-        {
-            return GetBoundingSphere().GetRadius();
-        }
-
-        public double GetRadius()
         {
             return Radius;
         }

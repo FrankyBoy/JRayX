@@ -71,7 +71,7 @@ namespace JRayXLib.Shapes
         {
             Sphere s = GetBoundingSphere();
 
-            return CubeSphere.IsSphereEnclosedByCube(cCenter, cWidthHalf, s.Position, s.GetRadius());
+            return CubeSphere.IsSphereEnclosedByCube(cCenter, cWidthHalf, s.Position, s.Radius);
         }
 
         public abstract bool Contains(Vect3 hitPoint);

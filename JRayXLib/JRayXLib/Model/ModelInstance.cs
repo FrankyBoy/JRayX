@@ -29,7 +29,7 @@ namespace JRayXLib.Model
             Vect3 tmp = Position + _model.GetBoundingSphere().Position;
 
             if (RaySphere.IsRayOriginatingInSphere(r.Origin, r.Direction, tmp,
-                                                   _model.GetBoundingSphere().GetRadius()))
+                                                   _model.GetBoundingSphere().Radius))
             {
                 tmp = r.Origin - Position;
                 subRay = new Shapes.Ray
@@ -43,7 +43,7 @@ namespace JRayXLib.Model
             else
             {
                 dist = RaySphere.GetHitPointRaySphereDistance(r.Origin, r.Direction, tmp,
-                                                              _model.GetBoundingSphere().GetRadius());
+                                                              _model.GetBoundingSphere().Radius);
 
                 if (double.IsInfinity(dist))
                     return dist;
@@ -99,7 +99,7 @@ namespace JRayXLib.Model
 
         public override double GetBoundingSphereRadius()
         {
-            return _model.GetBoundingSphere().GetRadius();
+            return _model.GetBoundingSphere().Radius;
         }
     }
 

@@ -20,7 +20,7 @@
       <PdhCountersRate>500</PdhCountersRate>
       <PdhCounters>
         <PdhCounter>\Arbeitsspeicher\Seiten/s</PdhCounter>
-        <PdhCounter>\Physikalischer Datentr&amp;amp;amp;amp;amp;#228;ger(_Total)\Durchschnittl. Warteschlangenl&amp;amp;amp;amp;amp;#228;nge des Datentr&amp;amp;amp;amp;amp;#228;gers</PdhCounter>
+        <PdhCounter>\Physikalischer Datentr&amp;amp;amp;amp;amp;amp;amp;#228;ger(_Total)\Durchschnittl. Warteschlangenl&amp;amp;amp;amp;amp;amp;amp;#228;nge des Datentr&amp;amp;amp;amp;amp;amp;amp;#228;gers</PdhCounter>
         <PdhCounter>\Prozessor(_Total)\Prozessorzeit (%)</PdhCounter>
       </PdhCounters>
     </PdhSettings>
@@ -67,56 +67,6 @@
       <ProjName>ConsoleApplication1</ProjName>
     </ProjBinary>
   </Binaries>
-  <Reports>
-    <Report>
-      <Path>ConsoleApplication1140216.vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(1).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(2).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(3).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(4).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(5).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(6).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(7).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(8).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(9).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140216(10).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140217.vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140217(1).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140217(2).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140217(3).vsp</Path>
-    </Report>
-    <Report>
-      <Path>ConsoleApplication1140217(4).vsp</Path>
-    </Report>
-  </Reports>
   <Launches>
     <ProjBinary>
       <Path>:PB:{8D3F3D3C-6011-4662-8676-32395FD796ED}|ConsoleApplication1\ConsoleApplication1.csproj</Path>

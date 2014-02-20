@@ -59,16 +59,16 @@ namespace JRayXLib.Scene.Loaders
         /**
          *  Format (everything little endian): 
          *  
-         * 	UINT8[80] – Header
-         *	UINT32 – Number of triangles
-         *	
-         *	foreach triangle
-         *	REAL32[3] – Normal vector
-         *	REAL32[3] – Vertex 1
-         *	REAL32[3] – Vertex 2
-         *	REAL32[3] – Vertex 3
-         *	UINT16 – Attribute byte count
-         *	end
+         *     UINT8[80] – Header
+         *    UINT32 – Number of triangles
+         *    
+         *    foreach triangle
+         *    REAL32[3] – Normal vector
+         *    REAL32[3] – Vertex 1
+         *    REAL32[3] – Vertex 2
+         *    REAL32[3] – Vertex 3
+         *    UINT16 – Attribute byte count
+         *    end
          */
         public static TriangleMeshModel Parse(string f)
         {

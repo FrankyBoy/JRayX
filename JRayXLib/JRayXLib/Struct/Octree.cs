@@ -43,7 +43,7 @@ namespace JRayXLib.Struct
                 if (s != null)
                 {
                     Vect3 dist = center - s.Position;
-                    double qdist = s.GetRadius();
+                    double qdist = s.Radius;
                     if (double.IsInfinity(qdist) || Double.IsNaN(qdist))
                         throw new Exception("Invalid BoundingSphere: " + s + " from " + o);
                     qdist = qdist*qdist + dist.QuadLength();
@@ -53,11 +53,11 @@ namespace JRayXLib.Struct
             }
 
             /**
-		 * Workaround: *2.1 instead of *2, because rays must always start inside an octree for RayPath.
-		 * To fix this problem, a RayPath should allow ray-origins outside the octree, but this would need
-		 * an additional ray-cube intersection test which is currently not implemented. Another downside of
-		 * this is that the camera must always be located inside the octree - it must not be moved outside.
-		 */
+             * Workaround: *2.1 instead of *2, because rays must always start inside an octree for RayPath.
+             * To fix this problem, a RayPath should allow ray-origins outside the octree, but this would need
+             * an additional ray-cube intersection test which is currently not implemented. Another downside of
+             * this is that the camera must always be located inside the octree - it must not be moved outside.
+             */
             double sizeHint = System.Math.Sqrt(maxQuadDist)*2.1;
 
             Sw.Restart();

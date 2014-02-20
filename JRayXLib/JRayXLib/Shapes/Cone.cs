@@ -64,7 +64,7 @@ namespace JRayXLib.Shapes
 
         public override double GetBoundingSphereRadius()
         {
-            return GetBoundingSphere().GetRadius();
+            return GetBoundingSphere().Radius;
         }
 
         public override bool IsEnclosedByCube(Vect3 bcenter, double w2)

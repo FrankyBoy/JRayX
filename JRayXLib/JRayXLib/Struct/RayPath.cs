@@ -51,11 +51,11 @@ namespace JRayXLib.Struct
                 }
 
                 /**
-			 * When passing a box-border, all intersection tests between the ray's origin and the
-			 * box-border-intersection-point must have taken place (and some beyond the box-border too).
-			 * Therefore, if an intersection located between the ray's origin and the box-border has been found, this
-			 * must be the nearest intersection and the search may stop.
-			 */
+             * When passing a box-border, all intersection tests between the ray's origin and the
+             * box-border-intersection-point must have taken place (and some beyond the box-border too).
+             * Therefore, if an intersection located between the ray's origin and the box-border has been found, this
+             * must be the nearest intersection and the search may stop.
+             */
             } while (c.Distance > distanceTravelled);
 
             return c;

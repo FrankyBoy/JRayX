@@ -5,14 +5,14 @@ namespace JRayXLib.Math.intersections
     public class RayCube
     {
         /**
-	 * Calculates the distance to the nearest ray-cube intersection (in positive ray-direction) for a ray originating in a cube.
-	 * 
-	 * @param rayOrigin
-	 * @param rayDirection
-	 * @param boxCenter
-	 * @param boxWidthHalf
-	 * @return rayOrigin + <b>x</b> * rayDirection = a-cube-border-point
-	 */
+     * Calculates the distance to the nearest ray-cube intersection (in positive ray-direction) for a ray originating in a cube.
+     * 
+     * @param rayOrigin
+     * @param rayDirection
+     * @param boxCenter
+     * @param boxWidthHalf
+     * @return rayOrigin + <b>x</b> * rayDirection = a-cube-border-point
+     */
 
         public static double GetDistanceToBorderPlane(Vect3 rayOrigin, Vect3 rayDirection, Vect3 boxCenter,
                                                       double boxWidthHalf)

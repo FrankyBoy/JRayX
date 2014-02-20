@@ -30,22 +30,21 @@ namespace JRayXLib.Struct
         }
 
         /**
-	 * @param v a <code>Vect3</code> representing a point
-	 * @return true if, and only if, <code>v</code> is enclosed by this subtree.
-	 */
-
+         * @param v a <code>Vect3</code> representing a point
+         * @return true if, and only if, <code>v</code> is enclosed by this subtree.
+         */
         public bool Encloses(Vect3 v)
         {
             return PointCube.Encloses(Center, Width/2 + Constants.EPS, v);
         }
 
         /**
-	 * Inserts an object into the subtree. The actual algorithms for building the tree are specified by TreeInsertStrategy. 
-	 * 
-	 * @param o the object to be added.
-	 * @param s the bounding sphere of the object - precomputed for memory and performance reasons
-	 * @return false if the object does not intersect/or is not enclosed by this subtree, true otherwise.
-	 */
+         * Inserts an object into the subtree. The actual algorithms for building the tree are specified by TreeInsertStrategy. 
+         * 
+         * @param o the object to be added.
+         * @param s the bounding sphere of the object - precomputed for memory and performance reasons
+         * @return false if the object does not intersect/or is not enclosed by this subtree, true otherwise.
+         */
 
         public bool Insert(I3DObject o, Sphere s)
         {
@@ -59,7 +58,7 @@ namespace JRayXLib.Struct
             switch (Strategy)
             {
                 case TreeInsertStrategy.LeafOnly:
-                    if (!CubeSphere.IsSphereIntersectingCube(Center, Width/2, s.Position, s.GetRadius()))
+                    if (!CubeSphere.IsSphereIntersectingCube(Center, Width/2, s))
                     {
                         return false;
                     }
@@ -117,7 +116,7 @@ namespace JRayXLib.Struct
                     return true;
                 case TreeInsertStrategy.Dynamic:
                     //if sphere is not touching cube -> error
-                    if (!CubeSphere.IsSphereIntersectingCube(Center, Width/2, s.Position, s.GetRadius()))
+                    if (!CubeSphere.IsSphereIntersectingCube(Center, Width/2, s))
                     {
                         return false;
                     }
@@ -134,7 +133,7 @@ namespace JRayXLib.Struct
 
                     //if object is very small (in relation to the box) - duplicate it to child nodes
                     //add it to this node otherwise
-                    if (_child != null && s.GetRadius()/Width < TreeInsertStrategyConstants.DynamicDuplicateMaxSizeRatio)
+                    if (_child != null && s.Radius/Width < TreeInsertStrategyConstants.DynamicDuplicateMaxSizeRatio)
                     {
                         _child[0].Insert(o, s);
                         _child[1].Insert(o, s);
@@ -159,7 +158,7 @@ namespace JRayXLib.Struct
                     return true;
                 case TreeInsertStrategy.DynamicTest:
                     //if sphere is not touching cube -> error
-                    if (!CubeSphere.IsSphereIntersectingCube(Center, Width/2, s.Position, s.GetRadius()))
+                    if (!CubeSphere.IsSphereIntersectingCube(Center, Width/2, s))
                     {
                         return false;
                     }
@@ -173,22 +172,14 @@ namespace JRayXLib.Struct
                                 return n.Insert(o, s);
                         }
 
-                        bool i0 = CubeSphere.IsSphereIntersectingCube(_child[0].Center, _child[0].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i1 = CubeSphere.IsSphereIntersectingCube(_child[1].Center, _child[1].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i2 = CubeSphere.IsSphereIntersectingCube(_child[2].Center, _child[2].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i3 = CubeSphere.IsSphereIntersectingCube(_child[3].Center, _child[3].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i4 = CubeSphere.IsSphereIntersectingCube(_child[4].Center, _child[4].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i5 = CubeSphere.IsSphereIntersectingCube(_child[5].Center, _child[5].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i6 = CubeSphere.IsSphereIntersectingCube(_child[6].Center, _child[6].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i7 = CubeSphere.IsSphereIntersectingCube(_child[7].Center, _child[7].Width/2, s.Position,
-                                                                      s.GetRadius());
+                        bool i0 = CubeSphere.IsSphereIntersectingCube(_child[0].Center, _child[0].Width/2, s),
+                             i1 = CubeSphere.IsSphereIntersectingCube(_child[1].Center, _child[1].Width/2, s),
+                             i2 = CubeSphere.IsSphereIntersectingCube(_child[2].Center, _child[2].Width/2, s),
+                             i3 = CubeSphere.IsSphereIntersectingCube(_child[3].Center, _child[3].Width/2, s),
+                             i4 = CubeSphere.IsSphereIntersectingCube(_child[4].Center, _child[4].Width/2, s),
+                             i5 = CubeSphere.IsSphereIntersectingCube(_child[5].Center, _child[5].Width/2, s),
+                             i6 = CubeSphere.IsSphereIntersectingCube(_child[6].Center, _child[6].Width/2, s),
+                             i7 = CubeSphere.IsSphereIntersectingCube(_child[7].Center, _child[7].Width/2, s);
 
                         int intersectionCount = 0;
 
@@ -201,7 +192,7 @@ namespace JRayXLib.Struct
                         if (i6) intersectionCount++;
                         if (i7) intersectionCount++;
 
-                        if (intersectionCount == 1 || intersectionCount*s.GetRadius()/Width < 0.35)
+                        if (intersectionCount == 1 || intersectionCount*s.Radius/Width < 0.35)
                         {
                             if (i0) _child[0].Insert(o, s);
                             if (i1) _child[1].Insert(o, s);
@@ -227,7 +218,7 @@ namespace JRayXLib.Struct
                     return true;
                 case TreeInsertStrategy.FastBuildTest:
                     //if sphere is not touching cube -> error
-                    if (!CubeSphere.IsSphereIntersectingCube(Center, Width/2, s.Position, s.GetRadius()))
+                    if (!CubeSphere.IsSphereIntersectingCube(Center, Width/2, s))
                     {
                         return false;
                     }
@@ -235,22 +226,14 @@ namespace JRayXLib.Struct
                     //if object is enclosed by any child, add it there
                     if (_child != null)
                     {
-                        bool i0 = CubeSphere.IsSphereIntersectingCube(_child[0].Center, _child[0].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i1 = CubeSphere.IsSphereIntersectingCube(_child[1].Center, _child[1].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i2 = CubeSphere.IsSphereIntersectingCube(_child[2].Center, _child[2].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i3 = CubeSphere.IsSphereIntersectingCube(_child[3].Center, _child[3].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i4 = CubeSphere.IsSphereIntersectingCube(_child[4].Center, _child[4].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i5 = CubeSphere.IsSphereIntersectingCube(_child[5].Center, _child[5].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i6 = CubeSphere.IsSphereIntersectingCube(_child[6].Center, _child[6].Width/2, s.Position,
-                                                                      s.GetRadius()),
-                             i7 = CubeSphere.IsSphereIntersectingCube(_child[7].Center, _child[7].Width/2, s.Position,
-                                                                      s.GetRadius());
+                        bool i0 = CubeSphere.IsSphereIntersectingCube(_child[0].Center, _child[0].Width/2, s),
+                             i1 = CubeSphere.IsSphereIntersectingCube(_child[1].Center, _child[1].Width/2, s),
+                             i2 = CubeSphere.IsSphereIntersectingCube(_child[2].Center, _child[2].Width/2, s),
+                             i3 = CubeSphere.IsSphereIntersectingCube(_child[3].Center, _child[3].Width/2, s),
+                             i4 = CubeSphere.IsSphereIntersectingCube(_child[4].Center, _child[4].Width/2, s),
+                             i5 = CubeSphere.IsSphereIntersectingCube(_child[5].Center, _child[5].Width/2, s),
+                             i6 = CubeSphere.IsSphereIntersectingCube(_child[6].Center, _child[6].Width/2, s),
+                             i7 = CubeSphere.IsSphereIntersectingCube(_child[7].Center, _child[7].Width/2, s);
 
                         int intersectionCount = 0;
 
@@ -263,7 +246,7 @@ namespace JRayXLib.Struct
                         if (i6) intersectionCount++;
                         if (i7) intersectionCount++;
 
-                        if (intersectionCount == 1 || intersectionCount*s.GetRadius()/Width < 0.5)
+                        if (intersectionCount == 1 || intersectionCount*s.Radius/Width < 0.5)
                         {
                             if (i0) _child[0].Insert(o, s);
                             if (i1) _child[1].Insert(o, s);
@@ -294,8 +277,8 @@ namespace JRayXLib.Struct
         }
 
         /**
-	 * Splits this node into 8 child-nodes and re-inserts the content
-	 */
+     * Splits this node into 8 child-nodes and re-inserts the content
+     */
 
         private void Split()
         {
@@ -328,12 +311,12 @@ namespace JRayXLib.Struct
         }
 
         /**
-	 * March through Octree checking collisions. Every node on the way (when traversing to leaf direction) is checked for hits.
-	 * 
-	 * @param v point to search for
-	 * @param c collision details
-	 * @return smallest node containing v, or null if (and only if) v is not inside the tree
-	 */
+     * March through Octree checking collisions. Every node on the way (when traversing to leaf direction) is checked for hits.
+     * 
+     * @param v point to search for
+     * @param c collision details
+     * @return smallest node containing v, or null if (and only if) v is not inside the tree
+     */
 
         public Node MarchToCheckingCollisions(Vect3 v, CollisionDetails c)
         {
@@ -382,8 +365,8 @@ namespace JRayXLib.Struct
         }
 
         /**
-	 * @return the number of objects stored in this subtree (duplicates are count multiple times)
-	 */
+     * @return the number of objects stored in this subtree (duplicates are count multiple times)
+     */
 
         public int GetSize()
         {
@@ -396,13 +379,13 @@ namespace JRayXLib.Struct
         }
 
         /**
-	 * Calculates: <code>s = sum(layer)</code> where sum is the sum over all objects stored in 
-	 * this subtree and layer at which the object is stored (the root has layer 0).
-	 * <p/>
-	 * <code>s/getSize()</code> defines the average layer of the object.  
-	 * @param layer
-	 * @return s
-	 */
+     * Calculates: <code>s = sum(layer)</code> where sum is the sum over all objects stored in 
+     * this subtree and layer at which the object is stored (the root has layer 0).
+     * <p/>
+     * <code>s/getSize()</code> defines the average layer of the object.  
+     * @param layer
+     * @return s
+     */
 
         public long GetContentDepthSum(int layer)
         {
@@ -417,8 +400,8 @@ namespace JRayXLib.Struct
         }
 
         /**
-	 * Removes child nodes in case none of them has any content
-	 */
+     * Removes child nodes in case none of them has any content
+     */
 
         public void Compress()
         {
@@ -435,8 +418,8 @@ namespace JRayXLib.Struct
         }
 
         /**
-	 * @return number of nodes in this subtree
-	 */
+     * @return number of nodes in this subtree
+     */
 
         public int GetNodeCount()
         {

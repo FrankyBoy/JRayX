@@ -85,6 +85,7 @@
     <Compile Include="Shapes\TexturedTriangle.cs" />
     <Compile Include="Shapes\Triangle.cs" />
     <Compile Include="Shapes\Vect3.cs" />
+    <Compile Include="Struct\Octree2.cs" />
     <Compile Include="Util\MathHelper.cs" />
   </ItemGroup>
   <ItemGroup>
