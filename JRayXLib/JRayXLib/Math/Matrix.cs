@@ -13,8 +13,6 @@ namespace JRayXLib.Math
 
         public static Matrix4 CreateRotationMatrix(Vect3 axis, double angleRad)
         {
-            var erg = new Matrix4(null);
-            double[,] data = erg.GetData();
             double cosa = System.Math.Cos(angleRad);
             double sina = System.Math.Sin(angleRad);
 
@@ -22,198 +20,131 @@ namespace JRayXLib.Math
 
             double v1xICosA = axis.X*icosa;
 
-            data[0, 0] = cosa + axis.X*v1xICosA;
-            data[0, 1] = axis.Y*v1xICosA - axis.Z*sina;
-            data[0, 2] = axis.Z*v1xICosA + axis.Y*sina;
-            data[0, 3] = 0;
-            data[1, 0] = axis.Y*v1xICosA + axis.Z*sina;
-            data[1, 1] = cosa + axis.Y*axis.Y*icosa;
-            data[1, 2] = axis.Y*axis.Z*icosa - axis.X*sina;
-            data[1, 3] = 0;
-            data[2, 0] = axis.Z*v1xICosA - axis.Y*sina;
-            data[2, 1] = axis.Z*axis.Y*icosa + axis.X*sina;
-            data[2, 2] = cosa + axis.Z*axis.Z*icosa;
-            data[2, 3] = 0;
-            data[3, 0] = 0;
-            data[3, 1] = 0;
-            data[3, 2] = 0;
-            data[3, 3] = 1;
-
-            return erg;
+            return new Matrix4
+                {
+                    A0 = cosa + axis.X*v1xICosA,
+                    A1 = axis.Y*v1xICosA - axis.Z*sina,
+                    A2 = axis.Z*v1xICosA + axis.Y*sina,
+                    B0 = axis.Y*v1xICosA + axis.Z*sina,
+                    B1 = cosa + axis.Y*axis.Y*icosa,
+                    B2 = axis.Y*axis.Z*icosa - axis.X*sina,
+                    C0 = axis.Z*v1xICosA - axis.Y*sina,
+                    C1 = axis.Z*axis.Y*icosa + axis.X*sina,
+                    C2 = cosa + axis.Z*axis.Z*icosa,
+                    D3 = 1
+                };
         }
 
         public static Matrix4 CreateTranslationMatrix(Vect3 axis)
         {
-            var erg = new Matrix4(null);
-            double[,] data = erg.GetData();
-
-            data[1, 0] = 0;
-            data[2, 0] = 0;
-            data[3, 0] = 0;
-            data[0, 1] = 0;
-            data[2, 1] = 0;
-            data[3, 1] = 0;
-            data[0, 2] = 0;
-            data[1, 2] = 0;
-            data[3, 2] = 0;
-
-            data[0, 0] = 1;
-            data[1, 1] = 1;
-            data[2, 2] = 1;
-            data[3, 3] = 1;
-            data[0, 3] = axis.X;
-            data[1, 3] = axis.Y;
-            data[2, 3] = axis.Z;
-
-            return erg;
+            return new Matrix4
+                {
+                    A0 = 1,
+                    B1 = 1,
+                    C2 = 1,
+                    D3 = 1,
+                    A3 = axis.X,
+                    B3 = axis.Y,
+                    C3 = axis.Z
+                };
         }
 
         public static Matrix4 CreateScaleMatrix(Vect3 axis)
         {
-            var erg = new Matrix4(null);
-            double[,] ergData = erg.GetData();
-
-            ergData[0, 0] = axis.X;
-            ergData[0, 1] = 0;
-            ergData[0, 2] = 0;
-            ergData[0, 3] = 0;
-            ergData[1, 0] = 0;
-            ergData[1, 1] = axis.Y;
-            ergData[1, 2] = 0;
-            ergData[1, 3] = 0;
-            ergData[2, 0] = 0;
-            ergData[2, 1] = 0;
-            ergData[2, 2] = axis.Z;
-            ergData[2, 3] = 0;
-            ergData[3, 0] = 0;
-            ergData[3, 1] = 0;
-            ergData[3, 2] = 0;
-            ergData[3, 3] = 1;
-
-            return erg;
+            return new Matrix4
+                {
+                    A0 = axis.X,
+                    B1 = axis.Y,
+                    C2 = axis.Z,
+                    D3 = 1
+                };
         }
 
         public static Matrix4 CreateUnitMatrix()
         {
-            var erg = new Matrix4(null);
-            double[,] data = erg.GetData();
-            data[0, 0] = 1;
-            data[0, 1] = 0;
-            data[0, 2] = 0;
-            data[0, 3] = 0;
-            data[1, 0] = 0;
-            data[1, 1] = 1;
-            data[1, 2] = 0;
-            data[1, 3] = 0;
-            data[2, 0] = 0;
-            data[2, 1] = 0;
-            data[2, 2] = 1;
-            data[2, 3] = 0;
-            data[3, 0] = 0;
-            data[3, 1] = 0;
-            data[3, 2] = 0;
-            data[3, 3] = 1;
-
-            return erg;
+            return new Matrix4
+                {
+                    A0 = 1,
+                    B1 = 1,
+                    C2 = 1,
+                    D3 = 1
+                };
         }
 
         public static Matrix4 Invert(Matrix4 m)
         {
-            var erg = new Matrix4(null);
 
-            double[,] a = m.GetData();
-            double detA = a[0, 0]*(a[1, 1]*a[2, 2]*a[3, 3] +
-                                   a[1, 2]*a[2, 3]*a[3, 1] +
-                                   a[1, 3]*a[2, 1]*a[3, 2]) +
-                          a[0, 1]*(a[1, 0]*a[2, 3]*a[3, 2] +
-                                   a[1, 2]*a[2, 0]*a[3, 3] +
-                                   a[1, 3]*a[2, 2]*a[3, 0]) +
-                          a[0, 2]*(a[1, 0]*a[2, 1]*a[3, 3] +
-                                   a[1, 1]*a[2, 3]*a[3, 0] +
-                                   a[1, 3]*a[2, 0]*a[3, 1]) +
-                          a[0, 3]*(a[1, 0]*a[2, 2]*a[3, 1] +
-                                   a[1, 1]*a[2, 0]*a[3, 2] +
-                                   a[1, 2]*a[2, 1]*a[3, 0]) -
-                          a[0, 0]*(a[1, 1]*a[2, 3]*a[3, 2] +
-                                   a[1, 2]*a[2, 1]*a[3, 3] +
-                                   a[1, 3]*a[2, 2]*a[3, 1]) -
-                          a[0, 1]*(a[1, 0]*a[2, 2]*a[3, 3] +
-                                   a[1, 2]*a[2, 3]*a[3, 0] +
-                                   a[1, 3]*a[2, 0]*a[3, 2]) -
-                          a[0, 2]*(a[1, 0]*a[2, 3]*a[3, 1] +
-                                   a[1, 1]*a[2, 0]*a[3, 3] +
-                                   a[1, 3]*a[2, 1]*a[3, 0]) -
-                          a[0, 3]*(a[1, 0]*a[2, 1]*a[3, 2] +
-                                   a[1, 1]*a[2, 2]*a[3, 0] +
-                                   a[1, 2]*a[2, 0]*a[3, 1]);
-
+            double detA = m.A0* ( m.B1 *m.C2 *m.D3 + m.B2 *m.C3 *m.D1 + m.B3 *m.C1 *m.D2 ) +
+                          m.A1* ( m.B0 *m.C3 *m.D2 + m.B2 *m.C0 *m.D3 + m.B3 *m.C2 *m.D0 ) +
+                          m.A2* ( m.B0 *m.C1 *m.D3 + m.B1 *m.C3 *m.D0 + m.B3 *m.C0 *m.D1 ) +
+                          m.A3* ( m.B0 *m.C2 *m.D1 + m.B1 *m.C0 *m.D2 + m.B2 *m.C1 *m.D0 ) -
+                          m.A0* ( m.B1 *m.C3 *m.D2 + m.B2 *m.C1 *m.D3 + m.B3 *m.C2 *m.D1 ) -
+                          m.A1* ( m.B0 *m.C2 *m.D3 + m.B2 *m.C3 *m.D0 + m.B3 *m.C0 *m.D2 ) -
+                          m.A2* ( m.B0 *m.C3 *m.D1 + m.B1 *m.C0 *m.D3 + m.B3 *m.C1 *m.D0 ) -
+                          m.A3* ( m.B0 *m.C1 *m.D2 + m.B1 *m.C2 *m.D0 + m.B2 *m.C0 *m.D1 );
+            
             detA = 1/detA;
-            double[,] b = erg.GetData();
-            b[0, 0] = (a[1, 1]*a[2, 2]*a[3, 3] + a[1, 2]*a[2, 3]*a[3, 1] + a[1, 3]*a[2, 1]*a[3, 2] -
-                       a[1, 1]*a[2, 3]*a[3, 2] - a[1, 2]*a[2, 1]*a[3, 3] - a[1, 3]*a[2, 2]*a[3, 1])*detA;
-            b[0, 1] = (a[0, 1]*a[2, 3]*a[3, 2] + a[0, 2]*a[2, 1]*a[3, 3] + a[0, 3]*a[2, 2]*a[3, 1] -
-                       a[0, 1]*a[2, 2]*a[3, 3] - a[0, 2]*a[2, 3]*a[3, 1] - a[0, 3]*a[2, 1]*a[3, 2])*detA;
-            b[0, 2] = (a[0, 1]*a[1, 2]*a[3, 3] + a[0, 2]*a[1, 3]*a[3, 1] + a[0, 3]*a[1, 1]*a[3, 2] -
-                       a[0, 1]*a[1, 3]*a[3, 2] - a[0, 2]*a[1, 1]*a[3, 3] - a[0, 3]*a[1, 2]*a[3, 1])*detA;
-            b[0, 3] = (a[0, 1]*a[1, 3]*a[2, 2] + a[0, 2]*a[1, 1]*a[2, 3] + a[0, 3]*a[1, 2]*a[2, 1] -
-                       a[0, 1]*a[1, 2]*a[2, 3] - a[0, 2]*a[1, 3]*a[2, 1] - a[0, 3]*a[1, 1]*a[2, 2])*detA;
-            b[1, 0] = (a[1, 0]*a[2, 3]*a[3, 2] + a[1, 2]*a[2, 0]*a[3, 3] + a[1, 3]*a[2, 2]*a[3, 0] -
-                       a[1, 0]*a[2, 2]*a[3, 3] - a[1, 2]*a[2, 3]*a[3, 0] - a[1, 3]*a[2, 0]*a[3, 2])*detA;
-            b[1, 1] = (a[0, 0]*a[2, 2]*a[3, 3] + a[0, 2]*a[2, 3]*a[3, 0] + a[0, 3]*a[2, 0]*a[3, 2] -
-                       a[0, 0]*a[2, 3]*a[3, 2] - a[0, 2]*a[2, 0]*a[3, 3] - a[0, 3]*a[2, 2]*a[3, 0])*detA;
-            b[1, 2] = (a[0, 0]*a[1, 3]*a[3, 2] + a[0, 2]*a[1, 0]*a[3, 3] + a[0, 3]*a[1, 2]*a[3, 0] -
-                       a[0, 0]*a[1, 2]*a[3, 3] - a[0, 2]*a[1, 3]*a[3, 0] - a[0, 3]*a[1, 0]*a[3, 2])*detA;
-            b[1, 3] = (a[0, 0]*a[1, 2]*a[2, 3] + a[0, 2]*a[1, 3]*a[2, 0] + a[0, 3]*a[1, 0]*a[2, 2] -
-                       a[0, 0]*a[1, 3]*a[2, 2] - a[0, 2]*a[1, 0]*a[2, 3] - a[0, 3]*a[1, 2]*a[2, 0])*detA;
-            b[2, 0] = (a[1, 0]*a[2, 1]*a[3, 3] + a[1, 1]*a[2, 3]*a[3, 0] + a[1, 3]*a[2, 0]*a[3, 1] -
-                       a[1, 0]*a[2, 3]*a[3, 1] - a[1, 1]*a[2, 0]*a[3, 3] - a[1, 3]*a[2, 1]*a[3, 0])*detA;
-            b[2, 1] = (a[0, 0]*a[2, 3]*a[3, 1] + a[0, 1]*a[2, 0]*a[3, 3] + a[0, 3]*a[2, 1]*a[3, 0] -
-                       a[0, 0]*a[2, 1]*a[3, 3] - a[0, 1]*a[2, 3]*a[3, 0] - a[0, 3]*a[2, 0]*a[3, 1])*detA;
-            b[2, 2] = (a[0, 0]*a[1, 1]*a[3, 3] + a[0, 1]*a[1, 3]*a[3, 0]*a[0, 3]*a[1, 0]*a[3, 1] -
-                       a[0, 0]*a[1, 3]*a[3, 1] - a[0, 1]*a[1, 0]*a[3, 3] - a[0, 3]*a[1, 1]*a[3, 0])*detA;
-            b[2, 3] = (a[0, 0]*a[1, 3]*a[2, 1] + a[0, 1]*a[1, 0]*a[2, 3] + a[0, 3]*a[1, 1]*a[2, 0] -
-                       a[0, 0]*a[1, 1]*a[2, 3] - a[0, 1]*a[1, 3]*a[2, 0] - a[0, 3]*a[1, 0]*a[2, 1])*detA;
-            b[3, 0] = (a[1, 0]*a[2, 2]*a[3, 1] + a[1, 1]*a[2, 0]*a[3, 2] + a[1, 2]*a[2, 1]*a[3, 0] -
-                       a[1, 0]*a[2, 1]*a[3, 2] - a[1, 1]*a[2, 2]*a[3, 0] - a[1, 2]*a[2, 0]*a[3, 1])*detA;
-            b[3, 1] = (a[0, 0]*a[2, 1]*a[3, 2] + a[0, 1]*a[2, 2]*a[3, 0] + a[0, 2]*a[2, 0]*a[3, 1] -
-                       a[0, 0]*a[2, 2]*a[3, 1] - a[0, 1]*a[2, 0]*a[3, 2] - a[0, 2]*a[2, 1]*a[3, 0])*detA;
-            b[3, 2] = (a[0, 0]*a[1, 2]*a[3, 1] + a[0, 1]*a[1, 0]*a[3, 2] + a[0, 2]*a[1, 1]*a[3, 0] -
-                       a[0, 0]*a[1, 1]*a[3, 2] - a[0, 1]*a[1, 2]*a[3, 0] - a[0, 2]*a[1, 0]*a[3, 1])*detA;
-            b[3, 3] = (a[0, 0]*a[1, 1]*a[2, 2] + a[0, 1]*a[1, 2]*a[2, 0] + a[0, 2]*a[1, 0]*a[2, 1] -
-                       a[0, 0]*a[1, 2]*a[2, 1] - a[0, 1]*a[1, 0]*a[2, 2] - a[0, 2]*a[1, 1]*a[2, 0])*detA;
+
+            var erg = new Matrix4
+                {
+                    A0 = (m.B1*m.C2*m.D3 + m.B2*m.C3*m.D1 + m.B3*m.C1*m.D2 -
+                          m.B1*m.C3*m.D2 - m.B2*m.C1*m.D3 - m.B3*m.C2*m.D1)*detA,
+                    A1 = (m.A1*m.C3*m.D2 + m.A2*m.C1*m.D3 + m.A3*m.C2*m.D1 -
+                          m.A1*m.C2*m.D3 - m.A2*m.C3*m.D1 - m.A3*m.C1*m.D2)*detA,
+                    A2 = (m.A1*m.B2*m.D3 + m.A2*m.B3*m.D1 + m.A3*m.B1*m.D2 -
+                          m.A1*m.B3*m.D2 - m.A2*m.B1*m.D3 - m.A3*m.B2*m.D1)*detA,
+                    A3 = (m.A1*m.B3*m.C2 + m.A2*m.B1*m.C3 + m.A3*m.B2*m.C1 -
+                          m.A1*m.B2*m.C3 - m.A2*m.B3*m.C1 - m.A3*m.B1*m.C2)*detA,
+                    B0 = (m.B0*m.C3*m.D2 + m.B2*m.C0*m.D3 + m.B3*m.C2*m.D0 -
+                          m.B0*m.C2*m.D3 - m.B2*m.C3*m.D0 - m.B3*m.C0*m.D2)*detA,
+                    B1 = (m.A0*m.C2*m.D3 + m.A2*m.C3*m.D0 + m.A3*m.C0*m.D2 -
+                          m.A0*m.C3*m.D2 - m.A2*m.C0*m.D3 - m.A3*m.C2*m.D0)*detA,
+                    B2 = (m.A0*m.B3*m.D2 + m.A2*m.B0*m.D3 + m.A3*m.B2*m.D0 -
+                          m.A0*m.B2*m.D3 - m.A2*m.B3*m.D0 - m.A3*m.B0*m.D2)*detA,
+                    B3 = (m.A0*m.B2*m.C3 + m.A2*m.B3*m.C0 + m.A3*m.B0*m.C2 -
+                          m.A0*m.B3*m.C2 - m.A2*m.B0*m.C3 - m.A3*m.B2*m.C0)*detA,
+                    C0 = (m.B0*m.C1*m.D3 + m.B1*m.C3*m.D0 + m.B3*m.C0*m.D1 -
+                          m.B0*m.C3*m.D1 - m.B1*m.C0*m.D3 - m.B3*m.C1*m.D0)*detA,
+                    C1 = (m.A0*m.C3*m.D1 + m.A1*m.C0*m.D3 + m.A3*m.C1*m.D0 -
+                          m.A0*m.C1*m.D3 - m.A1*m.C3*m.D0 - m.A3*m.C0*m.D1)*detA,
+                    C2 = (m.A0*m.B1*m.D3 + m.A1*m.B3*m.D0 + m.A3*m.B0*m.D1 -
+                          m.A0*m.B3*m.D1 - m.A1*m.B0*m.D3 - m.A3*m.B1*m.D0)*detA,
+                    C3 = (m.A0*m.B3*m.C1 + m.A1*m.B0*m.C3 + m.A3*m.B1*m.C0 -
+                          m.A0*m.B1*m.C3 - m.A1*m.B3*m.C0 - m.A3*m.B0*m.C1)*detA,
+                    D0 = (m.B0*m.C2*m.D1 + m.B1*m.C0*m.D2 + m.B2*m.C1*m.D0 -
+                          m.B0*m.C1*m.D2 - m.B1*m.C2*m.D0 - m.B2*m.C0*m.D1)*detA,
+                    D1 = (m.A0*m.C1*m.D2 + m.A1*m.C2*m.D0 + m.A2*m.C0*m.D1 -
+                          m.A0*m.C2*m.D1 - m.A1*m.C0*m.D2 - m.A2*m.C1*m.D0)*detA,
+                    D2 = (m.A0*m.B2*m.D1 + m.A1*m.B0*m.D2 + m.A2*m.B1*m.D0 -
+                          m.A0*m.B1*m.D2 - m.A1*m.B2*m.D0 - m.A2*m.B0*m.D1)*detA,
+                    D3 = (m.A0*m.B1*m.C2 + m.A1*m.B2*m.C0 + m.A2*m.B0*m.C1 -
+                          m.A0*m.B2*m.C1 - m.A1*m.B0*m.C2 - m.A2*m.B1*m.C0)*detA
+                };
 
             return erg;
         }
 
         public static Matrix4 Multiply(Matrix4 m1, Matrix4 m2)
         {
-            var erg = new Matrix4(null);
-            double[,] h = erg.GetData();
-
-            double[,] a = m1.GetData();
-            double[,] b = m2.GetData();
-
-            h[0, 0] = a[0, 0]*b[0, 0] + a[1, 0]*b[0, 1] + a[2, 0]*b[0, 2] + a[3, 0]*b[0, 3];
-            h[1, 0] = a[0, 0]*b[1, 0] + a[1, 0]*b[1, 1] + a[2, 0]*b[1, 2] + a[3, 0]*b[1, 3];
-            h[2, 0] = a[0, 0]*b[2, 0] + a[1, 0]*b[2, 1] + a[2, 0]*b[2, 2] + a[3, 0]*b[2, 3];
-            h[3, 0] = a[0, 0]*b[3, 0] + a[1, 0]*b[3, 1] + a[2, 0]*b[3, 2] + a[3, 0]*b[3, 3];
-
-            h[0, 1] = a[0, 1]*b[0, 0] + a[1, 1]*b[0, 1] + a[2, 1]*b[0, 2] + a[3, 1]*b[0, 3];
-            h[1, 1] = a[0, 1]*b[1, 0] + a[1, 1]*b[1, 1] + a[2, 1]*b[1, 2] + a[3, 1]*b[1, 3];
-            h[2, 1] = a[0, 1]*b[2, 0] + a[1, 1]*b[2, 1] + a[2, 1]*b[2, 2] + a[3, 1]*b[2, 3];
-            h[3, 1] = a[0, 1]*b[3, 0] + a[1, 1]*b[3, 1] + a[2, 1]*b[3, 2] + a[3, 1]*b[3, 3];
-
-            h[0, 2] = a[0, 2]*b[0, 0] + a[1, 2]*b[0, 1] + a[2, 2]*b[0, 2] + a[3, 2]*b[0, 3];
-            h[1, 2] = a[0, 2]*b[1, 0] + a[1, 2]*b[1, 1] + a[2, 2]*b[1, 2] + a[3, 2]*b[1, 3];
-            h[2, 2] = a[0, 2]*b[2, 0] + a[1, 2]*b[2, 1] + a[2, 2]*b[2, 2] + a[3, 2]*b[2, 3];
-            h[3, 2] = a[0, 2]*b[3, 0] + a[1, 2]*b[3, 1] + a[2, 2]*b[3, 2] + a[3, 2]*b[3, 3];
-
-            h[0, 3] = a[0, 3]*b[0, 0] + a[1, 3]*b[0, 1] + a[2, 3]*b[0, 2] + a[3, 3]*b[0, 3];
-            h[1, 3] = a[0, 3]*b[1, 0] + a[1, 3]*b[1, 1] + a[2, 3]*b[1, 2] + a[3, 3]*b[1, 3];
-            h[2, 3] = a[0, 3]*b[2, 0] + a[1, 3]*b[2, 1] + a[2, 3]*b[2, 2] + a[3, 3]*b[2, 3];
-            h[3, 3] = a[0, 3]*b[3, 0] + a[1, 3]*b[3, 1] + a[2, 3]*b[3, 2] + a[3, 3]*b[3, 3];
-
-            return erg;
+            return new Matrix4
+                {
+                    A0 = m1.A0*m2.A0 + m1.B0*m2.A1 + m1.C0*m2.A2 + m1.D0*m2.A3,
+                    B0 = m1.A0*m2.B0 + m1.B0*m2.B1 + m1.C0*m2.B2 + m1.D0*m2.B3,
+                    C0 = m1.A0*m2.C0 + m1.B0*m2.C1 + m1.C0*m2.C2 + m1.D0*m2.C3,
+                    D0 = m1.A0*m2.D0 + m1.B0*m2.D1 + m1.C0*m2.D2 + m1.D0*m2.D3,
+                    A1 = m1.A1*m2.A0 + m1.B1*m2.A1 + m1.C1*m2.A2 + m1.D1*m2.A3,
+                    B1 = m1.A1*m2.B0 + m1.B1*m2.B1 + m1.C1*m2.B2 + m1.D1*m2.B3,
+                    C1 = m1.A1*m2.C0 + m1.B1*m2.C1 + m1.C1*m2.C2 + m1.D1*m2.C3,
+                    D1 = m1.A1*m2.D0 + m1.B1*m2.D1 + m1.C1*m2.D2 + m1.D1*m2.D3,
+                    A2 = m1.A2*m2.A0 + m1.B2*m2.A1 + m1.C2*m2.A2 + m1.D2*m2.A3,
+                    B2 = m1.A2*m2.B0 + m1.B2*m2.B1 + m1.C2*m2.B2 + m1.D2*m2.B3,
+                    C2 = m1.A2*m2.C0 + m1.B2*m2.C1 + m1.C2*m2.C2 + m1.D2*m2.C3,
+                    D2 = m1.A2*m2.D0 + m1.B2*m2.D1 + m1.C2*m2.D2 + m1.D2*m2.D3,
+                    A3 = m1.A3*m2.A0 + m1.B3*m2.A1 + m1.C3*m2.A2 + m1.D3*m2.A3,
+                    B3 = m1.A3*m2.B0 + m1.B3*m2.B1 + m1.C3*m2.B2 + m1.D3*m2.B3,
+                    C3 = m1.A3*m2.C0 + m1.B3*m2.C1 + m1.C3*m2.C2 + m1.D3*m2.C3,
+                    D3 = m1.A3*m2.D0 + m1.B3*m2.D1 + m1.C3*m2.D2 + m1.D3*m2.D3
+                };
         }
     }
 }

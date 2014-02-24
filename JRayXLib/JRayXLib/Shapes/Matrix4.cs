@@ -1,83 +1,58 @@
-using System.Text;
 using JRayXLib.Math;
 
 namespace JRayXLib.Shapes
 {
     public struct Matrix4
     {
-        private readonly double[,] _data;
+        public double
+            A0, A1, A2, A3,
+            B0, B1, B2, B3,
+            C0, C1, C2, C3,
+            D0, D1, D2, D3;
 
-
-        public Matrix4(Matrix4? m = null)
+        public Matrix4(Matrix4 m)
         {
-            _data = new double[4,4];
-            if (m == null)
-                return;
+            A0 = m.A0;
+            A1 = m.A1;
+            A2 = m.A2;
+            A3 = m.A3;
 
-            double[,] dm = m.Value.GetData();
+            B0 = m.B0;
+            B1 = m.B1;
+            B2 = m.B2;
+            B3 = m.B3;
 
-            _data[0, 0] = dm[0, 0];
-            _data[1, 0] = dm[1, 0];
-            _data[2, 0] = dm[2, 0];
-            _data[3, 0] = dm[3, 0];
-            _data[0, 1] = dm[0, 1];
-            _data[1, 1] = dm[1, 1];
-            _data[2, 1] = dm[2, 1];
-            _data[3, 1] = dm[3, 1];
-            _data[0, 2] = dm[0, 2];
-            _data[1, 2] = dm[1, 2];
-            _data[2, 2] = dm[2, 2];
-            _data[3, 2] = dm[3, 2];
-            _data[0, 3] = dm[0, 3];
-            _data[1, 3] = dm[1, 3];
-            _data[2, 3] = dm[2, 3];
-            _data[3, 3] = dm[3, 3];
-        }
+            C0 = m.C0;
+            C1 = m.C1;
+            C2 = m.C2;
+            C3 = m.C3;
 
-        public override int GetHashCode()
-        {
-            return (_data != null ? _data.GetHashCode() : 0);
-        }
-
-        /**
-         * @return the data
-         */
-        public double[,] GetData()
-        {
-            return _data;
-        }
-
-        public override string ToString()
-        {
-            var sb = new StringBuilder("(");
-
-            for (int row = 0; row < _data.GetLength(0); row++)
-            {
-                for (int col = 0; col < _data.GetLength(1); col++)
-                {
-                    sb.Append(string.Format("{0:0.##} ", _data[row, col]));
-                }
-                sb.Append("\n ");
-            }
-            sb.Append(")");
-
-            return sb.ToString();
+            D0 = m.D0;
+            D1 = m.D1;
+            D2 = m.D2;
+            D3 = m.D3;
         }
 
         public bool Equals(Matrix4 other)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (System.Math.Abs(_data[i, j] - other.GetData()[i, j]) > Constants.EPS)
-                    {
-                        return false;
-                    }
-                }
-            }
+            return
+                System.Math.Abs(A0 - other.A0) < Constants.EPS &&
+                System.Math.Abs(A1 - other.A1) < Constants.EPS &&
+                System.Math.Abs(A2 - other.A2) < Constants.EPS &&
+                System.Math.Abs(A3 - other.A3) < Constants.EPS &&
+                System.Math.Abs(B0 - other.B0) < Constants.EPS &&
+                System.Math.Abs(B1 - other.B1) < Constants.EPS &&
+                System.Math.Abs(B2 - other.B2) < Constants.EPS &&
+                System.Math.Abs(B3 - other.B3) < Constants.EPS &&
+                System.Math.Abs(C0 - other.C0) < Constants.EPS &&
+                System.Math.Abs(C1 - other.C1) < Constants.EPS &&
+                System.Math.Abs(C2 - other.C2) < Constants.EPS &&
+                System.Math.Abs(C3 - other.C3) < Constants.EPS &&
+                System.Math.Abs(D0 - other.D0) < Constants.EPS &&
+                System.Math.Abs(D1 - other.D1) < Constants.EPS &&
+                System.Math.Abs(D2 - other.D2) < Constants.EPS &&
+                System.Math.Abs(D3 - other.D3) < Constants.EPS;
 
-            return true;
         }
     }
 }
