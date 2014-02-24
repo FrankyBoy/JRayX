@@ -15,7 +15,6 @@ namespace JRayXLib.Shapes
             _objects = objects;
         }
 
-        // TODO: can we optimize this?
         public override double GetHitPointDistance(Ray r)
         {
             return _objects.Min(o3D => o3D.GetHitPointDistance(r));

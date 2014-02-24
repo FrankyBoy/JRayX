@@ -3,14 +3,18 @@ using JRayXLib.Math;
 
 namespace JRayXLib.Shapes
 {
-    public class Matrix4
+    public struct Matrix4
     {
         private readonly double[,] _data;
 
-        public Matrix4(Matrix4 m)
-            : this()
+
+        public Matrix4(Matrix4? m = null)
         {
-            double[,] dm = m.GetData();
+            _data = new double[4,4];
+            if (m == null)
+                return;
+
+            double[,] dm = m.Value.GetData();
 
             _data[0, 0] = dm[0, 0];
             _data[1, 0] = dm[1, 0];
@@ -30,20 +34,14 @@ namespace JRayXLib.Shapes
             _data[3, 3] = dm[3, 3];
         }
 
-        public Matrix4()
-        {
-            _data = new double[4,4];
-        }
-
         public override int GetHashCode()
         {
             return (_data != null ? _data.GetHashCode() : 0);
         }
 
         /**
-     * @return the data
-     */
-
+         * @return the data
+         */
         public double[,] GetData()
         {
             return _data;

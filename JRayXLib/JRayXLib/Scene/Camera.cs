@@ -53,7 +53,7 @@ namespace JRayXLib.Scene
             viewPaneHeightVector *= -viewPaneHeight;
 
             Vect3 temp1 = position - viewPaneCenter;
-            Vect3 viewPaneWidthVector = Vect3Extensions.CrossProduct(temp1, viewPaneHeightVector);
+            Vect3 viewPaneWidthVector = temp1.CrossProduct(viewPaneHeightVector);
             viewPaneWidthVector = viewPaneWidthVector.Normalize();
             viewPaneWidthVector *= viewPaneWidth;
 

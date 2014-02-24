@@ -11,7 +11,7 @@ namespace JRayXLib.Math.intersections
 
             //try "bending" axis towards plane normal 
             Vect3 q = conePosition + coneAxis*coneAxisLength;
-            Vect3 qx = Vect3Extensions.Project(planeNormal, coneAxis);
+            Vect3 qx = planeNormal.ProjectOn(coneAxis);
             Vect3 p = qx - planeNormal;
 
             if (System.Math.Abs(p.QuadLength() - 0) < Constants.EPS)

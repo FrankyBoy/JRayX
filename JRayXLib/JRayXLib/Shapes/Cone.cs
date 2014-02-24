@@ -35,8 +35,8 @@ namespace JRayXLib.Shapes
         {
             Vect3 tmp = hitPoint - Position;
 
-            Vect3 tmp2 = Vect3Extensions.CrossProduct(tmp, LookAt);
-            return Vect3Extensions.CrossProduct(tmp, tmp2).Normalize();
+            Vect3 tmp2 = tmp.CrossProduct(LookAt);
+            return tmp.CrossProduct(tmp2).Normalize();
         }
 
         public override bool Contains(Vect3 hitPoint)
@@ -47,7 +47,7 @@ namespace JRayXLib.Shapes
         public new Sphere GetBoundingSphere()
         {
             var @base = Position + LookAt*AxisLength;
-            Vect3 tmp = Vect3Extensions.Project(@base, LookAt);
+            Vect3 tmp = @base.ProjectOn(LookAt);
             var normal = (@base - tmp).Normalize();
             double len = CosPhi*AxisLength;
             normal *= len;

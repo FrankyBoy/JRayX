@@ -9,9 +9,9 @@ namespace JRayXLib.Math
         {
             Vect3 mab = b - a;
             Vect3 mac = c - a;
-            Vect3 normal = Vect3Extensions.CrossProduct(mab, mac);
-            Vect3 dab = Vect3Extensions.CrossProduct(mab, normal);
-            Vect3 dac = Vect3Extensions.CrossProduct(mac, normal);
+            Vect3 normal = mab.CrossProduct(mac);
+            Vect3 dab = mab.CrossProduct(normal);
+            Vect3 dac = mac.CrossProduct(normal);
             mab = a + mab/2;
             mac = a + mac/2;
             dab = dab.Normalize();

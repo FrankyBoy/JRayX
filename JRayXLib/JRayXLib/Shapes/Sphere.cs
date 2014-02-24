@@ -51,7 +51,7 @@ namespace JRayXLib.Shapes
             {
                 RotVect.Y += 1;
             }
-            RotVect = Vect3Extensions.CrossProduct(RotVect, lookAt).Normalize();
+            RotVect = RotVect.CrossProduct(lookAt).Normalize();
             LookAt = LookAt.Normalize();
             Rotate(lookAt, rotationRad);
         }
@@ -69,7 +69,7 @@ namespace JRayXLib.Shapes
 
         public override bool Contains(Vect3 hitPoint)
         {
-            return System.Math.Abs(Vect3Extensions.Distance(hitPoint, Position) - Radius) < Constants.EPS;
+            return System.Math.Abs(hitPoint.Distance(Position) - Radius) < Constants.EPS;
         }
 
         public override void Rotate(Matrix4 rotationMatrix)

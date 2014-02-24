@@ -11,7 +11,7 @@ namespace JRayXLib.Math
      * @param erg Matrix4 object to store the result
      */
 
-        public static void CreateRotationMatrix(Vect3 axis, double angleRad, Matrix4 erg)
+        public static void CreateRotationMatrix(Vect3 axis, double angleRad, ref Matrix4 erg)
         {
             double[,] data = erg.GetData();
             double cosa = System.Math.Cos(angleRad);
@@ -39,7 +39,7 @@ namespace JRayXLib.Math
             data[3, 3] = 1;
         }
 
-        public static void CreateTranslationMatrix(Vect3 axis, Matrix4 erg)
+        public static void CreateTranslationMatrix(Vect3 axis, ref Matrix4 erg)
         {
             double[,] data = erg.GetData();
 
@@ -62,7 +62,7 @@ namespace JRayXLib.Math
             data[2, 3] = axis.Z;
         }
 
-        public static void CreateScaleMatrix(Vect3 axis, Matrix4 erg)
+        public static void CreateScaleMatrix(Vect3 axis, ref Matrix4 erg)
         {
             double[,] ergData = erg.GetData();
 
@@ -84,7 +84,7 @@ namespace JRayXLib.Math
             ergData[3, 3] = 1;
         }
 
-        public static void CreateUnitMatrix(Matrix4 erg)
+        public static void CreateUnitMatrix(ref Matrix4 erg)
         {
             double[,] data = erg.GetData();
             data[0, 0] = 1;
@@ -105,7 +105,7 @@ namespace JRayXLib.Math
             data[3, 3] = 1;
         }
 
-        public static void Invert(Matrix4 m, Matrix4 erg)
+        public static void Invert(Matrix4 m, ref Matrix4 erg)
         {
             double[,] a = m.GetData();
             double detA = a[0, 0]*(a[1, 1]*a[2, 2]*a[3, 3] +
@@ -169,7 +169,7 @@ namespace JRayXLib.Math
                        a[0, 0]*a[1, 2]*a[2, 1] - a[0, 1]*a[1, 0]*a[2, 2] - a[0, 2]*a[1, 1]*a[2, 0])*detA;
         }
 
-        public static void Multiply(Matrix4 m1, Matrix4 m2, Matrix4 erg)
+        public static void Multiply(Matrix4 m1, Matrix4 m2, ref Matrix4 erg)
         {
             double[,] h = erg.GetData();
 

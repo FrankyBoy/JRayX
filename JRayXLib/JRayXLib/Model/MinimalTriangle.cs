@@ -17,7 +17,7 @@ namespace JRayXLib.Model
             V2 = v2;
             V3 = v3;
 
-            Vect3 avg = GetBoundingSphereCenter();
+            Vect3 avg = new[] { v1, v2, v3 }.Avg();
             Vect3 tmp = avg - v3;
 
             Bounds = new Sphere(avg, tmp.Length(), Color.Black);
@@ -58,7 +58,7 @@ namespace JRayXLib.Model
 
         public new Vect3 GetBoundingSphereCenter()
         {
-            return Vect3Extensions.Avg(new[] {Position, V2, V3});
+            return Bounds.Position;
         }
 
         public override double GetBoundingSphereRadius()

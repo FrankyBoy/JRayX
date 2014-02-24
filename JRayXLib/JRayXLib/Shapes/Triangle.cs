@@ -27,7 +27,7 @@ namespace JRayXLib.Shapes
 
             EdgeV1V2 = v2 - v1;
             EdgeV1V3 = v3 - v1;
-            LookAt = Vect3Extensions.CrossProduct(EdgeV1V2, EdgeV1V3).Normalize();
+            LookAt = EdgeV1V2.CrossProduct(EdgeV1V3).Normalize();
         }
 
         public override double GetHitPointDistance(Ray r)
@@ -44,7 +44,7 @@ namespace JRayXLib.Shapes
         {
             Vect3 tmp = hitPoint - Position;
 
-            Vect3 temp3 = Vect3Extensions.CrossProduct(EdgeV1V2, EdgeV1V3);
+            Vect3 temp3 = EdgeV1V2.CrossProduct(EdgeV1V3);
             if (System.Math.Abs(temp3.DotProduct(tmp)) > Constants.EPS)
             {
                 return false;
@@ -77,7 +77,7 @@ namespace JRayXLib.Shapes
             EdgeV1V2 = VectMatrix.Multiply(EdgeV1V2, rotationMatrix);
             EdgeV1V3 = VectMatrix.Multiply(EdgeV1V3, rotationMatrix);
 
-            LookAt = Vect3Extensions.CrossProduct(EdgeV1V2, EdgeV1V3);
+            LookAt = EdgeV1V2.CrossProduct(EdgeV1V3);
         }
 
         public new string ToString()
@@ -87,12 +87,12 @@ namespace JRayXLib.Shapes
 
         public new Vect3 GetBoundingSphereCenter()
         {
-            return Vect3Extensions.Avg(new[] { Position, V2, V3 });
+            return new[] { Position, V2, V3 }.Avg();
         }
 
         public override double GetBoundingSphereRadius()
         {
-            Vect3 avg = Vect3Extensions.Avg(new[] { Position, V2, V3 });
+            Vect3 avg = new[] { Position, V2, V3 }.Avg();
             avg -= V3;
 
             return avg.Length();

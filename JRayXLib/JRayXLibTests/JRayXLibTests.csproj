@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="StructTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vect3Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

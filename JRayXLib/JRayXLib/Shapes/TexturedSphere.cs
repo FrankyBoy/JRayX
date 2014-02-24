@@ -53,7 +53,7 @@ namespace JRayXLib.Shapes
             tmp = (tmp + LookAt*dist).Normalize();
 
             double x = System.Math.Acos(tmp.DotProduct(RotVect))/(2*System.Math.PI);
-            tmp = Vect3Extensions.CrossProduct(tmp, RotVect);
+            tmp = tmp.CrossProduct(RotVect);
             if (tmp.DotProduct(LookAt) < 0)
             {
                 x = 0.5 + x;
