@@ -40,9 +40,7 @@ namespace JRayXLib.Shapes
 
         public void Rotate(Vect3 axis, double rad)
         {
-            var tmp = new Matrix4(null);
-            Matrix.CreateRotationMatrix(axis, rad, ref tmp);
-            Rotate(tmp);
+            Rotate(Matrix.CreateRotationMatrix(axis, rad));
         }
 
 

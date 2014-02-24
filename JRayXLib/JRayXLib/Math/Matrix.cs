@@ -2,7 +2,7 @@ using JRayXLib.Shapes;
 
 namespace JRayXLib.Math
 {
-    public class Matrix
+    public static class Matrix
     {
         /**
      * creates a rotation matrix for affine transformation
@@ -11,8 +11,9 @@ namespace JRayXLib.Math
      * @param erg Matrix4 object to store the result
      */
 
-        public static void CreateRotationMatrix(Vect3 axis, double angleRad, ref Matrix4 erg)
+        public static Matrix4 CreateRotationMatrix(Vect3 axis, double angleRad)
         {
+            var erg = new Matrix4(null);
             double[,] data = erg.GetData();
             double cosa = System.Math.Cos(angleRad);
             double sina = System.Math.Sin(angleRad);
@@ -37,10 +38,13 @@ namespace JRayXLib.Math
             data[3, 1] = 0;
             data[3, 2] = 0;
             data[3, 3] = 1;
+
+            return erg;
         }
 
-        public static void CreateTranslationMatrix(Vect3 axis, ref Matrix4 erg)
+        public static Matrix4 CreateTranslationMatrix(Vect3 axis)
         {
+            var erg = new Matrix4(null);
             double[,] data = erg.GetData();
 
             data[1, 0] = 0;
@@ -60,10 +64,13 @@ namespace JRayXLib.Math
             data[0, 3] = axis.X;
             data[1, 3] = axis.Y;
             data[2, 3] = axis.Z;
+
+            return erg;
         }
 
-        public static void CreateScaleMatrix(Vect3 axis, ref Matrix4 erg)
+        public static Matrix4 CreateScaleMatrix(Vect3 axis)
         {
+            var erg = new Matrix4(null);
             double[,] ergData = erg.GetData();
 
             ergData[0, 0] = axis.X;
@@ -82,10 +89,13 @@ namespace JRayXLib.Math
             ergData[3, 1] = 0;
             ergData[3, 2] = 0;
             ergData[3, 3] = 1;
+
+            return erg;
         }
 
-        public static void CreateUnitMatrix(ref Matrix4 erg)
+        public static Matrix4 CreateUnitMatrix()
         {
+            var erg = new Matrix4(null);
             double[,] data = erg.GetData();
             data[0, 0] = 1;
             data[0, 1] = 0;
@@ -103,10 +113,14 @@ namespace JRayXLib.Math
             data[3, 1] = 0;
             data[3, 2] = 0;
             data[3, 3] = 1;
+
+            return erg;
         }
 
-        public static void Invert(Matrix4 m, ref Matrix4 erg)
+        public static Matrix4 Invert(Matrix4 m)
         {
+            var erg = new Matrix4(null);
+
             double[,] a = m.GetData();
             double detA = a[0, 0]*(a[1, 1]*a[2, 2]*a[3, 3] +
                                    a[1, 2]*a[2, 3]*a[3, 1] +
@@ -167,10 +181,13 @@ namespace JRayXLib.Math
                        a[0, 0]*a[1, 1]*a[3, 2] - a[0, 1]*a[1, 2]*a[3, 0] - a[0, 2]*a[1, 0]*a[3, 1])*detA;
             b[3, 3] = (a[0, 0]*a[1, 1]*a[2, 2] + a[0, 1]*a[1, 2]*a[2, 0] + a[0, 2]*a[1, 0]*a[2, 1] -
                        a[0, 0]*a[1, 2]*a[2, 1] - a[0, 1]*a[1, 0]*a[2, 2] - a[0, 2]*a[1, 1]*a[2, 0])*detA;
+
+            return erg;
         }
 
-        public static void Multiply(Matrix4 m1, Matrix4 m2, ref Matrix4 erg)
+        public static Matrix4 Multiply(Matrix4 m1, Matrix4 m2)
         {
+            var erg = new Matrix4(null);
             double[,] h = erg.GetData();
 
             double[,] a = m1.GetData();
@@ -195,6 +212,8 @@ namespace JRayXLib.Math
             h[1, 3] = a[0, 3]*b[1, 0] + a[1, 3]*b[1, 1] + a[2, 3]*b[1, 2] + a[3, 3]*b[1, 3];
             h[2, 3] = a[0, 3]*b[2, 0] + a[1, 3]*b[2, 1] + a[2, 3]*b[2, 2] + a[3, 3]*b[2, 3];
             h[3, 3] = a[0, 3]*b[3, 0] + a[1, 3]*b[3, 1] + a[2, 3]*b[3, 2] + a[3, 3]*b[3, 3];
+
+            return erg;
         }
     }
 }
