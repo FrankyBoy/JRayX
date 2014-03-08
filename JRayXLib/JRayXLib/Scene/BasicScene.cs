@@ -20,7 +20,6 @@ namespace JRayXLib.Scene
                 {
                     c.Obj = objectCandidate;
                     c.Distance = distanceCandidate;
-                    c.Checks++;
                 }
             }
 

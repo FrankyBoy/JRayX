@@ -14,7 +14,7 @@ namespace JRayXLib.Math.intersections
         {
             double ret = rayDirection.DotProduct(planeNormal); // set ret to cos(a)
 
-            if (System.Math.Abs(ret - 0) < Constants.EPS)
+            if (System.Math.Abs(ret) < Constants.EPS)
             {
                 // if cos(a) == 0 -> no hit
                 return double.PositiveInfinity;
@@ -24,5 +24,6 @@ namespace JRayXLib.Math.intersections
 
             return ret > Constants.EPS ? ret : double.PositiveInfinity;
         }
+
     }
 }

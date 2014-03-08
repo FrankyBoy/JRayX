@@ -15,7 +15,7 @@ namespace JRayXLib.Math
 
         public static double DotProduct(this Vect3 v1, Vect3 v2)
         {
-            return v1.X*v2.X + v1.Y*v2.Y + v1.Z*v2.Z;
+            return v1*v2;
         }
 
         /**

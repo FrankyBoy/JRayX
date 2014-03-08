@@ -6,7 +6,6 @@ namespace JRayXLib.Struct
 {
     public class CollisionDetails
     {
-        public int Checks = 0;
         public double Distance;
         public I3DObject Obj;
         public Shapes.Ray Ray;
@@ -22,7 +21,6 @@ namespace JRayXLib.Struct
         {
             foreach (I3DObject candidate in objects)
             {
-                Checks++;
                 double distanceCandidate = candidate.GetHitPointDistance(Ray);
                 if (distanceCandidate > Constants.EPS && distanceCandidate < Distance)
                 {
@@ -30,16 +28,6 @@ namespace JRayXLib.Struct
                     Distance = distanceCandidate;
                 }
             }
-        }
-
-        public bool HasHit()
-        {
-            return Obj != null;
-        }
-
-        public int GetCheckCount()
-        {
-            return Checks;
         }
     }
 }

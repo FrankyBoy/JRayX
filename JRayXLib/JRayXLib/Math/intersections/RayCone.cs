@@ -8,7 +8,6 @@ namespace JRayXLib.Math.intersections
             Vect3 rayOrigin, Vect3 rayDirection,
             Vect3 position, Vect3 lookAt, double cos, double axisLength)
         {
-
             double add = lookAt.DotProduct(rayDirection);
             cos *= cos;
             Vect3 e = rayOrigin - position;
@@ -31,7 +30,7 @@ namespace JRayXLib.Math.intersections
             double t0 = (-c1 + cos)/c2;
             double t1 = (-c1 - cos)/c2;
 
-            //project both solutions onto lookAt - must be between 0 and 1
+            //project both solutions onto lookAt - must be between 0 and axisLength
             e = rayOrigin + rayDirection*t0 - position;
             cos = e.DotProduct(lookAt);
 
@@ -58,5 +57,32 @@ namespace JRayXLib.Math.intersections
 
             return -1;
         }
+
+        /*
+        // M = (A * A(trans) - cosPhi^2 * I )
+        // A = cone direction
+        // I = unity matrix
+        private static Matrix4 CreateMatrix(Vect3 a, double cosPhi)
+        {
+            double xy = a.X*a.Y;
+            double xz = a.X*a.Z;
+            double yz = a.Y*a.Z;
+
+            cosPhi *= cosPhi;
+
+            return new Matrix4
+                {
+                    A0 = a.X * a.X - cosPhi,
+                    A1 = xy,
+                    A2 = xz,
+                    B0 = xy,
+                    B1 = a.Y * a.Y - cosPhi,
+                    B2 = yz,
+                    C0 = xz,
+                    C1 = yz,
+                    C2 = a.Z * a.Z - cosPhi,
+                    D3 = 1
+                };
+        }*/
     }
 }
