@@ -12,7 +12,7 @@ namespace JRayXLib.Math.intersections
     {
         public static double GetHitPointRayPlaneDistance(Vect3 rayOrigin, Vect3 rayDirection, Vect3 planePosition, Vect3 planeNormal)
         {
-            double ret = rayDirection.DotProduct(planeNormal); // set ret to cos(a)
+            double ret = rayDirection * planeNormal; // set ret to cos(a)
 
             if (System.Math.Abs(ret) < Constants.EPS)
             {
@@ -20,7 +20,7 @@ namespace JRayXLib.Math.intersections
                 return double.PositiveInfinity;
             }
 
-            ret = (planePosition.DotProduct(planeNormal) - rayOrigin.DotProduct(planeNormal))/ret;
+            ret = (planePosition * planeNormal - rayOrigin * planeNormal)/ret;
 
             return ret > Constants.EPS ? ret : double.PositiveInfinity;
         }

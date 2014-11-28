@@ -4,24 +4,16 @@ using JRayXLib.Shapes;
 
 namespace JRayXLib.Struct
 {
-    public class CollisionDetails
+    public struct CollisionDetails
     {
-        public double Distance;
-        public I3DObject Obj;
-        public Shapes.Ray Ray;
+        public double Distance { get; set; }
+        public I3DObject Obj { get; set; }
 
-        public CollisionDetails(Shapes.Ray ray)
-        {
-            Obj = null;
-            Distance = double.PositiveInfinity;
-            Ray = ray;
-        }
-
-        public void CheckCollisionSet(List<I3DObject> objects)
+        public void CheckCollisionSet(List<I3DObject> objects, Shapes.Ray ray)
         {
             foreach (I3DObject candidate in objects)
             {
-                double distanceCandidate = candidate.GetHitPointDistance(Ray);
+                double distanceCandidate = candidate.GetHitPointDistance(ray);
                 if (distanceCandidate > Constants.EPS && distanceCandidate < Distance)
                 {
                     Obj = candidate;

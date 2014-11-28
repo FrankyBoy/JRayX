@@ -1,5 +1,4 @@
 ﻿using System;
-using JRayXLib.Math;
 using JRayXLib.Shapes;
 using NUnit.Framework;
 
@@ -14,7 +13,7 @@ namespace JRayXLibTests
             var rd = new Random();
             var vect1 = new Vect3 {X = rd.NextDouble(), Y = rd.NextDouble(), Z = rd.NextDouble()};
             
-            Assert.That(vect1.DotProduct(vect1), Is.EqualTo(vect1.QuadLength()));
+            Assert.That(vect1 * vect1, Is.EqualTo(vect1.QuadLength()));
         }
 
         [Test]
@@ -23,7 +22,7 @@ namespace JRayXLibTests
             var rd = new Random();
             var vect1 = new Vect3 { X = rd.NextDouble(), Y = rd.NextDouble(), Z = rd.NextDouble() };
 
-            Assert.That(vect1.DotProduct(vect1*-1), Is.EqualTo(- vect1.QuadLength()));
+            Assert.That(vect1 * (vect1*-1), Is.EqualTo(- vect1.QuadLength()));
         }
 
         [Test]
@@ -32,7 +31,7 @@ namespace JRayXLibTests
             var vect1 = new Vect3 { X = 1 };
             var vect2 = new Vect3 { Y = 1 };
 
-            Assert.That(vect1.DotProduct(vect2), Is.EqualTo(0));
+            Assert.That(vect1 * (vect2), Is.EqualTo(0));
         }
     }
 }

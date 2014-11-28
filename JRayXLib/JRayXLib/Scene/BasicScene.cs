@@ -10,7 +10,7 @@ namespace JRayXLib.Scene
 
         public override CollisionDetails FindNearestHit(Shapes.Ray ray)
         {
-            var c = new CollisionDetails(ray);
+            var c = new CollisionDetails();
 
             //Find nearest Hit
             foreach (I3DObject objectCandidate in _objects)

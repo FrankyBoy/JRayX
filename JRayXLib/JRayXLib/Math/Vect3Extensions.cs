@@ -6,19 +6,6 @@ namespace JRayXLib.Math
     public static class Vect3Extensions
     {
         /**
-         * calculates the dot product of the given vectors <vec1,vec2>
-         * @author Hari
-         * @param vec1
-         * @param vec2
-         * @return result of the dot product
-         */
-
-        public static double DotProduct(this Vect3 v1, Vect3 v2)
-        {
-            return v1*v2;
-        }
-
-        /**
          * calculates the cross product of the given vectors and store the result in
          * the given erg vector: erg = vec1 x vec2
          * @author Hari
@@ -57,13 +44,13 @@ namespace JRayXLib.Math
 
         public static Vect3 ProjectOn(this Vect3 vect, Vect3 normedProjectionAxis)
         {
-            double dot = DotProduct(vect, normedProjectionAxis);
+            double dot = vect * normedProjectionAxis;
             return normedProjectionAxis*dot;
         }
         
         public static Vect3 ProjectOnNormal(this Vect3 vect, Vect3 normal)
         {
-            double dot = DotProduct(vect, normal);
+            double dot = vect * normal;
             return vect + (normal*-dot);
         }
 

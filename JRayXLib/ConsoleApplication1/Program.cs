@@ -13,14 +13,16 @@ namespace ConsoleApplication1
             //var scene = new MeshTest();
             //var scene = new KugelTest();
 
+
             var renderer = new Renderer
                 {
                     Scene = scene,
-                    ThreadCount = Environment.ProcessorCount,
-                    SplitMultiplier = 4
+                    ThreadCount = Environment.ProcessorCount / 2,
+                    SplitMultiplier = 1
                 };
 
-            var target = new Texture(800, 600);
+            //var target = new Texture(800, 600);
+            var target = new Texture(640, 480);
 
             renderer.RenderImage(target);
             var bmp = target.ToBitmap();

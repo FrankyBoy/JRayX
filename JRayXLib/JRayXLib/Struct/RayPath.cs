@@ -14,14 +14,14 @@ namespace JRayXLib.Struct
     {
         public static CollisionDetails GetFirstCollision(Octree tree, Shapes.Ray r)
         {
-            var c = new CollisionDetails(r);
+            var c = new CollisionDetails{Distance = double.PositiveInfinity};
 
             double distanceTravelled = 0; //distance traveled since the ray's origin
 
             //Algorithm starts at the ray's origin and in the root node.
             
             Node n = tree.GetRoot();
-            c.CheckCollisionSet(n.Content);
+            c.CheckCollisionSet(n.Content, r);
 
             var pos = r.Origin;
             if (!n.Encloses(pos))
@@ -30,7 +30,7 @@ namespace JRayXLib.Struct
             do
             {
                 //March to the leaf containing "pos" and check collisions
-                n = n.MarchToCheckingCollisions(pos, c);
+                n = n.MarchToCheckingCollisions(pos, c, r);
 
                 //No leaf is containing "pos" -> left tree -> stop searching
                 if (n == null)

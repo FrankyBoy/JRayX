@@ -46,15 +46,15 @@ namespace JRayXLib.Shapes
         {
             // calculate x (longitude)
             Vect3 tmp = (hitPoint - Position).Normalize();
-            double y = System.Math.Acos(tmp.DotProduct(LookAt))/System.Math.PI;
+            double y = System.Math.Acos(tmp*LookAt)/System.Math.PI;
 
             // project to equator plane
-            double dist = - tmp.DotProduct(LookAt);
+            double dist = - (tmp*LookAt);
             tmp = (tmp + LookAt*dist).Normalize();
 
-            double x = System.Math.Acos(tmp.DotProduct(RotVect))/(2*System.Math.PI);
+            double x = System.Math.Acos(tmp * RotVect)/(2*System.Math.PI);
             tmp = tmp.CrossProduct(RotVect);
-            if (tmp.DotProduct(LookAt) < 0)
+            if (tmp *LookAt < 0)
             {
                 x = 0.5 + x;
             }

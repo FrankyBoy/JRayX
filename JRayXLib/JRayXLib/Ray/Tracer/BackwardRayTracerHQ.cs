@@ -54,7 +54,7 @@ namespace JRayXLib.Ray.Tracer
             //if nothing blocks the sun's light, add ambient and diffuse light, otherwise ambient only  
             double lightScale = 0;
             if (lc.Obj == null)
-                lightScale = normal.DotProduct(Scene.AmbientLightDirection);
+                lightScale = normal * Scene.AmbientLightDirection;
             lightScale = AmbientLightIntensity + DiffuseLightIntensity*(lightScale < 0 ? -lightScale : 0);
 
             return color*lightScale;

@@ -19,11 +19,11 @@ namespace JRayXLib.Math.intersections
             tmp = rayPosition + rayDirection*ret;
             tmp -= trianglePos;
 
-            double uu = triangleVect1.DotProduct(triangleVect1);
-            double uv = triangleVect1.DotProduct(triangleVect2);
-            double vv = triangleVect2.DotProduct(triangleVect2);
-            double wu = triangleVect1.DotProduct(tmp);
-            double wv = triangleVect2.DotProduct(tmp);
+            double uu = triangleVect1*triangleVect1;
+            double uv = triangleVect1*triangleVect2;
+            double vv = triangleVect2*triangleVect2;
+            double wu = triangleVect1*tmp;
+            double wv = triangleVect2*tmp;
             double d = uv*uv - uu*vv;
 
             double s = (uv*wv - vv*wu)/d;

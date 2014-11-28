@@ -45,16 +45,16 @@ namespace JRayXLib.Shapes
             Vect3 tmp = hitPoint - Position;
 
             Vect3 temp3 = EdgeV1V2.CrossProduct(EdgeV1V3);
-            if (System.Math.Abs(temp3.DotProduct(tmp)) > Constants.EPS)
+            if (System.Math.Abs(temp3 * tmp) > Constants.EPS)
             {
                 return false;
             }
 
-            double uu = EdgeV1V2.DotProduct(EdgeV1V2);
-            double uv = EdgeV1V2.DotProduct(EdgeV1V3);
-            double vv = EdgeV1V3.DotProduct(EdgeV1V3);
-            double wu = EdgeV1V2.DotProduct(tmp);
-            double wv = EdgeV1V3.DotProduct(tmp);
+            double uu = EdgeV1V2 * EdgeV1V2;
+            double uv = EdgeV1V2*EdgeV1V3;
+            double vv = EdgeV1V3*EdgeV1V3;
+            double wu = EdgeV1V2*tmp;
+            double wv = EdgeV1V3*tmp;
             double d = uv * uv - uu * vv;
 
             double s = (uv * wv - vv * wu) / d;

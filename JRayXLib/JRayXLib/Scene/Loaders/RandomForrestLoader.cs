@@ -28,8 +28,7 @@ namespace JRayXLib.Scene.Loaders
                 new Vect3 { X = -camheight, Y = camheight * 2 },
                 new Vect3 { X = -camheight + 1, Y = camheight * 2 - 1 },
                 new Vect3 { X = Constants.InvSqurtTwo, Y = Constants.InvSqurtTwo }, 1, 1, 1);
-            objects.Add(cam);
-
+            
             result.Camera = cam;
             result.UpdateObjects(objects);
 

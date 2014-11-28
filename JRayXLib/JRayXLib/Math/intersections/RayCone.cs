@@ -8,13 +8,13 @@ namespace JRayXLib.Math.intersections
             Vect3 rayOrigin, Vect3 rayDirection,
             Vect3 position, Vect3 lookAt, double cos, double axisLength)
         {
-            double add = lookAt.DotProduct(rayDirection);
+            double add = lookAt * rayDirection;
             cos *= cos;
             Vect3 e = rayOrigin - position;
 
-            double ade = lookAt.DotProduct(e);
-            double dde = rayDirection.DotProduct(e);
-            double ede = e.DotProduct(e);
+            double ade = lookAt * e;
+            double dde = rayDirection * e;
+            double ede = e * e;
 
             double c2 = add*add - cos;
             double c1 = add*ade - cos*dde;
@@ -32,13 +32,13 @@ namespace JRayXLib.Math.intersections
 
             //project both solutions onto lookAt - must be between 0 and axisLength
             e = rayOrigin + rayDirection*t0 - position;
-            cos = e.DotProduct(lookAt);
+            cos = e * lookAt;
 
             if (cos <= 0 || cos > axisLength)
                 t0 = -1;
 
             e = rayOrigin + rayDirection*t1 - position;
-            cos = e.DotProduct(lookAt);
+            cos = e * lookAt;
 
             if (cos <= 0 || cos > axisLength)
                 t1 = -1;

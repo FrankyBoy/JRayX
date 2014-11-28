@@ -10,7 +10,7 @@ namespace JRayXLib.Struct
     public class Octree2
     {
         private Octree2[] _children;
-        private readonly List<I3DObject> _objects = new List<I3DObject>();
+        private I3DObject[] _objects = new I3DObject[0];
         private readonly double _halfWidth;
         private readonly Vect3 _center;
 
@@ -39,7 +39,8 @@ namespace JRayXLib.Struct
                     return _children.Select(x => x.Insert(obj)).Aggregate((a, b) => a || b);
 
                 case ObjectLocation.Self:
-                    _objects.Add(obj);
+                    var tmpList = new List<I3DObject>(_objects) {obj};
+                    _objects = tmpList.ToArray();
                     return true;
             }
             throw new Exception("Unknown ObjectLocation");
@@ -54,28 +55,26 @@ namespace JRayXLib.Struct
             bool useBiggerY = ray.Direction.Y < 0;
             bool useBiggerZ = ray.Direction.Z < 0;
 
-            bool isHit = !double.IsInfinity(RayIntersectionDistance(ray, useBiggerX, useBiggerY, useBiggerZ));
-            bool isRayInside = PointCube.Encloses(_center, _halfWidth, ray.Origin);
-            
-            if(isHit || isRayInside)
-                return GetFirstCollisionInternal(ray, useBiggerX, useBiggerY, useBiggerZ);
-
-            return new CollisionDetails(ray);
+            return GetFirstCollisionInternal(ray, true, useBiggerX, useBiggerY, useBiggerZ);
         }
 
-        private CollisionDetails GetFirstCollisionInternal(Shapes.Ray ray, bool useBiggerX, bool useBiggerY, bool useBiggerZ)
+        private CollisionDetails GetFirstCollisionInternal(Shapes.Ray ray, bool isRayInside, bool useBiggerX, bool useBiggerY, bool useBiggerZ)
         {
-            var result = new CollisionDetails(ray);
+            var result = new CollisionDetails{Distance = double.PositiveInfinity};
 
-            if(_children != null && _children.Length > 0){
-                var tmpChildren = _children
-                    .OrderBy(x => !PointCube.Encloses(x._center, x._halfWidth, ray.Origin)) // orderby orders first false, then true
-                    .ThenBy(x => x.RayIntersectionDistance(ray, useBiggerX, useBiggerY, useBiggerZ))
-                    .ToArray();
+            if(isRayInside) // recheck because ray was inside parent
+                isRayInside = PointCube.Encloses(_center, _halfWidth, ray.Origin);
 
-                foreach (var child in tmpChildren)
+            // not inside and no hit -> return
+            if (!isRayInside && double.IsInfinity(RayIntersectionDistance(ray, useBiggerX, useBiggerY, useBiggerZ)))
+                return result;
+            
+
+            if(_children != null && _children.Length > 0)
+            {
+                foreach (var child in _children)
                 {
-                    var collision = child.GetFirstCollisionInternal(ray, useBiggerX, useBiggerY, useBiggerZ);
+                    var collision = child.GetFirstCollisionInternal(ray, isRayInside, useBiggerX, useBiggerY, useBiggerZ);
                     if (!double.IsInfinity(collision.Distance))
                     {
                         result = collision;
@@ -87,7 +86,7 @@ namespace JRayXLib.Struct
             foreach (var o3D in _objects)
             {
                 double distance = o3D.GetHitPointDistance(ray);
-                if (distance < result.Distance)
+                if (distance > 0 && distance < result.Distance)
                 {
                     result.Obj = o3D;
                     result.Distance = distance;
@@ -125,7 +124,7 @@ namespace JRayXLib.Struct
             var result = new Octree2[8];
 
             for (int counter = 0; counter < 8; counter++)
-                _children[counter] = new Octree2(
+                result[counter] = new Octree2(
                     new Vect3
                     {
                         X = counter % 2 < 1 ? _center.X - qwidth : _center.X + qwidth,
@@ -147,6 +146,9 @@ namespace JRayXLib.Struct
         /// <returns></returns>
         private double RayIntersectionDistance(Shapes.Ray ray, bool useBiggerX, bool useBiggerY, bool useBiggerZ)
         {
+            if(PointCube.Encloses(_center, _halfWidth, ray.Origin))
+                return 0;
+
             var normal = new Vect3{ X = useBiggerX ? _halfWidth : -_halfWidth };
             var planeCenter = _center + normal;
             double distance = SideRayIntersectionDistance(ray, normal, planeCenter);
@@ -190,6 +192,10 @@ namespace JRayXLib.Struct
             return double.PositiveInfinity;
         }
 
+        public bool Insert(List<I3DObject> objects)
+        {
+            return objects.Aggregate(true, (current, obj) => current && Insert(obj));
+        }
     }
 
     internal enum ObjectLocation

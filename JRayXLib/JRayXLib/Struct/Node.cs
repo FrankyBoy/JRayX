@@ -318,7 +318,7 @@ namespace JRayXLib.Struct
      * @return smallest node containing v, or null if (and only if) v is not inside the tree
      */
 
-        public Node MarchToCheckingCollisions(Vect3 v, CollisionDetails c)
+        public Node MarchToCheckingCollisions(Vect3 v, CollisionDetails c, Shapes.Ray ray)
         {
             if (Encloses(v))
             {
@@ -331,15 +331,15 @@ namespace JRayXLib.Struct
                 {
                     if (n.Encloses(v))
                     {
-                        c.CheckCollisionSet(n.Content);
-                        return n.MarchToCheckingCollisions(v, c);
+                        c.CheckCollisionSet(n.Content, ray);
+                        return n.MarchToCheckingCollisions(v, c, ray);
                     }
                 }
 
                 return this;
             }
             if (_parent != null)
-                return _parent.MarchToCheckingCollisions(v, c);
+                return _parent.MarchToCheckingCollisions(v, c, ray);
             return null;
         }
 

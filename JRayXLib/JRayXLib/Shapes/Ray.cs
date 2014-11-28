@@ -1,6 +1,6 @@
 namespace JRayXLib.Shapes
 {
-    public class Ray
+    public struct Ray
     {
         public Vect3 Origin { get; set; }
         public Vect3 Direction { get; set; }
